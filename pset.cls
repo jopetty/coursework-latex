@@ -2,7 +2,7 @@
 %%
 %% A (Xe)LaTeX 3 class for problem sets.
 
-\RequirePackage{expl3, xparse, ifxetex}
+\RequirePackage{expl3, xparse, iftex}
 
 \ExplSyntaxOn
 
