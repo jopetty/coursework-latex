@@ -1,23 +1,15 @@
 %% MARK: Class Options
 % Flags for packages
-\bool_new:N	\g_coursework_loadchem_bool	% Chemical Diagrams
 \bool_new:N	\g_coursework_loadcode_bool	% Algorithm/Source code formatting
 \bool_new:N	\g_coursework_loaddiag_bool	% TikZ, pgfplots, etc
 
 % Set flags to FALSE by default
-\bool_gset_false:N	\g_coursework_loadchem_bool
 \bool_gset_false:N	\g_coursework_loadcode_bool
 \bool_gset_false:N	\g_coursework_loaddiag_bool
 
 % Provide class options to load packages
-\DeclareOption{chemistry}{\bool_gset_true:N \g_coursework_loadchem_bool}
 \DeclareOption{code}{\bool_gset_true:N \g_coursework_loadcode_bool}
 \DeclareOption{diagram}{\bool_gset_true:N \g_coursework_loaddiag_bool}
-
-% Table of Contents
-\bool_new:N \g_coursework_toc_bool
-\bool_gset_true:N \g_coursework_toc_bool
-\DeclareOption{no-toc}{\bool_gset_false:N \g_coursework_toc_bool}
 
 % Font
 \bool_new:N \g_coursework_cmufont_bool
@@ -82,6 +74,7 @@
 % Diagrams
 \bool_if:NT	\g_coursework_loaddiag_bool {
 	\RequirePackage{tikz}
+	\RequirePackage{pgfplots}
 	\RequirePackage[american, siunitx]{circuitikz}
 	\RequirePackage{tikz-feynman}
 	\RequirePackage{chemfig}
