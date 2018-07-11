@@ -115,7 +115,14 @@
 	% Wide kerning for title page / sections
 	\bool_if:NTF \g_coursework_cmufont_bool {
 		\NewDocumentCommand\widekern{ } {\addfontfeatures{LetterSpace=8}}
-		\setmainfont{CMUSerif-Roman}
+		\setmainfont[
+			ItalicFont={CMUSerif-Italic},
+			BoldFont={CMUSerif-Bold},
+			BoldItalicFont={CMUSerif-BoldItalic},
+			SlantedFont={CMUSerif-RomanSlanted},
+			BoldSlantedFont={CMUSerif-BoldSlanted},
+			Ligatures={Common, Discretionary, Contextual},
+		]{CMUSerif-Roman}
 	} {
 		\NewDocumentCommand\widekern{ } {\addfontfeatures{LetterSpace=10}}
 		\setmainfont[
@@ -124,8 +131,14 @@
 			BoldItalicFont={LinLibertineOBI},
 			Ligatures={Common, Discretionary, Contextual},
 		]{LinLibertineO}
-		\setmonofont{CMUTypewriter-Regular}
 	}
+
+	\setmonofont[
+		ItalicFont={CMUTypewriter-Italic},
+		BoldFont={CMUTypewriter-Bold},
+		BoldItalicFont={CMUTypewriter-BoldItalic},
+		SlantedFont={CMUTypewriter-Oblique}
+	]{CMUTypewriter-Regular}
 
 	% Define ipafont
 	\newfontfamily\ipafont{LinLibertineO}[
