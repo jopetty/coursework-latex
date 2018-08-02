@@ -68,6 +68,15 @@
 
 \AtBeginDocument{
 	\maketitle
+
+	\usepackage{silence}
+	\WarningFilter[parskip]{latex}{Command}
+	\ActivateWarningFilters[parskip]
+	\usepackage{parskip}
+	\DeactivateWarningFilters[parskip]
+
+	% Math spacing
+	\abovedisplayshortskip=-\parskip
 }
 
 \ExplSyntaxOff
