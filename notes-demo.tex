@@ -158,7 +158,6 @@ The \texttt{notes} class loads the \texttt{physics} class, which provides many u
 
 \subsection{Units}
 The \texttt{notes} class also loads the \verb|siunitx| package to aid in the automatic formatting of units. It also defines the following custom non-SI units which still prove useful in physics and engineering. 
-
 \begin{align*}
 	\si{\mile} &\hspace*{1cm} \texttt{\string\mile} \\
 	\si{\gallon} &\hspace*{1cm} \texttt{\string\gallon} \\
@@ -171,7 +170,6 @@ The \texttt{notes} class also loads the \verb|siunitx| package to aid in the aut
 	\si{\Calorie} &\hspace*{1cm} \texttt{\string\Calorie} \\
 	\si{\inch} &\hspace*{1cm} \texttt{\string\inch}
 \end{align*}
-
 \subsection{Feynman Diagrams}
 The \texttt{notes} class loads the \texttt{tikz-feynman} package to aid in the typesetting of Feynman diagrams. In order to load this package, you must pass the \texttt{[diagram]} option to the class at the beginning of your document preamble.
 
@@ -209,23 +207,19 @@ The \texttt{notes} class provides several commands to help you typeset linguisti
 
 \subsection{\textsc{ipa} Fonts}
 If you compile your documents with \texttt{xelatex} or \texttt{lualatex}, the \texttt{notes} class will define a font switch named \verb|\ipafont|, which is by default the same as the body text --- in this document, the \verb|\ipafont| has been set to Charis SIL. If you wish to change this to a different font\note{Charis SIL and Doulos SIL are both fully \textsc{ipa} compatible choices}, simply use the \verb|\setipafont{}| command. In order to typeset a block of text in the \verb|\ipafont|, simply use one of the following methods.
-
 \begin{align*}
 	\texttt{\{\string\ipafont~ˈlɑːtɛx\}} & \to \text{{\ipafont ˈlɑːtɛx}} \\
 	\texttt{\string\ipa\{ˈlɑːtɛx\}} & \to \text{\ipa{ˈlɑːtɛx}}
 \end{align*}
-
 Notice that, with \texttt{xelatex} or \texttt{lualatex}, you can input the \textsc{ipa} symbol directly as a character. This makes documents filled with such symbols much easier to read and write.
 
 \subsection{Phonemes, Allophones, and Orthography}
 In many cases, linguists must distinguist between a particular character representing a phoneme, an allophone, or whether the character is an orhtographic symbol. The \verb|\phon{}|, \verb|\allo{}|, and \verb|\orth{}| commands make this easy.
-
 \begin{align*}
 	\texttt{\string\phon\{a\}} &\to \text{\phon{a}} \\
 	\texttt{\string\allo\{a\}} &\to \text{\allo{a}} \\
 	\texttt{\string\orth\{a\}} &\to \text{\orth{a}}
 \end{align*}
-
 These commands automatically typeset any argument text in the \verb|\ipafont|.
 
 \subsection{Linguistic Rules}
