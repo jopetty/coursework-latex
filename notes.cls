@@ -152,15 +152,19 @@
 \AtBeginDocument{
 	\maketitle
 
-	%% Paragraph formatting
-	\setlength{\parindent}{0em}
-	\setlength{\parskip}{1em}
+	\usepackage{silence}
+	\WarningFilter[parskip]{latex}{Command}
+	\ActivateWarningFilters[parskip]
+	\usepackage{parskip}
+	\DeactivateWarningFilters[parskip]
 
 	% Math spacing
 	\abovedisplayshortskip=-\parskip
-	\belowdisplayshortskip=0em
-	\abovedisplayskip=-\parskip
-	\belowdisplayskip=0em
+	% \belowdisplayshortskip=0em
+	% \abovedisplayskip=-\parskip
+	% \belowdisplayskip=0em
+
+
 }
 
 \ExplSyntaxOff

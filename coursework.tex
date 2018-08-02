@@ -81,6 +81,7 @@
 	\RequirePackage{chemfig}
 
 	\ctikzset{bipoles/thickness=1}
+	\pgfplotsset{compat=1.15}
 }
 
 %% MARK: Fonts
@@ -243,7 +244,7 @@
 
 \makeatletter
 \renewenvironment{proof}[1][\proofname]{\par
-  \vspace{-\topsep}% remove the space after the theorem
+  \vspace{-\parskip}% remove the space after the theorem
   \pushQED{\qed}%
   \normalfont
   % \topsep0pt \partopsep0pt % no space before
