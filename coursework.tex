@@ -57,6 +57,7 @@
 \RequirePackage{thmtools}
 \RequirePackage{mathtools}
 \RequirePackage{bm}
+\RequirePackage{mdframed}
 
 % Physics
 \RequirePackage{physics}
@@ -368,17 +369,6 @@
 	\declaretheoremstyle[
 		headfont=\normalfont\bfseries,
 		bodyfont=\normalfont,
-		% mdframed = {
-		% 	innertopmargin=0.6cm,
-		% 	innerleftmargin=0.4cm,
-		% 	innerrightmargin=0.4cm,
-		% 	innerbottommargin=0.4cm,
-		% 	skipabove=\parskip,
-		% 	hidealllines=true,
-		% 	backgroundcolor={backgroundgrey}
-		% },
-		% spaceabove=0em,
-		% spacebelow=-\parskip
 	]{block}
 
 	% Declare theorem environments
@@ -443,27 +433,48 @@
 
 %% End block style theorems
 
-% Break style theorems
-\declaretheoremstyle[
-	spaceabove=\theoremvert, spacebelow=\theoremvert,
-	headfont=\normalfont\bfseries,
-	bodyfont=\normalfont,
-	postheadspace=\newline,
-	mdframed = {
-		innertopmargin=0.6cm,
-		innerleftmargin=0.4cm,
-		innerrightmargin=0.4cm,
-		innerbottommargin=0.4cm,
-		skipabove=\parskip,
-		skipbelow=-\parskip,
-		hidealllines=true,
-		backgroundcolor={backgroundgold}
-	}
-]{break}
 
-\declaretheorem[
-	% shaded={bgcolor=backgroundgold},
-	style=break,
-	% postheadhook=\headpadding,
-	% postfoothook=\footpadding
-]{example}
+%% Break Style Theorems
+%%
+%% Like the definition style theorems,
+%% we need to use a hack to get the
+%% spacing and indentation right.
+
+	% Create break style
+	\declaretheoremstyle[
+		headfont=\normalfont\bfseries,
+		bodyfont=\normalfont,
+		postheadspace=\newline
+	]{break}
+
+	% Create break theorems
+	\declaretheorem[
+		style=break,
+		title={Example}
+	]{cexample}
+
+	% Create document wrappers for each theorem
+	\NewDocumentEnvironment{example}{o}{
+		% Pre Content
+		\begin{mdframed}[
+			hidealllines=true,
+			backgroundcolor={backgroundgold},
+			innertopmargin=0.6cm,
+			innerleftmargin=0.4cm,
+			innerrightmargin=0.4cm,
+			innerbottommargin=0.4cm,
+		]
+			\IfValueTF{#1}{
+				\begin{cexample}[#1]
+			}{
+				\begin{cexample}
+			}
+			
+	}{
+		% Post Content
+			\end{cexample}
+		\end{mdframed}
+		\vspace*{-0.5\baselineskip} % adjustwidth adds extra space
+	}
+
+%% End break style theorems
