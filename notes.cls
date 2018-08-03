@@ -151,7 +151,8 @@
 %% Beginning of Document
 \AtBeginDocument{
 	\maketitle
-
+	\newpage
+	
 	\usepackage{silence}
 	\WarningFilter[parskip]{latex}{Command}
 	\ActivateWarningFilters[parskip]
