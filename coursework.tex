@@ -182,14 +182,8 @@
 \RenewDocumentCommand\footnote{ m } {\oldfootnote{\textit{#1}}}
 
 % Margin Notes
-% This is used instead of marginpar
-% to correct the placement at the
-% beginning of environments.
 \NewDocumentCommand\note{ m }{
-	\begingroup
-	\renewcommand\thefootnote{}\footnote{#1}%
-  	\addtocounter{footnote}{-1}
-  	\endgroup
+	\marginpar{\footnotesize\textit{#1}}
 }
 
 % Final box
@@ -319,10 +313,10 @@
 			\vspace*{-\baselineskip} % adjustwidth adds extra space
 			\IfValueTF{#1}{
 				\begin{cdefinition}[#1]
+				\leavevmode\note{#1}\leavevmode\ignorespaces
 			}{
 				\begin{cdefinition}
 			}
-			\IfValueT{#1}{\note{\textbf{#1}}}
 	}{
 		% Post Content
 			\end{cdefinition}
@@ -335,6 +329,7 @@
 			\vspace*{-\baselineskip} % adjustwidth adds extra space
 			\IfValueTF{#1}{
 				\begin{cnotation}[#1]
+				\leavevmode\note{#1}\leavevmode\ignorespaces
 			}{
 				\begin{cnotation}
 			}
@@ -351,6 +346,7 @@
 			\vspace*{-\baselineskip} % adjustwidth adds extra space
 			\IfValueTF{#1}{
 				\begin{cabuse}[#1]
+				\leavevmode\note{#1}\leavevmode\ignorespaces
 			}{
 				\begin{cabuse}
 			}
@@ -378,12 +374,12 @@
 	% Declare theorem environments
 	\declaretheorem[
 		style=block,
-		postheadhook=\hspace{1em},
+		postheadhook=\leavevmode,
 		title={Problem}
 	]{cproblem}
 	\declaretheorem[
 		style=block,
-		postheadhook=\hspace{1em},
+		postheadhook=\leavevmode,
 		sibling=cproblem,
 		title={Exercise}
 	]{cexercise}
