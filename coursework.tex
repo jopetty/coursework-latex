@@ -254,7 +254,7 @@
 }{%
   \popQED\endtrivlist\@endpefalse
   % \addvspace{6pt plus 6pt} % some space after
-  \vspace{-\topsep}
+  \vspace{-0.5\baselineskip}
 }
 \makeatother
 
@@ -358,31 +358,90 @@
 
 %% End Definition Style Theorems
 
-% Block style theorems
-\declaretheoremstyle[
-	headfont=\normalfont\bfseries,
-	bodyfont=\normalfont,
-	mdframed = {
-		innertopmargin=0.6cm,
-		innerleftmargin=0.4cm,
-		innerrightmargin=0.4cm,
-		innerbottommargin=0.4cm,
-		skipabove=\parskip,
-		hidealllines=true,
-		backgroundcolor={backgroundgrey}
-	},
-	spaceabove=0em,
-	spacebelow=-\parskip
-]{block}
-\declaretheorem[
-	style=block,
-	postheadhook=\hspace{1em},
-]{problem}
-\declaretheorem[
-	style=block,
-	postheadhook=\hspace{1em},
-	sibling=problem
-]{exercise}
+%% Block Style Theorems
+%%
+%% Like the definition style theorems,
+%% we need to use a hack to get the
+%% spacing and indentation right.
+
+	% Declare block theorem style
+	\declaretheoremstyle[
+		headfont=\normalfont\bfseries,
+		bodyfont=\normalfont,
+		% mdframed = {
+		% 	innertopmargin=0.6cm,
+		% 	innerleftmargin=0.4cm,
+		% 	innerrightmargin=0.4cm,
+		% 	innerbottommargin=0.4cm,
+		% 	skipabove=\parskip,
+		% 	hidealllines=true,
+		% 	backgroundcolor={backgroundgrey}
+		% },
+		% spaceabove=0em,
+		% spacebelow=-\parskip
+	]{block}
+
+	% Declare theorem environments
+	\declaretheorem[
+		style=block,
+		postheadhook=\hspace{1em},
+		title={Problem}
+	]{cproblem}
+	\declaretheorem[
+		style=block,
+		postheadhook=\hspace{1em},
+		sibling=cproblem,
+		title={Exercise}
+	]{cexercise}
+
+	% Create document environment wrappers for each theorem
+	\NewDocumentEnvironment{problem}{o}{
+		% Pre Content
+		\begin{mdframed}[
+			hidealllines=true,
+			backgroundcolor={backgroundgrey},
+			innertopmargin=0.6cm,
+			innerleftmargin=0.4cm,
+			innerrightmargin=0.4cm,
+			innerbottommargin=0.4cm,
+		]
+			\IfValueTF{#1}{
+				\begin{cproblem}[#1]
+			}{
+				\begin{cproblem}
+			}
+			
+	}{
+		% Post Content
+			\end{cproblem}
+		\end{mdframed}
+		\vspace*{-0.5\baselineskip} % adjustwidth adds extra space
+	}
+
+	\NewDocumentEnvironment{exercise}{o}{
+		% Pre Content
+		\begin{mdframed}[
+			hidealllines=true,
+			backgroundcolor={backgroundgrey},
+			innertopmargin=0.6cm,
+			innerleftmargin=0.4cm,
+			innerrightmargin=0.4cm,
+			innerbottommargin=0.4cm,
+		]
+			\IfValueTF{#1}{
+				\begin{cexercise}[#1]
+			}{
+				\begin{cexercise}
+			}
+			
+	}{
+		% Post Content
+			\end{cexercise}
+		\end{mdframed}
+		\vspace*{-0.5\baselineskip} % adjustwidth adds extra space
+	}
+
+%% End block style theorems
 
 % Break style theorems
 \declaretheoremstyle[
