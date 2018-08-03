@@ -48,6 +48,7 @@
 \RequirePackage{xcolor}
 \RequirePackage{xpatch}
 \RequirePackage{graphicx}
+\RequirePackage{changepage}
 
 % Mathematics
 \RequirePackage{amsmath}
@@ -220,9 +221,6 @@
 		               {\begin{enumerate}[label=\textup{(\alph*)},
 		                                  labelwidth=4.5em,
 		                                  labelsep=0.5em,
-		                                  leftmargin=2\parindent,
-		                                  topsep=0.5em,
-		                                  % partopsep=1.5em,
 		                                  itemsep=0em,
 		                                  resume]}
 		               {\end{enumerate}}
@@ -265,10 +263,9 @@
                        {\IfNoValueTF{#1}{\begin{proof}[Solution]}{\begin{proof}[#1]}}
                        {\end{proof}}
 
-
 % Lemma style definition
 \declaretheoremstyle[
-	spaceabove=1em, spacebelow=0em,
+	spaceabove=\baselineskip, spacebelow=0em,
 	headfont=\normalfont\bfseries,
 	bodyfont=\normalfont\itshape
 ]{lemma}
@@ -278,40 +275,112 @@
 \declaretheorem[style=lemma]{corollary}
 \declaretheorem[style=lemma]{conjecture}
 
-% Definition style theorems
-\declaretheoremstyle[
-	% spaceabove=\theoremvert, spacebelow=\theoremvert,
-	spaceabove=1em, spacebelow=0em,
-	headfont=\normalfont\bfseries,
-	bodyfont=\normalfont
-]{definition}
+%% Definition Style Theorems
+%%
+%% Since Definitions are indented, we have 
+%% to use a hack to get non-stupid spacing
+%% and prevent footnotes from getting screwed up.
+%%
+%% This invloves creating separate document
+%% environment wrappers for each theorem.
 
+	% Create the definition style
+	\declaretheoremstyle[
+		headfont=\normalfont\bfseries,
+		bodyfont=\normalfont,
+		spaceabove=0em, spacebelow=0em,
+	]{definition}
+
+	% Create the theorem styles
+	\declaretheorem[
+		style=definition,
+		title={Definition}
+	]{cdefinition}
+	\declaretheorem[
+		style=definition,
+		title={Notation},
+		numbered=no
+	]{cnotation}
+	\declaretheorem[
+		style=definition,
+		title={Abuse~of~Notation},
+		numbered=no
+	]{cabuse}
+
+	% Create environment wrappers for each theorem
+	\NewDocumentEnvironment{definition}{o}{
+		% Pre Content
+		\begin{adjustwidth}{1cm}{1cm}
+			\vspace*{-\baselineskip} % adjustwidth adds extra space
+			\IfValueTF{#1}{
+				\begin{cdefinition}[#1]
+			}{
+				\begin{cdefinition}
+			}
+			
+	}{
+		% Post Content
+			\end{cdefinition}
+		\end{adjustwidth}
+	}
+
+	\NewDocumentEnvironment{notation}{o}{
+		% Pre Content
+		\begin{adjustwidth}{1cm}{1cm}
+			\vspace*{-\baselineskip} % adjustwidth adds extra space
+			\IfValueTF{#1}{
+				\begin{cnotation}[#1]
+			}{
+				\begin{cnotation}
+			}
+			
+	}{
+		% Post Content
+			\end{cnotation}
+		\end{adjustwidth}
+	}
+
+	\NewDocumentEnvironment{abuse}{o}{
+		% Pre Content
+		\begin{adjustwidth}{1cm}{1cm}
+			\vspace*{-\baselineskip} % adjustwidth adds extra space
+			\IfValueTF{#1}{
+				\begin{cabuse}[#1]
+			}{
+				\begin{cabuse}
+			}
+			
+	}{
+		% Post Content
+			\end{cabuse}
+		\end{adjustwidth}
+	}
+
+%% End Definition Style Theorems
+
+% Block style theorems
+\declaretheoremstyle[
+	headfont=\normalfont\bfseries,
+	bodyfont=\normalfont,
+	mdframed = {
+		innertopmargin=0.6cm,
+		innerleftmargin=0.4cm,
+		innerrightmargin=0.4cm,
+		innerbottommargin=0.4cm,
+		skipabove=\parskip,
+		hidealllines=true,
+		backgroundcolor={backgroundgrey}
+	},
+	spaceabove=0em,
+	spacebelow=-\parskip
+]{block}
 \declaretheorem[
-	style=definition,
-	postheadhook=\leftskip=1cm\rightskip=1cm
-]{definition}
-\declaretheorem[
-	style=definition,
-	postheadhook=\leftskip=1cm\rightskip=1cm,
-	numbered=no
-]{notation}
-\declaretheorem[
-	style=definition,
-	postheadhook=\leftskip=1cm\rightskip=1cm,
-	title={Abuse~of~Notation},
-	numbered=no
-]{abuse}
-\declaretheorem[
-	shaded={bgcolor=backgroundgrey},
-	style=definition,
-	postheadhook=\headpadding\hspace{1em},
-	postfoothook=\footpadding,
+	style=block,
+	postheadhook=\hspace{1em},
 ]{problem}
 \declaretheorem[
-	shaded={bgcolor=backgroundgrey},
-	style=definition,
-	postheadhook=\headpadding\hspace{1em},
-	postfoothook=\footpadding,
+	style=block,
+	postheadhook=\hspace{1em},
 	sibling=problem
 ]{exercise}
 
@@ -320,12 +389,22 @@
 	spaceabove=\theoremvert, spacebelow=\theoremvert,
 	headfont=\normalfont\bfseries,
 	bodyfont=\normalfont,
-	postheadspace=\newline
+	postheadspace=\newline,
+	mdframed = {
+		innertopmargin=0.6cm,
+		innerleftmargin=0.4cm,
+		innerrightmargin=0.4cm,
+		innerbottommargin=0.4cm,
+		skipabove=\parskip,
+		skipbelow=-\parskip,
+		hidealllines=true,
+		backgroundcolor={backgroundgold}
+	}
 ]{break}
 
 \declaretheorem[
-	shaded={bgcolor=backgroundgold},
+	% shaded={bgcolor=backgroundgold},
 	style=break,
-	postheadhook=\headpadding,
-	postfoothook=\footpadding
+	% postheadhook=\headpadding,
+	% postfoothook=\footpadding
 ]{example}
