@@ -177,16 +177,20 @@
 }
 
 %% Define custom commands
-% Margin Notes
-\NewDocumentCommand\note{ m } {
-	\tightspacing
-	\marginpar{\textit{\footnotesize{#1}}}
-	\normalspacing
-}
-
 % Footnotes
 \let\oldfootnote\footnote
 \RenewDocumentCommand\footnote{ m } {\oldfootnote{\textit{#1}}}
+
+% Margin Notes
+% This is used instead of marginpar
+% to correct the placement at the
+% beginning of environments.
+\NewDocumentCommand\note{ m }{
+	\begingroup
+	\renewcommand\thefootnote{}\footnote{#1}%
+  	\addtocounter{footnote}{-1}
+  	\endgroup
+}
 
 % Final box
 \NewDocumentCommand\final{ m } {\boxed{#1}}
@@ -318,7 +322,7 @@
 			}{
 				\begin{cdefinition}
 			}
-			
+			\IfValueT{#1}{\note{\textbf{#1}}}
 	}{
 		% Post Content
 			\end{cdefinition}
