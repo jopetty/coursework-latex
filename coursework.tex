@@ -185,8 +185,11 @@
 
 % Footnotes
 \let\oldfootnote\footnote
+\newcounter{cfootnote}
 \RenewDocumentCommand\footnote{ m } {
-	\oldfootnote{\textit{#1}}
+	\refstepcounter{cfootnote}
+	\textsuperscript{\hyperlink{fn:\thecfootnote}{\thecfootnote}}
+	\note{\llap{\emph{\textsuperscript{\hypertarget{fn:\thecfootnote}{\thecfootnote}}}}#1}
 }
 
 % Final box
