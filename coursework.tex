@@ -57,7 +57,7 @@
 \RequirePackage{thmtools}
 \RequirePackage{mathtools}
 \RequirePackage{bm}
-\RequirePackage{mdframed}
+\RequirePackage[breakable, skins]{tcolorbox}
 
 % Physics
 \RequirePackage{physics}
@@ -232,6 +232,7 @@
 %% Define Theorem-like environments
 % QED Symbol
 \RenewDocumentCommand\qedsymbol{}{$\blacksquare$}
+% \RenewDocumentCommand\qedsymbol{}{∎}
 
 % Make shaded theorems have uniform padding
 \NewDocumentCommand\headpadding{}{\leftskip=0.4cm\rightskip=0.4cm\vspace{0.4cm}}
@@ -371,6 +372,19 @@
 		bodyfont=\normalfont,
 	]{block}
 
+	% Create surrounding box
+	\newtcolorbox{blockbox}{
+		colback = backgroundgrey,
+		colframe = backgroundgrey, % Rule appears on page breaks
+		parskip,
+		boxrule = 0pt,
+		sharp~corners,
+		boxsep = 0.4cm,
+		breakable,
+		frame~empty,
+		beforeafter~skip = {0.5\baselineskip}
+	}
+
 	% Declare theorem environments
 	\declaretheorem[
 		style=block,
@@ -387,14 +401,7 @@
 	% Create document environment wrappers for each theorem
 	\NewDocumentEnvironment{problem}{o}{
 		% Pre Content
-		\begin{mdframed}[
-			hidealllines=true,
-			backgroundcolor={backgroundgrey},
-			innertopmargin=0.6cm,
-			innerleftmargin=0.4cm,
-			innerrightmargin=0.4cm,
-			innerbottommargin=0.4cm,
-		]
+		\begin{blockbox}
 			\IfValueTF{#1}{
 				\begin{cproblem}[#1]
 			}{
@@ -404,20 +411,12 @@
 	}{
 		% Post Content
 			\end{cproblem}
-		\end{mdframed}
-		\vspace*{-0.5\baselineskip} % adjustwidth adds extra space
+		\end{blockbox}
 	}
 
 	\NewDocumentEnvironment{exercise}{o}{
 		% Pre Content
-		\begin{mdframed}[
-			hidealllines=true,
-			backgroundcolor={backgroundgrey},
-			innertopmargin=0.6cm,
-			innerleftmargin=0.4cm,
-			innerrightmargin=0.4cm,
-			innerbottommargin=0.4cm,
-		]
+		\begin{blockbox}
 			\IfValueTF{#1}{
 				\begin{cexercise}[#1]
 			}{
@@ -427,11 +426,10 @@
 	}{
 		% Post Content
 			\end{cexercise}
-		\end{mdframed}
-		\vspace*{-0.5\baselineskip} % adjustwidth adds extra space
+		\end{blockbox}
 	}
 
-%% End block style theorems
+%% End Block Style Theorems
 
 
 %% Break Style Theorems
@@ -444,26 +442,32 @@
 	\declaretheoremstyle[
 		headfont=\normalfont\bfseries,
 		bodyfont=\normalfont,
-		postheadspace=\newline
 	]{break}
+
+	% Create surrounding box
+	\newtcolorbox{breakbox}{
+		colback = backgroundgold,
+		colframe = backgroundgold,
+		parskip,
+		sharp~corners,
+		boxsep = 0.4cm,
+		breakable,
+		frame~empty,
+		beforeafter~skip = {0.5\baselineskip},
+		boxrule = 0pt,
+	}
 
 	% Create break theorems
 	\declaretheorem[
 		style=break,
-		title={Example}
+		title={Example},
+		postheadhook=\leavevmode
 	]{cexample}
 
 	% Create document wrappers for each theorem
 	\NewDocumentEnvironment{example}{o}{
 		% Pre Content
-		\begin{mdframed}[
-			hidealllines=true,
-			backgroundcolor={backgroundgold},
-			innertopmargin=0.6cm,
-			innerleftmargin=0.4cm,
-			innerrightmargin=0.4cm,
-			innerbottommargin=0.4cm,
-		]
+		\begin{breakbox}
 			\IfValueTF{#1}{
 				\begin{cexample}[#1]
 			}{
@@ -473,8 +477,7 @@
 	}{
 		% Post Content
 			\end{cexample}
-		\end{mdframed}
-		\vspace*{-0.5\baselineskip} % adjustwidth adds extra space
+		\end{breakbox}
 	}
 
-%% End break style theorems
+%% End Break Style Theorems
