@@ -49,6 +49,8 @@
 \RequirePackage{xpatch}
 \RequirePackage{graphicx}
 \RequirePackage{changepage}
+\RequirePackage[breakable, skins]{tcolorbox}
+\RequirePackage{marginnote}
 
 % Mathematics
 \RequirePackage{amsmath}
@@ -57,7 +59,6 @@
 \RequirePackage{thmtools}
 \RequirePackage{mathtools}
 \RequirePackage{bm}
-\RequirePackage[breakable, skins]{tcolorbox}
 
 % Physics
 \RequirePackage{physics}
@@ -177,13 +178,15 @@
 }
 
 %% Define custom commands
-% Footnotes
-\let\oldfootnote\footnote
-\RenewDocumentCommand\footnote{ m } {\oldfootnote{\textit{#1}}}
-
 % Margin Notes
 \NewDocumentCommand\note{ m }{
-	\marginpar{\footnotesize\textit{#1}}
+	\marginnote{\footnotesize\textit{#1}}
+}
+
+% Footnotes
+\let\oldfootnote\footnote
+\RenewDocumentCommand\footnote{ m } {
+	\oldfootnote{\textit{#1}}
 }
 
 % Final box
