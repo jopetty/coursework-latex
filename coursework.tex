@@ -180,17 +180,28 @@
 
 %% Define custom commands
 % Margin Notes
-\NewDocumentCommand\note{ m }{
-	\marginnote{\footnotesize\textit{#1}}
+\NewDocumentCommand\note{ om }{
+	\IfValueTF{#1}{
+		\marginnote{\footnotesize\textit{#2}}[#1]
+	}{
+		\marginnote{\footnotesize\textit{#2}}
+	}
 }
 
 % Footnotes
 \let\oldfootnote\footnote
 \newcounter{cfootnote}
-\RenewDocumentCommand\footnote{ m } {
-	\refstepcounter{cfootnote}
-	\textsuperscript{\hyperlink{fn:\thecfootnote}{\thecfootnote}}
-	\note{\llap{\emph{\textsuperscript{\hypertarget{fn:\thecfootnote}{\thecfootnote}}}}#1}
+\RenewDocumentCommand\footnote{ om } {
+	\IfValueTF{#1}{
+		\refstepcounter{cfootnote}
+		\textsuperscript{\hyperlink{fn:\thecfootnote}{\thecfootnote}}
+		\note{\llap{\emph{\textsuperscript{\hypertarget{fn:\thecfootnote}{\thecfootnote}}}}#2}[#1]
+	}{
+		\refstepcounter{cfootnote}
+		\textsuperscript{\hyperlink{fn:\thecfootnote}{\thecfootnote}}
+		\note{\llap{\emph{\textsuperscript{\hypertarget{fn:\thecfootnote}{\thecfootnote}}}}#2}
+	}
+	
 }
 
 % Final box
