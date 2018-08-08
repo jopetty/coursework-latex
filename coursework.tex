@@ -25,7 +25,7 @@
 \ProcessOptions\relax
 
 %% MARK: Load Parent Class
-\LoadClass[letterpaper, 10pt]{\c__coursework_class_parent_class_tl}
+\LoadClass[letterpaper, 10pt, oneside]{\c__coursework_class_parent_class_tl}
 
 %% Load Common Packages
 \RequirePackage[
@@ -34,7 +34,8 @@
 	inner = 1.5in,
 	outer = 2in,
 	marginparwidth=1.4in,
-	marginparsep=0.25in
+	marginparsep=0.25in,
+	nohead
 ]{geometry}
 \RequirePackage{framed}
 \RequirePackage{fancyhdr}
@@ -50,7 +51,7 @@
 \RequirePackage{graphicx}
 \RequirePackage{changepage}
 \RequirePackage[breakable, skins]{tcolorbox}
-\RequirePackage{marginnote}
+\RequirePackage[noadjust]{marginnote}
 
 % Mathematics
 \RequirePackage{amsmath}
@@ -124,11 +125,11 @@
 	} {
 		\NewDocumentCommand\widekern{ } {\addfontfeatures{LetterSpace=10}}
 		\setmainfont[
-			ItalicFont={LinLibertineOI},
-			BoldFont={LinLibertineOB},
-			BoldItalicFont={LinLibertineOBI},
+			ItalicFont={LibertinusSerif-Italic},
+			BoldFont={LibertinusSerif-Bold},
+			BoldItalicFont={LibertinusSerif-BoldItalic},
 			Ligatures={Common, Discretionary, Contextual},
-		]{LinLibertineO}
+		]{LibertinusSerif-Regular}
 	}
 
 	\setmonofont[
@@ -408,6 +409,9 @@
 	\NewDocumentEnvironment{problem}{o}{
 		% Pre Content
 		\begin{blockbox}
+			\ifXeTeX 
+				\edef\marginnotetextwidth{11.8966390917cm}
+			\fi
 			\IfValueTF{#1}{
 				\begin{cproblem}[#1]
 			}{
@@ -423,6 +427,9 @@
 	\NewDocumentEnvironment{exercise}{o}{
 		% Pre Content
 		\begin{blockbox}
+			\ifXeTeX 
+				\edef\marginnotetextwidth{11.8966390917cm}
+			\fi
 			\IfValueTF{#1}{
 				\begin{cexercise}[#1]
 			}{
@@ -460,7 +467,7 @@
 		breakable,
 		frame~empty,
 		beforeafter~skip = {0.5\baselineskip},
-		boxrule = 0pt,
+		boxrule = 0pt
 	}
 
 	% Create break theorems
@@ -474,6 +481,9 @@
 	\NewDocumentEnvironment{example}{o}{
 		% Pre Content
 		\begin{breakbox}
+			\ifXeTeX 
+				\edef\marginnotetextwidth{11.8966390917cm}
+			\fi
 			\IfValueTF{#1}{
 				\begin{cexample}[#1]
 			}{
