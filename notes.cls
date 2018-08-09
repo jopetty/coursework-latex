@@ -65,6 +65,12 @@
 \NewDocumentCommand\term{ m }{\tl_gset:Nn \g_notes_term_tl {#1}}
 \NewDocumentCommand\place{ m }{\tl_gset:Nn \g_notes_place_tl {#1}}
 
+% Options specific to notes
+\bool_new:N \g_notes_coverpage_bool
+\bool_gset_false:N \g_notes_coverpage_bool
+\DeclareOption{cover}{\bool_gset_true:N \g_notes_coverpage_bool}
+
+
 %% Load shared definitions
 \input{coursework}
 
@@ -124,35 +130,67 @@
 % Title Page
 \RenewDocumentCommand\maketitle{}{
 	\newpage
-	\thispagestyle{firstpage}
-	\null
-	\vskip 4ex
-	{\noindent\Huge \g_notes_title_tl{}}
-	\tl_if_empty:NF \g_notes_subtitle_tl {
+	\begin{titlepage}
+		\pagenumbering{gobble}
+		\thispagestyle{firstpage}
+		\raggedright
+		\null
 		\vskip 4ex
-		{\noindent\large\bfseries \g_notes_subtitle_tl{} }
-	}
-	\vskip 1ex
-	{\noindent\slshape
-		\tl_if_empty:NF \g_notes_speaker_tl {
-			Taught~by~\g_notes_speaker_tl{}
-			\tl_if_empty:NF \g_notes_spkemail_tl {$^\ast$}.~
+		{\noindent\Huge \g_notes_title_tl{}}
+		\tl_if_empty:NF \g_notes_subtitle_tl {
+			\vskip 4ex
+			{\noindent\large\bfseries \g_notes_subtitle_tl{} }
 		}
-		\tl_if_empty:NF \g_notes_scribe_tl {
-			Transcribed~by~\g_notes_scribe_tl{}
-			\tl_if_empty:NF \g_notes_scremail_tl {$^\dagger$}.
+		\vskip 1ex
+		{\noindent\slshape
+			\tl_if_empty:NF \g_notes_speaker_tl {
+				Taught~by~\g_notes_speaker_tl{}
+				\tl_if_empty:NF \g_notes_spkemail_tl {$^\ast$}.~
+			}
+			\tl_if_empty:NF \g_notes_scribe_tl {
+				Transcribed~by~\g_notes_scribe_tl{}
+				\tl_if_empty:NF \g_notes_scremail_tl {$^\dagger$}.
+			}
 		}
-	}
-	\vskip 7ex
-	\noindent\tableofcontents{}
+		\vskip 7ex
+		\noindent\tableofcontents{}
+	\end{titlepage}
+	\pagenumbering{arabic}
+}
+
+% Cover Page
+\NewDocumentCommand\makecover{}{
+	\newpage
+	\begin{titlepage}
+		\pagenumbering{gobble}
+		\raggedright
+		\newpagecolor{cover}
+		\afterpage{\restorepagecolor}
+		\vspace*{\fill}
+		{\noindent\Huge \textcolor{white}{\g_notes_title_tl{}}}
+		\tl_if_empty:NF \g_notes_subtitle_tl {
+			\vskip 4ex
+			{\noindent\large\bfseries \textcolor{white}{\g_notes_subtitle_tl{}} }
+		}
+		\vspace*{\fill}
+	\end{titlepage}
 }
                 
 
 %% Beginning of Document
 \AtBeginDocument{
-	\maketitle
-	\newpage
 
+	% Cover & title pages
+	\hypersetup{pageanchor=false}
+	\bool_if:NT \g_notes_coverpage_bool{
+		\usepackage{pagecolor}
+		\usepackage{afterpage}
+		\makecover
+	}
+	\maketitle
+	\hypersetup{pageanchor=true}
+
+	% Paragraph formatting
 	\usepackage{silence}
 	\WarningFilter[parskip]{latex}{Command}
 	\ActivateWarningFilters[parskip]
@@ -161,11 +199,6 @@
 
 	% Math spacing
 	\abovedisplayshortskip=-\parskip
-	% \belowdisplayshortskip=0em
-	% \abovedisplayskip=-\parskip
-	% \belowdisplayskip=0em
-
-
 }
 
 \ExplSyntaxOff
