@@ -27,31 +27,33 @@
 %% MARK: Load Parent Class
 \LoadClass[letterpaper, 10pt, oneside]{\c__coursework_class_parent_class_tl}
 
-%% Load Common Packages
-\RequirePackage[
-	top = 1.45in,
-	bottom = 1.35in,
-	inner = 1.5in,
-	outer = 2in,
-	marginparwidth=1.4in,
-	marginparsep=0.25in,
-	nohead
-]{geometry}
-\RequirePackage{framed}
+%% Load Requireed Packages
+% Page Layout
+\RequirePackage[top = 1.45in,
+                bottom = 1.35in,
+                inner = 1.5in,
+                outer = 2in,
+                marginparwidth=1.4in,
+                marginparsep=0.25in,
+                nohead]{geometry}
 \RequirePackage{fancyhdr}
-\RequirePackage{titlesec}
-\RequirePackage[overload]{textcase}
-\RequirePackage[titles]{tocloft}
-\RequirePackage{fancyhdr}
-\RequirePackage[side,flushmargin]{footmisc}
-\RequirePackage{enumitem}
 \RequirePackage{hyperref}
 \RequirePackage{xcolor}
-\RequirePackage{xpatch}
 \RequirePackage{graphicx}
-\RequirePackage{changepage}
-\RequirePackage[breakable, skins]{tcolorbox}
+\RequirePackage{changepage} % adjustwidth environment
+\RequirePackage[breakable,
+                skins]{tcolorbox} % shaded theorems
 \RequirePackage[noadjust]{marginnote}
+
+% Text Formatting (Excluding fonts)
+\RequirePackage{titlesec}
+\RequirePackage[titles]{tocloft}
+\RequirePackage[side,flushmargin]{footmisc}
+\RequirePackage{enumitem}
+\RequirePackage{booktabs}
+
+% Bibliography
+\RequirePackage{biblatex}
 
 % Mathematics
 \RequirePackage{amsmath}
@@ -129,6 +131,7 @@
 			BoldFont={LibertinusSerif-Bold},
 			BoldItalicFont={LibertinusSerif-BoldItalic},
 			Ligatures={Common, Discretionary, Contextual},
+			Contextuals=Alternate
 		]{LibertinusSerif-Regular}
 	}
 
@@ -164,17 +167,16 @@
 
 % Define Colors
 % Link colors
-\definecolor{linkblue}{HTML}{2364AA}
-\definecolor{linkred}{HTML}{B52639}
+\definecolor{linkblue}{HTML}{0067BC}
 \definecolor{linkgold}{HTML}{C1900B}
-\definecolor{yaleblue}{HTML}{00356B}
+\definecolor{cover}{HTML}{2E303C}
 \definecolor{backgroundgold}{rgb}{1,0.93,0.8}
 \definecolor{backgroundgrey}{rgb}{0.95,0.95,0.95}
 
 \hypersetup{
-  linkcolor  = linkgold,
-  citecolor  = linkgold,
-  urlcolor   = linkgold,
+  linkcolor  = linkblue,
+  citecolor  = linkblue,
+  urlcolor   = linkblue,
   colorlinks = true,
 }
 
@@ -194,11 +196,11 @@
 \RenewDocumentCommand\footnote{ om } {
 	\IfValueTF{#1}{
 		\refstepcounter{cfootnote}
-		\textsuperscript{\hyperlink{fn:\thecfootnote}{\thecfootnote}}
+		\textsuperscript{\hyperlink{fn:\thecfootnote}{[\thecfootnote]}}
 		\note{\llap{\emph{\textsuperscript{\hypertarget{fn:\thecfootnote}{\thecfootnote}}}}#2}[#1]
 	}{
 		\refstepcounter{cfootnote}
-		\textsuperscript{\hyperlink{fn:\thecfootnote}{\thecfootnote}}
+		\textsuperscript{\hyperlink{fn:\thecfootnote}{[\thecfootnote]}}
 		\note{\llap{\emph{\textsuperscript{\hypertarget{fn:\thecfootnote}{\thecfootnote}}}}#2}
 	}
 	
