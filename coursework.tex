@@ -25,7 +25,7 @@
 \ProcessOptions\relax
 
 %% MARK: Load Parent Class
-\LoadClass[letterpaper, 10pt, oneside]{\c__coursework_class_parent_class_tl}
+\LoadClass[letterpaper, 10pt]{\c__coursework_class_parent_class_tl}
 
 %% Load Requireed Packages
 % Page Layout
@@ -48,7 +48,6 @@
 % Text Formatting (Excluding fonts)
 \RequirePackage{titlesec}
 \RequirePackage[titles]{tocloft}
-\RequirePackage[side,flushmargin]{footmisc}
 \RequirePackage{enumitem}
 \RequirePackage{booktabs}
 
@@ -113,7 +112,14 @@
 	% Load fontspec
 	\RequirePackage[no-math]{fontspec}
 
-	% Wide kerning for title page / sections
+	% Load microtype
+	\ifXeTeX
+		\RequirePackage{microtype}
+	\else
+		\RequirePackage[letterspace=100]{microtype}
+	\fi
+
+	% Load fonts
 	\bool_if:NTF \g_coursework_cmufont_bool {
 		\NewDocumentCommand\widekern{ } {\addfontfeatures{LetterSpace=8}}
 		\setmainfont[
@@ -209,14 +215,18 @@
 % Final box
 \NewDocumentCommand\final{ m } {\boxed{#1}}
 
-% Custom math commands
+%% Custom math commands
+% Black Board Bold
 \NewDocumentCommand\R{} {\mathbb{R}}
-\ifxetex \RenewDocumentCommand\C{} {\mathbb{C}} \else \NewDocumentCommand\C{} {\mathbb{C}} \fi
+\DeclareDocumentCommand\C{} {\mathbb{C}} % xetex already has a \C command
 \NewDocumentCommand\Z{} {\mathbb{Z}}
 \NewDocumentCommand\Q{} {\mathbb{Q}}
 \NewDocumentCommand\N{} {\mathbb{N}}
 \NewDocumentCommand\F{} {\mathbb{F}}
 
+% ISO Specified Characters
+\NewDocumentCommand\im{} {\mathrm{i}} % Imaginary numbers
+\NewDocumentCommand\e{} {\mathrm{e}} % Euler's constant
 
 % Custom units
 \DeclareSIUnit{\mile}{mi}
@@ -225,7 +235,7 @@
 \DeclareSIUnit{\foot}{ft}
 \DeclareSIUnit{\atmosphere}{atm}
 \DeclareSIUnit{\fahrenheit}{\ensuremath{{}^{\circ}
- \text{F}}}
+ \mathrm{F}}}
 \DeclareSIUnit{\atom}{at}
 \DeclareSIUnit{\molecule}{molecule}
 \DeclareSIUnit{\calorie}{cal}
