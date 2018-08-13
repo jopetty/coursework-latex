@@ -14,7 +14,7 @@
 \tl_const:Nn \c__pset_class_version_tl         {1.0.0}
 \tl_const:Nn \c__pset_class_date_tl            {2018/07/04}
 \tl_const:Nn \c__pset_class_description_tl     {A~LaTeX3~class~for~problem~sets.}
-\tl_const:Nn \c__coursework_class_parent_class_tl    {article}
+\tl_const:Nn \c__pset_class_parent_class_tl    {article}
 
 \ProvidesExplClass{\c__pset_class_name_tl}         % Class
                   {\c__pset_class_date_tl}         % Date
@@ -45,8 +45,35 @@
 \NewDocumentCommand\course{ m }{ \tl_gset:Nn \g_pset_course_tl {#1} }
 \NewDocumentCommand\class{ m }{ \course{#1} }
 
+% Class Options
+\bool_new:N \g_pset_coverpage_bool
+\tl_new:N \g_pset_loadcode_tl
+\tl_new:N \g_pset_loaddiag_tl
+\tl_new:N \g_pset_cmufont_tl
+
+\bool_gset_false:N \g_pset_coverpage_bool
+\tl_clear_new:N \g_pset_loadcode_tl
+\tl_clear_new:N \g_pset_loaddiag_tl
+\tl_clear_new:N \g_pset_cmufont_tl
+
+\DeclareOption{cover}{\bool_gset_true:N \g_pset_coverpage_bool}
+\DeclareOption{code}{\tl_gset:Nn \g_pset_loadcode_tl {code}}
+\DeclareOption{diagram}{\tl_gset:Nn \g_pset_loaddiag_tl {diagram}}
+\DeclareOption{cmu}{\tl_gset:Nn \g_pset_cmufont_tl {cmu}}
+
+\DeclareOption*{ \PassOptionsToClass{\CurrentOption}{\c__pset_class_parent_class_tl} }
+
+\ProcessOptions\relax
+
+%% Process Options and Load Base Class
+\LoadClass[letterpaper, 10pt]{\c__pset_class_parent_class_tl}
+
 %% Load shared definitions
-\input{coursework.tex}
+\RequirePackage[
+	\g_pset_loadcode_tl ,
+	\g_pset_loaddiag_tl ,
+	\g_pset_cmufont_tl
+]{coursework}
 
 %% Customization for Pset Only
 %% ============================
@@ -56,27 +83,18 @@
 	\newpage
 	\null
 	\begin{flushright} \scshape
-		\g_pset_author_tl{} \\
-		\g_pset_course_tl{} \\
+		\g_pset_title_tl{}   \\
+		\g_pset_author_tl{}  \\
+		\g_pset_course_tl{}  \\
 		\g_pset_duedate_tl{} \\
 	\end{flushright}
-	\begin{center}
-		{\Large\scshape\g_pset_title_tl{}}
-	\end{center}
-	\vspace\baselineskip
+	% \begin{center}
+	% 	{\large\scshape\g_pset_title_tl{}}
+	% \end{center}
 }
 
 \AtBeginDocument{
 	\maketitle
-
-	\usepackage{silence}
-	\WarningFilter[parskip]{latex}{Command}
-	\ActivateWarningFilters[parskip]
-	\usepackage{parskip}
-	\DeactivateWarningFilters[parskip]
-
-	% Math spacing
-	\abovedisplayshortskip=-\parskip
 }
 
 \ExplSyntaxOff
