@@ -1,4 +1,4 @@
-\documentclass[diagram]{notes}
+\documentclass[cmu, cover, diagram]{notes}
 
 \title{How to Use the \texttt{notes} Class}
 \place{Yale University}
@@ -6,7 +6,7 @@
 \year{2018}
 \term{Summer}
 
-\newfontfamily\ipafont{CharisSIL}
+% \setipafont{CharisSIL}
 
 \begin{document}
 
@@ -17,7 +17,7 @@ This class is closely complimented by the \texttt{pset} class, which is designed
 
 \section{Formatting}
 \subsection{The Title Page}
-The \texttt{notes} class comes with an inline title page. On the first page of the document, there are four primary lines. The first line contains the title of the document, set by the \verb|\title{}| command in the document preamble. The second line is for the subtitle of the document, set by the \verb|\subtitle{}| command. By default, the subtitle of the document is set to be \verb|CourseID, Place, Term Year|, where the fields are set by the \verb|\courseid{}|, \verb|\place{}|, \verb|\term{}|, and \verb|\year{}| commands, respectively. The third line is the attribution line, where the instructor and scribe can be displayed. You can set thse values with the \verb|\speaker{}| and \verb|\sribe{}| commands. There are also commands which allow you to specify the email addresses of the speaker and scribe, which will appear in the footer of the title page if set. Use the \verb|\speakeremail{}| and \verb|\scribeemail{}| commands to do this.
+The \texttt{notes} class comes with an inline title page. On the first page of the document, there are four primary lines. The first line contains the title of the document, set by the \verb|\title{}| command in the document preamble. The second line is for the subtitle of the document, set by the \verb|\subtitle{}| command. By default, the subtitle of the document is set to be \verb|CourseID, Place, Term Year|, where the fields are set by the \verb|\courseid{}|, \verb|\place{}|, \verb|\term{}|, and \verb|\year{}| commands, respectively. The third line is the attribution line, where the instructor and scribe can be displayed. You can set thse values with the \verb|\speaker{}| and \verb|\scribe{}| commands. There are also commands which allow you to specify the email addresses of the speaker and scribe, which will appear in the footer of the title page if set. Use the \verb|\speakeremail{}| and \verb|\scribeemail{}| commands to do this.
 
 \subsection{Fonts}
 All body text is set, by default, in the Libertine font family. If you want to use the more traditional Computer Modern fonts, simply pass the \verb|[cmu]| option to the class at the beginning of the document preamble. If you want to use a completely different font family altogether, either load the package you wish to use (if using \texttt{pdflatex}) or use the \verb|\setmainfont{}| command (if using \texttt{xelatex} or \texttt{lualatex}).
@@ -25,7 +25,7 @@ All body text is set, by default, in the Libertine font family. If you want to u
 By default, the math fonts are left unchanged. This is entirely because of personal preference. I think that the Computer Modern fonts are much, much better than almost all other fonts when it comes to typesetting mathematics. I also like the visual distinction between ``math'' and ``text'' that this achieves when using a non-Computer Modern font for the body text. However, if you wish to change this, load any package you want in the document preamble to change the math font.
 
 \subsection{Notes}
-You'll probably have noticed by now that the pages are asymmetric; this is intentional, and the wider margin on the right hand side of the page is to allow notes to be placed there, next to the referring text. This makes it easier to see what a note is referencing rather than having to move your eyes to the bottom of the page and back up again. If you want to write a quick margin note, just use the \verb|\note{}| command. \note{It's super easy to write yourself notes!} You can also use the \verb|\footnote{}| command, which will add a footnote marker to the referencing text and to the beginning of the footnote\footnote{This is a footnote!}.
+You'll probably have noticed by now that the pages are asymmetric; this is intentional, and the wider margin on the right hand side of the page is to allow notes to be placed there, next to the referring text. This makes it easier to see what a note is referencing rather than having to move your eyes to the bottom of the page and back up again. If you want to write a quick margin note, just use the \verb|\note{}| command. \note[-\baselineskip]{It's super easy to write yourself notes!} You can also use the \verb|\footnote{}| command, which will add a footnote marker to the referencing text and to the beginning of the footnote\footnote{This is a footnote!}.
 
 \section{Mathematics}
 
@@ -84,8 +84,8 @@ A \emph{group} is an ordered pair $(S, \star)$, where $S$ is a set and $\star$ i
 
 The \texttt{notes} class also provides the \texttt{notation} and \texttt{abuse} environments to represent \emph{Notation} and \emph{Abuse of Notation}, respectively, and which follow the \emph{definition} style.
 
-\begin{notation}[$\xhookrightarrow{}$]
-Given a map $f$, $f : A \xhookrightarrow{} B$ means that $f$ is \emph{injective} from $A$ into $B$.
+\begin{notation}[$\hookrightarrow$]
+Given a map $f$, writing $f \colon A ↪ B$ means that $f$ is \emph{injective} from $A$ into $B$.
 \end{notation}
 
 \begin{abuse}
@@ -123,7 +123,6 @@ Puffins are a type of bird.
 \subsection{Math Commands}
 
 The \texttt{notes} class also provides several commands for commonly used mathematical expressions, such as blackboard bold fonts for sets and fields.
-
 \begin{align*}  
 	\R \hspace*{1cm} & \texttt{\string\R} && \text{Real Numbers} \\
 	\C \hspace*{1cm} & \texttt{\string\C} && \text{Complex Numbers} \\
@@ -135,9 +134,7 @@ The \texttt{notes} class also provides several commands for commonly used mathem
 
 \section{Chemistry}
 The \texttt{notes} class loads the \verb|mhcem| package to aid in the typesetting of chemical formulae.
-
 \[ \ce{CO2 + C -> 2 CO} \]
-
 It also loads the \verb|chemfig| package to aid in the creation of chemical structure diagrams. To enable this feature, you must pass the \verb|[diagram]| option to the class at the beginning of your document preamble.
 
 \begin{figure}[h]
@@ -152,24 +149,23 @@ It also loads the \verb|chemfig| package to aid in the creation of chemical stru
 \end{figure}
 
 \section{Physics}
-The \texttt{notes} class loads the \texttt{physics} class, which provides many useful document commands for formatting physics notation. Supplementing this is the \verb|\unit{}| command, which formats a given symbol as a unit vector by setting the symbol in a bold font and adding a hat above it.
-
-\[ \texttt{\string\unit\{v\}} \to \unit{v}, \hspace*{1cm} \texttt{\string\unit\{\string\alpha\}} \to \unit{\alpha} \]
+The \texttt{notes} class loads the \texttt{physics} class, which provides many useful document commands for formatting physics notation. Supplementing this is the \verb|\vu{}| command, which formats a given symbol as a unit vector by setting the symbol in a bold font and adding a hat above it.
+\[ \texttt{\string\vu\{v\}} \to \vu{v},  \]
 
 \subsection{Units}
 The \texttt{notes} class also loads the \verb|siunitx| package to aid in the automatic formatting of units. It also defines the following custom non-SI units which still prove useful in physics and engineering. 
-\begin{align*}
-	\si{\mile} &\hspace*{1cm} \texttt{\string\mile} \\
-	\si{\gallon} &\hspace*{1cm} \texttt{\string\gallon} \\
-	\si{\pound} &\hspace*{1cm} \texttt{\string\pound} \\
-	\si{\atmosphere} &\hspace*{1cm} \texttt{\string\atmosphere} \\
-	\si{\fahrenheit} &\hspace*{1cm} \texttt{\string\fahrenheit} \\
-	\si{\atom} &\hspace*{1cm} \texttt{\string\atom} \\
-	\si{\molecule} &\hspace*{1cm} \texttt{\string\molecule} \\
-	\si{\calorie} &\hspace*{1cm} \texttt{\string\calorie} \\
-	\si{\Calorie} &\hspace*{1cm} \texttt{\string\Calorie} \\
-	\si{\inch} &\hspace*{1cm} \texttt{\string\inch}
-\end{align*}
+% \begin{align*}
+% 	\si{\mile} &\hspace*{1cm} \texttt{\string\mile} \\
+% 	\si{\gallon} &\hspace*{1cm} \texttt{\string\gallon} \\
+% 	\si{\pound} &\hspace*{1cm} \texttt{\string\pound} \\
+% 	\si{\atmosphere} &\hspace*{1cm} \texttt{\string\atmosphere} \\
+% 	\si{\fahrenheit} &\hspace*{1cm} \texttt{\string\fahrenheit} \\
+% 	\si{\atom} &\hspace*{1cm} \texttt{\string\atom} \\
+% 	\si{\molecule} &\hspace*{1cm} \texttt{\string\molecule} \\
+% 	\si{\calorie} &\hspace*{1cm} \texttt{\string\calorie} \\
+% 	\si{\Calorie} &\hspace*{1cm} \texttt{\string\Calorie} \\
+% 	\si{\inch} &\hspace*{1cm} \texttt{\string\inch}
+% \end{align*}
 \subsection{Feynman Diagrams}
 The \texttt{notes} class loads the \texttt{tikz-feynman} package to aid in the typesetting of Feynman diagrams. In order to load this package, you must pass the \texttt{[diagram]} option to the class at the beginning of your document preamble.
 
