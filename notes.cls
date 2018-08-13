@@ -14,7 +14,7 @@
 \tl_const:Nn \c__notes_class_version_tl         {1.0.0}
 \tl_const:Nn \c__notes_class_date_tl            {2018/07/04}
 \tl_const:Nn \c__notes_class_description_tl     {A~LaTeX3~class~for~lecture~notes.}
-\tl_const:Nn \c__coursework_class_parent_class_tl    {article}
+\tl_const:Nn \c__notes_class_parent_class_tl    {article}
 
 \ProvidesExplClass{\c__notes_class_name_tl}         % Class
                   {\c__notes_class_date_tl}         % Date
@@ -65,14 +65,36 @@
 \NewDocumentCommand\term{ m }{\tl_gset:Nn \g_notes_term_tl {#1}}
 \NewDocumentCommand\place{ m }{\tl_gset:Nn \g_notes_place_tl {#1}}
 
-% Options specific to notes
+% Class Options
 \bool_new:N \g_notes_coverpage_bool
+\tl_new:N \g_notes_loadcode_tl
+\tl_new:N \g_notes_loaddiag_tl
+\tl_new:N \g_notes_cmufont_tl
+
 \bool_gset_false:N \g_notes_coverpage_bool
+\tl_clear_new:N \g_notes_loadcode_tl
+\tl_clear_new:N \g_notes_loaddiag_tl
+\tl_clear_new:N \g_notes_cmufont_tl
+
 \DeclareOption{cover}{\bool_gset_true:N \g_notes_coverpage_bool}
+\DeclareOption{code}{\tl_gset:Nn \g_notes_loadcode_tl {code}}
+\DeclareOption{diagram}{\tl_gset:Nn \g_notes_loaddiag_tl {diagram}}
+\DeclareOption{cmu}{\tl_gset:Nn \g_notes_cmufont_tl {cmu}}
+
+\DeclareOption*{ \PassOptionsToClass{\CurrentOption}{\c__notes_class_parent_class_tl} }
+
+\ProcessOptions\relax
+
+%% Process Options and Load Base Class
+\LoadClass[letterpaper]{\c__notes_class_parent_class_tl}
 
 
 %% Load shared definitions
-\input{coursework}
+\RequirePackage[
+	\g_notes_loadcode_tl ,
+	\g_notes_loaddiag_tl ,
+	\g_notes_cmufont_tl
+]{coursework}
 
 % Wait to redefine \year until after we have loaded Tikz,
 % Since pgf uses the default \year command to generate a
@@ -83,6 +105,18 @@
 %% Customization for Notes Only
 %% ============================
 
+% Load Packages
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage[titles]{tocloft}
+
+% Set up PDF data
+\hypersetup{
+  % linkcolor  = linkblue,
+  % citecolor  = linkblue,
+  % urlcolor   = linkblue,
+  % colorlinks = true,
+}
 
 % Table of Contents
 \renewcommand{\cfttoctitlefont}{\relax\centering\widekern}
@@ -136,13 +170,17 @@
 		\raggedright
 		\null
 		\vskip 4ex
-		{\noindent\Huge \g_notes_title_tl{}}
+		{
+			\renewcommand{\baselinestretch}{0.8}
+			\noindent\Huge\scshape \g_notes_title_tl{}\par
+		}
 		\tl_if_empty:NF \g_notes_subtitle_tl {
 			\vskip 4ex
-			{\noindent\large\bfseries \g_notes_subtitle_tl{} }
+			{ \noindent\large\scshape \g_notes_subtitle_tl{} }
 		}
-		\vskip 1ex
-		{\noindent\slshape
+		\vskip 0.0\baselineskip
+		{
+			\noindent
 			\tl_if_empty:NF \g_notes_speaker_tl {
 				Taught~by~\g_notes_speaker_tl{}
 				\tl_if_empty:NF \g_notes_spkemail_tl {$^\ast$}.~
@@ -164,13 +202,13 @@
 	\begin{titlepage}
 		\pagenumbering{gobble}
 		\raggedright
-		\newpagecolor{cover}
+		\newpagecolor{covergrey}
 		\afterpage{\restorepagecolor}
 		\vspace*{\fill}
 		{\noindent\Huge \textcolor{white}{\g_notes_title_tl{}}}
 		\tl_if_empty:NF \g_notes_subtitle_tl {
 			\vskip 4ex
-			{\noindent\large\bfseries \textcolor{white}{\g_notes_subtitle_tl{}} }
+			{\noindent\large\scshape \textcolor{white}{\g_notes_subtitle_tl{}} }
 		}
 		\vspace*{\fill}
 	\end{titlepage}
@@ -190,15 +228,15 @@
 	\maketitle
 	\hypersetup{pageanchor=true}
 
-	% Paragraph formatting
-	\usepackage{silence}
-	\WarningFilter[parskip]{latex}{Command}
-	\ActivateWarningFilters[parskip]
-	\usepackage{parskip}
-	\DeactivateWarningFilters[parskip]
+	% % Paragraph formatting
+	% \usepackage{silence}
+	% \WarningFilter[parskip]{latex}{Command}
+	% \ActivateWarningFilters[parskip]
+	% \usepackage{parskip}
+	% \DeactivateWarningFilters[parskip]
 
-	% Math spacing
-	\abovedisplayshortskip=-\parskip
+	% % Math spacing
+	% \abovedisplayshortskip=-\parskip
 }
 
 \ExplSyntaxOff
