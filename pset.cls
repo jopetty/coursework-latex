@@ -78,16 +78,45 @@
 %% Customization for Pset Only
 %% ============================
 
+%% Load Packages
+\RequirePackage{fancyhdr}
+\RequirePackage{textcase}
+\RequirePackage{afterpage}
+
+%% Create Page Formats
+\fancypagestyle{normal}{
+	\renewcommand{\headrulewidth}{0pt}
+	\fancyfoot{}
+	\fancyfoot[L]{\footnotesize
+		\thepage
+	}
+	\fancyhead[C]{\footnotesize
+		\MakeTextUppercase{\g_pset_course_tl{}~\g_pset_title_tl{}}
+	}
+	\fancyfoot[R]{\footnotesize
+		\MakeTextUppercase{\g_pset_author_tl{},~\g_pset_duedate_tl{}}
+	}
+}
+
 %% Redefine \maketitle
 \RenewDocumentCommand\maketitle{}{
 	\newpage
+	\thispagestyle{empty}
 	\null
-	\begin{flushright} \scshape
-		\g_pset_title_tl{}   \\
-		\g_pset_author_tl{}  \\
-		\g_pset_course_tl{}  \\
-		\g_pset_duedate_tl{} \\
-	\end{flushright}
+	\begin{center}
+		{\large\bfseries\MakeTextUppercase{
+			\g_pset_course_tl{}~\g_pset_title_tl{}
+		}}\par
+		\vskip 2ex
+		\small\MakeTextUppercase{\g_pset_author_tl{},~\g_pset_duedate_tl{}}\par
+		\vskip 15ex
+	\end{center}
+	% \begin{flushright} \scshape
+	% 	\g_pset_title_tl{}   \\
+	% 	\g_pset_author_tl{}  \\
+	% 	\g_pset_course_tl{}  \\
+	% 	\g_pset_duedate_tl{} \\
+	% \end{flushright}
 	% \begin{center}
 	% 	{\large\scshape\g_pset_title_tl{}}
 	% \end{center}
@@ -95,6 +124,7 @@
 
 \AtBeginDocument{
 	\maketitle
+	\pagestyle{normal}
 }
 
 \ExplSyntaxOff
