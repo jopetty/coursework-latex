@@ -35,6 +35,7 @@
 \tl_new:N \g_notes_term_tl        % Course Term (Spring, Michaelmas, etc)
 \tl_new:N \g_notes_year_tl        % Year
 \tl_new:N \g_notes_place_tl       % Place
+\tl_new:N \g_notes_blurb_tl
 
 % Set default values for data commands
 \tl_gset:Nn	\g_notes_title_tl       {Course~Title}
@@ -53,6 +54,7 @@
 \tl_clear_new:N	\g_notes_term_tl
 \tl_clear_new:N	\g_notes_year_tl
 \tl_clear_new:N	\g_notes_place_tl
+\tl_clear_new:N \g_notes_blurb_tl
 
 % Provide user-facing interface to document commands
 \RenewDocumentCommand\title{ m }{\tl_gset:Nn \g_notes_title_tl {#1}}
@@ -64,6 +66,7 @@
 \NewDocumentCommand\courseid{ m }{\tl_gset:Nn \g_notes_courseid_tl {#1}}
 \NewDocumentCommand\term{ m }{\tl_gset:Nn \g_notes_term_tl {#1}}
 \NewDocumentCommand\place{ m }{\tl_gset:Nn \g_notes_place_tl {#1}}
+\NewDocumentCommand\blurb{ m }{\tl_gset:Nn \g_notes_blurb_tl {#1}}
 
 % Class Options
 \bool_new:N \g_notes_coverpage_bool
@@ -80,6 +83,7 @@
 \DeclareOption{code}{\tl_gset:Nn \g_notes_loadcode_tl {code}}
 \DeclareOption{diagram}{\tl_gset:Nn \g_notes_loaddiag_tl {diagram}}
 \DeclareOption{cmu}{\tl_gset:Nn \g_notes_cmufont_tl {cmu}}
+\DeclareOption{lib}{\tl_gset:Nn \g_notes_cmufont_tl {lib}}
 
 \DeclareOption*{ \PassOptionsToClass{\CurrentOption}{\c__notes_class_parent_class_tl} }
 
@@ -108,6 +112,7 @@
 % Load Packages
 \RequirePackage{fancyhdr}
 \RequirePackage{titlesec}
+\RequirePackage{textcase}
 \RequirePackage[titles]{tocloft}
 
 % Set up PDF data
@@ -148,17 +153,20 @@
 \titlespacing\subsection{0ex}{2ex plus 0.2ex minus 0.2ex}{0ex}
 \titlespacing\subsubsection{0ex}{1ex plus 0.1ex minus 0.1ex}{0ex}
 
-% Header/Footer on title page
-\fancypagestyle{firstpage}{
-	\fancyfoot[L]{
-		\tl_if_empty:NTF \g_notes_scremail_tl {} {$^\dagger$\url{\g_notes_scremail_tl}}
-	}
-	\fancyfoot[C]{}
-	\fancyfoot[R]{
-		\tl_if_empty:NTF \g_notes_spkemail_tl {} {$^\ast$\url{\g_notes_spkemail_tl}}
-	}
-	\fancyhead{}
+% Header/Footer
+\fancypagestyle{normal}{
 	\renewcommand{\headrulewidth}{0pt}
+	\fancyhead{}
+	\fancyfoot{}
+	\fancyfoot[L]{\footnotesize
+		\thepage
+	}
+	\fancyfoot[R]{\footnotesize
+		\MakeTextUppercase{\g_notes_title_tl{}}
+	}
+	\fancyhead[C]{\footnotesize
+		\MakeTextUppercase{\rightmark}
+	}
 }
 
 % Title Page
@@ -166,8 +174,8 @@
 	\newpage
 	\begin{titlepage}
 		\pagenumbering{gobble}
-		\thispagestyle{firstpage}
-		\raggedright
+		\thispagestyle{empty}
+		{\raggedright
 		\null
 		\vskip 4ex
 		{
@@ -177,23 +185,19 @@
 		\tl_if_empty:NF \g_notes_subtitle_tl {
 			\vskip 4ex
 			{ \noindent\large\scshape \g_notes_subtitle_tl{} }
-		}
-		\vskip 0.0\baselineskip
-		{
-			\noindent
-			\tl_if_empty:NF \g_notes_speaker_tl {
-				Taught~by~\g_notes_speaker_tl{}
-				\tl_if_empty:NF \g_notes_spkemail_tl {$^\ast$}.~
-			}
-			\tl_if_empty:NF \g_notes_scribe_tl {
-				Transcribed~by~\g_notes_scribe_tl{}
-				\tl_if_empty:NF \g_notes_scremail_tl {$^\dagger$}.
+		}}
+
+		{\noindent
+			\tl_if_empty:NF \g_notes_blurb_tl {
+				\vskip 4ex
+				\g_notes_blurb_tl{}
 			}
 		}
 		\vskip 7ex
 		\noindent\tableofcontents{}
 	\end{titlepage}
 	\pagenumbering{arabic}
+	\pagestyle{normal}
 }
 
 % Cover Page
