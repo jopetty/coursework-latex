@@ -23,11 +23,12 @@
 \bool_new:N \l__coursework_cmufont_bool
 \bool_gset_false:N \l__coursework_loadcode_bool
 \bool_gset_false:N \l__coursework_loaddiag_bool
-\bool_gset_false:N \l__coursewrok_cmufont_bool
+\bool_gset_true:N \l__coursework_cmufont_bool
 
 \DeclareOption{code}{ \bool_gset_true:N \l__coursework_loadcode_bool }
 \DeclareOption{diagram}{ \bool_gset_true:N \l__coursework_loaddiag_bool }
 \DeclareOption{cmu}{ \bool_gset_true:N \l__coursework_cmufont_bool }
+\DeclareOption{lib}{\bool_gset_false:N \l__coursework_cmufont_bool }
 
 \ProcessOptions\relax
 
@@ -45,6 +46,7 @@
 % Text Formatting (excluding fonts)
 \RequirePackage{enumitem}
 \RequirePackage{booktabs}
+\RequirePackage[labelfont=bf]{caption}
 
 % Mathematics
 \RequirePackage{amsmath}
@@ -180,7 +182,7 @@
 	outer = 2in,
 	marginparwidth=1.4in,
 	marginparsep=0.25in,
-	nohead
+	% nohead
 }
 
 % Line Spacing
@@ -197,14 +199,26 @@
 
 	% Math spacing
 	\abovedisplayshortskip=-\parskip
+	% \belowdisplayshortskip=-\parskip
 }
 
 % Colors
-\definecolor{linkblue}{HTML}{0067BC}
+\definecolor{linkblue}{HTML}{2364AA}
 \definecolor{linkgold}{HTML}{C1900B}
+\definecolor{linkred}{HTML}{B52639}
+
 \definecolor{covergrey}{HTML}{2e303c}
+
 \definecolor{backgroundgold}{rgb}{1.00, 0.93, 0.80}
 \definecolor{backgroundgrey}{rgb}{0.95, 0.95, 0.95}
+\definecolor{bordergold}{HTML}{B58515}
+\definecolor{bordergrey}{HTML}{444444}
+
+\hypersetup{
+	colorlinks = true ,
+	linkcolor  = linkred ,
+	urlcolor   = linkblue
+}
 
 %% Define Custom Macros
 % Linguistics
@@ -228,6 +242,8 @@
 		$∎$ % Use the correct Unicode QED symbol
 	\fi
 }
+\def\sling {\atopwithdelims []} % Sterling #s of the first kind
+\def\slings {\atopwithdelims \{\}} % Sterline #s of the second kind
 
 % Notes and Footnotes
 \NewDocumentCommand\note{ om } {
@@ -300,7 +316,8 @@
 \declaretheoremstyle[
 	spaceabove=0.5\baselineskip, spacebelow=0em,
 	headfont=\normalfont\bfseries,
-	bodyfont=\normalfont\itshape
+	bodyfont=\normalfont\itshape,
+	% headpunct={\hspace{1em}}
 ]{lemma}
 \declaretheoremstyle[
 	headfont=\normalfont\bfseries,
@@ -386,26 +403,26 @@
 % Create boxes
 \newtcolorbox{greybox}{
 	parskip ,
-	boxrule = 0pt ,
+	boxrule = 0.3pt ,
 	boxsep = 0.4cm , % internal padding
 	breakable ,
 	sharp~corners ,
-	frame~empty ,
+	% frame~empty ,
 	beforeafter~skip = {1.0\baselineskip} ,
 	colback = backgroundgrey ,
-	colframe = backgroundgrey
+	colframe = bordergrey
 }
 
 \newtcolorbox{goldbox}{
 	parskip ,
-	boxrule = 0pt ,
+	boxrule = 0.3pt ,
 	boxsep = 0.4cm , % internal padding
 	breakable ,
 	sharp~corners ,
-	frame~empty ,
+	% frame~empty ,
 	beforeafter~skip = {1.0\baselineskip} ,
 	colback = backgroundgold ,
-	colframe = backgroundgold
+	colframe = bordergold
 }
 
 % Shaded Style Theorems
