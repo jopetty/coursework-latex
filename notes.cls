@@ -129,6 +129,12 @@
 \renewcommand{\cftsecpagefont}{}
 \renewcommand{\cftsubsecfont}{\itshape}
 
+% Starred sections now appear in the table of contents.
+% This change, however, must not be applied until *after*
+% the TOC is printed, to avoid the TOC appearing in itself.
+% This code is therefore placed in the \AtBeginDocument{ ... }
+% section below, instead of here.
+
 % Format Sections
 \titleformat{\section}                          % Level
             {\bfseries\Large}                   % Formatting
@@ -232,15 +238,21 @@
 	\maketitle
 	\hypersetup{pageanchor=true}
 
-	% % Paragraph formatting
-	% \usepackage{silence}
-	% \WarningFilter[parskip]{latex}{Command}
-	% \ActivateWarningFilters[parskip]
-	% \usepackage{parskip}
-	% \DeactivateWarningFilters[parskip]
-
-	% % Math spacing
-	% \abovedisplayshortskip=-\parskip
+	% Starred sections which show up in TOC
+	\let\oldsection\section
+	\RenewDocumentCommand{\section}{som}{%
+		\IfBooleanTF{#1}{%  Is it the starred command? Yes, then no \index
+			\phantomsection
+			\addcontentsline{toc}{section}{#3}
+			\oldsection*{#3}
+		}{%
+			\IfValueTF{#2}{% Is it the optional argument version --> use #3
+				\oldsection[#2]{#3}
+			}{%
+				\oldsection{#3} % Use #3 as well
+			}
+		}
+	}
 }
 
 \ExplSyntaxOff
