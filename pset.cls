@@ -29,12 +29,14 @@
 \tl_new:N \g_pset_author_tl   % Your name
 \tl_new:N \g_pset_duedate_tl  % When the assignment is due
 \tl_new:N \g_pset_course_tl   % What course the assignment is for
+\tl_new:N \g_pset_blurb_tl    % A short blurb on the first page
 
 % Clear and set default values
 \tl_clear_new:N \g_pset_title_tl
 \tl_clear_new:N \g_pset_author_tl
 \tl_clear_new:N \g_pset_course_tl
 \tl_gset:Nn \g_pset_duedate_tl {\today}
+\tl_clear_new:N \g_pset_blurb_tl
 
 % Provide user-facing interface to the data
 \RenewDocumentCommand\title{ m }{ \tl_gset:Nn \g_pset_title_tl {#1} }
@@ -44,6 +46,7 @@
 \RenewDocumentCommand\date{ m }{ \due{#1} }
 \NewDocumentCommand\course{ m }{ \tl_gset:Nn \g_pset_course_tl {#1} }
 \NewDocumentCommand\class{ m }{ \course{#1} }
+\NewDocumentCommand\blurb{ m }{ \tl_gset:Nn \g_pset_blurb_tl {#1} }
 
 % Class Options
 \bool_new:N \g_pset_coverpage_bool
@@ -108,18 +111,25 @@
 			\g_pset_course_tl{}~\g_pset_title_tl{}
 		}}\par
 		\vskip 2ex
-		\small\MakeTextUppercase{\g_pset_author_tl{},~\g_pset_duedate_tl{}}\par
-		\vskip 15ex
+		{\small
+			\tl_if_empty:NF \g_pset_author_tl {
+				\MakeTextUppercase{\g_pset_author_tl{}}
+				\tl_if_empty:NF \g_pset_duedate_tl {,}
+			}
+			\tl_if_empty:NF \g_pset_duedate_tl {
+				\MakeTextUppercase{\g_pset_duedate_tl{}}
+			}
+			\par
+		}
 	\end{center}
-	% \begin{flushright} \scshape
-	% 	\g_pset_title_tl{}   \\
-	% 	\g_pset_author_tl{}  \\
-	% 	\g_pset_course_tl{}  \\
-	% 	\g_pset_duedate_tl{} \\
-	% \end{flushright}
-	% \begin{center}
-	% 	{\large\scshape\g_pset_title_tl{}}
-	% \end{center}
+
+	\tl_if_empty:NTF \g_pset_blurb_tl {
+		\vskip 8ex
+	}{
+		\vskip 2ex
+		\g_pset_blurb_tl{}\par
+		\vskip 4ex
+	}
 }
 
 \AtBeginDocument{
