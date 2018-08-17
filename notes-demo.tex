@@ -1,4 +1,4 @@
-\documentclass[cmu, cover, diagram]{notes}
+\documentclass[cmu, diagram]{notes}
 
 \title{How to Use the \texttt{notes} Class}
 \place{Yale University}
@@ -6,7 +6,11 @@
 \year{2018}
 \term{Summer}
 
-% \setipafont{CharisSIL}
+\blurb{
+	This is an example of the \texttt{notes} class, a part of the \texttt{coursework} meta-package. In addition to serving as an example of how the document is formatted, it also contains explanations of the features of the document class.
+}
+
+\setipafont{CharisSIL}
 
 \begin{document}
 
@@ -113,8 +117,26 @@ The square root of 144 is 12.
 Find some fossils, because fossils are cool.
 \end{exercise}
 
+We also provide a wrapper environment for problems, which is useful for displaying many problems compactly, without any solutions or proofs; this has been designed for teachers or lecturers who are creating handouts.
+
+\begin{problems}
+	\begin{problem}
+	Find the square root of 144.
+	\end{problem}
+
+	\begin{problem}
+	(Taylor)
+	\begin{parts}
+	\part This is the first part.
+	\part This is the second part.
+	\end{parts}
+	\end{problem}
+\end{problems}
+
+Simply wrap your problem environments in the \verb|\begin{problems}| and \verb|\end{problems}| tags (notice the \verb|s| in the name), and your problems will be displayed in the compact format.
+
 \subsubsection{Examples}
-The most visually distinct environment is the \texttt{example} environment. This is almost identical to the \texttt{problem} environment except that the background is gold instead of grey and there is a line break after the head.
+The most visually distinct environment is the \texttt{example} environment. This is almost identical to the \texttt{problem} environment except that the background is gold instead of grey.
 
 \begin{example}
 Puffins are a type of bird.
