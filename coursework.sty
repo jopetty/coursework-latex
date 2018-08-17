@@ -508,15 +508,21 @@
 	\let\endproblem\relax
 
 	% Create temp problem
-	\let\problem\item
+	\NewDocumentCommand\problem{ o } {
+		\IfValueTF{##1}{
+			\item \mbox{[##1]}~
+		}{
+			\item{}
+		}
+	}
 
 	\IfValueTF{#1}{
-		\begin{enumerate}[label=\textbf{#1~\arabic*.},
+		\begin{enumerate}[label=\textbf{#1~\arabic*~},
 		                  wide,
 		                  labelwidth=!,
 		                  labelindent=0pt]
 	}{
-		\begin{enumerate}[label=\textbf{Problem~\arabic*.},
+		\begin{enumerate}[label=\textbf{Problem~\arabic*~},
 		                  wide,
 		                  labelwidth=!,
 		                  labelindent=0pt]
