@@ -493,4 +493,41 @@
 	\end{goldbox}
 }
 
+%% Problems Environment
+% Intended mostly for handouts, this is simply a fancy
+% enumerate wrapper that provides a compact way to write
+% out lots of different problems. As a bonus, it maintains
+% source compatability with the traditional block-style probelms;
+% Simply remove a problem from the \begin{problems} ... \end{problems}
+% environment.
+\NewDocumentEnvironment{problems}{ o } {
+	% Store old \problem
+	\let\oldproblem\problem
+	\let\oldendproblem\endproblem
+	\let\problem\relax
+	\let\endproblem\relax
+
+	% Create temp problem
+	\let\problem\item
+
+	\IfValueTF{#1}{
+		\begin{enumerate}[label=\textbf{#1~\arabic*.},
+		                  wide,
+		                  labelwidth=!,
+		                  labelindent=0pt]
+	}{
+		\begin{enumerate}[label=\textbf{Problem~\arabic*.},
+		                  wide,
+		                  labelwidth=!,
+		                  labelindent=0pt]
+	}
+}{
+	\end{enumerate}
+
+	% Restore problem
+	\let\problem\oldproblem
+	\let\endproblem\oldendproblem
+	\let\oldproblem\relax
+}
+
 \ExplSyntaxOff
