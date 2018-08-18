@@ -507,26 +507,38 @@
 	\let\problem\relax
 	\let\endproblem\relax
 
-	% Create temp problem
+	% Store optional argument for use in items
+	\tl_new:N \l_coursework_prlabel_tl
+	\IfValueTF{#1}{
+		\tl_gset:Nn \l_coursework_prlabel_tl {#1}
+	}{
+		\tl_gset:Nn \l_coursework_prlabel_tl {Problem}
+	}
+
+	% Redefine problem environment temporarily
 	\NewDocumentCommand\problem{ o } {
-		\IfValueTF{##1}{
-			\item \mbox{[##1]}~
+		\IfValueTF{##1} {
+			\item[\refstepcounter{enumi}
+			      \textbf{\l_coursework_prlabel_tl{}~\number\value{enumi}~\textmd{(\l_coursework_prlabel_tl)}.}]
 		}{
-			\item{}
+			\item
 		}
 	}
 
-	\IfValueTF{#1}{
-		\begin{enumerate}[label=\textbf{#1~\arabic*~},
-		                  wide,
-		                  labelwidth=!,
-		                  labelindent=0pt]
-	}{
-		\begin{enumerate}[label=\textbf{Problem~\arabic*~},
-		                  wide,
-		                  labelwidth=!,
-		                  labelindent=0pt]
-	}
+	% Init enumerate
+	\begin{enumerate}[label=\textbf{\l_coursework_prlabel_tl{}~\arabic*.},
+	                                wide,
+	                                labelwidth=!,
+	                                labelindent=0pt]
+
+	% Create temp problem
+	% \NewDocumentCommand\problem{ o } {
+	% 	\IfValueTF{##1}{
+	% 		\item \mbox{[##1]}~
+	% 	}{
+	% 		\item{}
+	% 	}
+	% }
 }{
 	\end{enumerate}
 
