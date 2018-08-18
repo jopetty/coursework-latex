@@ -519,7 +519,7 @@
 	\NewDocumentCommand\problem{ o } {
 		\IfValueTF{##1} {
 			\item[\refstepcounter{enumi}
-			      \textbf{\l_coursework_prlabel_tl{}~\number\value{enumi}~\textmd{(\l_coursework_prlabel_tl)}.}]
+			      \textbf{\l_coursework_prlabel_tl{}~\number\value{enumi}~\textmd{(##1)}.}]
 		}{
 			\item
 		}
