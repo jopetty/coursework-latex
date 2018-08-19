@@ -114,7 +114,7 @@
 		{\small
 			\tl_if_empty:NF \g_pset_author_tl {
 				\MakeTextUppercase{\g_pset_author_tl{}}
-				\tl_if_empty:NF \g_pset_duedate_tl {,}
+				\tl_if_empty:NF \g_pset_duedate_tl {,~}
 			}
 			\tl_if_empty:NF \g_pset_duedate_tl {
 				\MakeTextUppercase{\g_pset_duedate_tl{}}
