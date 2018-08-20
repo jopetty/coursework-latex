@@ -402,27 +402,28 @@
 % Shaded Theorems
 % Create boxes
 \newtcolorbox{greybox}{
-	parskip ,
+	noparskip ,
 	boxrule = 0.3pt ,
 	boxsep = 0.4cm , % internal padding
 	breakable ,
 	sharp~corners ,
-	% frame~empty ,
-	beforeafter~skip = {1.0\baselineskip} ,
-	colback = backgroundgrey ,
-	colframe = bordergrey
+	colback  = backgroundgrey ,
+	colframe = bordergrey ,
+	before = { \par \vskip 0pt \vskip \parskip } ,
+	after  = { \par \vskip 0pt }
+
 }
 
 \newtcolorbox{goldbox}{
-	parskip ,
+	noparskip ,
 	boxrule = 0.3pt ,
 	boxsep = 0.4cm , % internal padding
 	breakable ,
 	sharp~corners ,
-	% frame~empty ,
-	beforeafter~skip = {1.0\baselineskip} ,
 	colback = backgroundgold ,
-	colframe = bordergold
+	colframe = bordergold ,
+	before = { \par \vskip 0pt \vskip \parskip } ,
+	after  = { \par \vskip 0pt }
 }
 
 % Shaded Style Theorems
@@ -500,6 +501,10 @@
 % source compatability with the traditional block-style probelms;
 % Simply remove a problem from the \begin{problems} ... \end{problems}
 % environment.
+
+% Store optional argument for use in items
+\tl_new:N \l_coursework_prlabel_tl
+
 \NewDocumentEnvironment{problems}{ o } {
 	% Store old \problem
 	\let\oldproblem\problem
@@ -507,8 +512,6 @@
 	\let\problem\relax
 	\let\endproblem\relax
 
-	% Store optional argument for use in items
-	\tl_new:N \l_coursework_prlabel_tl
 	\IfValueTF{#1}{
 		\tl_gset:Nn \l_coursework_prlabel_tl {#1}
 	}{
