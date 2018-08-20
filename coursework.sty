@@ -42,6 +42,7 @@
 \RequirePackage[breakable,skins]{tcolorbox}
 \RequirePackage[noadjust]{marginnote}
 \RequirePackage[all]{nowidow} % Prevent widow/orphan lines
+\RequirePackage{calc}
 
 % Text Formatting (excluding fonts)
 \RequirePackage{enumitem}
@@ -311,8 +312,9 @@
 \NewDocumentEnvironment{subproof} { o } {
 	\begingroup
 	\RenewDocumentCommand\qedsymbol{ }{$\square$}
-	\parshape=1~1cm~\dimexpr\linewidth-2cm
-
+	\newlength{\spleftmar}
+	\setlength{\spleftmar}{\widthof{\textit{Proof.~}}}
+	\parshape=1~\spleftmar~\dimexpr\linewidth-2\spleftmar\relax
 	\IfNoValueTF{#1}{
 		\begin{proof}
 	}{
