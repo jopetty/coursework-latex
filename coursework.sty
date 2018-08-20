@@ -307,6 +307,23 @@
 }
 \makeatother
 
+% Subproof
+\NewDocumentEnvironment{subproof} { o } {
+	\begingroup
+	\RenewDocumentCommand\qedsymbol{ }{$\square$}
+	\parshape=1~1cm~\dimexpr\linewidth-2cm
+
+	\IfNoValueTF{#1}{
+		\begin{proof}
+	}{
+		\begin{proof}[#1]
+	}
+}{
+	\end{proof}
+	\par
+	\endgroup
+}
+
 % Solution
 \NewDocumentEnvironment{solution} { o }
                        {\IfNoValueTF{#1}{\begin{proof}[Solution]}{\begin{proof}[#1]}}
