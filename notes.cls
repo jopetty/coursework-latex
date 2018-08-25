@@ -245,6 +245,7 @@
 			\phantomsection
 			\addcontentsline{toc}{section}{#3}
 			\oldsection*{#3}
+			\markboth{#3}{#3} % Set right and left marks
 		}{%
 			\IfValueTF{#2}{% Is it the optional argument version --> use #3
 				\oldsection[#2]{#3}
