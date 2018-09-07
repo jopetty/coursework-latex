@@ -310,10 +310,10 @@
 \makeatother
 
 % Subproof
+\newlength{\spleftmar}
 \NewDocumentEnvironment{subproof} { o } {
 	\begingroup\par
 	\RenewDocumentCommand\qedsymbol{ }{$\square$}
-	\newlength{\spleftmar}
 	\setlength{\spleftmar}{\widthof{\textit{Proof.~}}}
 	\parshape=1~\spleftmar~\dimexpr\linewidth-2\spleftmar\relax
 	\IfNoValueTF{#1}{
