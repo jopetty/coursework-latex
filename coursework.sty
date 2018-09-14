@@ -2,7 +2,7 @@
 %%
 %% Provides common functionality for the various coursework document classes.
 
-\RequirePackage{expl3, xparse, l3keys2e, pdftexcmds}
+\RequirePackage{expl3, xparse, l3keys2e, pdftexcmds, silence}
 
 \ExplSyntaxOn
 
@@ -31,6 +31,9 @@
 \DeclareOption{lib}{\bool_gset_false:N \l__coursework_cmufont_bool }
 
 \ProcessOptions\relax
+
+% Suppress warnings
+\WarningFilter{remreset}{The remreset package}
 
 %% Load Required Packages
 % Page Layout
@@ -192,11 +195,13 @@
 \normalspacing
 
 \AtBeginDocument{
-	\usepackage{silence}
 	\WarningFilter[parskip]{latex}{Command}
 	\ActivateWarningFilters[parskip]
 	\usepackage{parskip}
 	\DeactivateWarningFilters[parskip]
+	
+	\WarningFilter[ams]{amsmath}{Foreign command}
+	\ActivateWarningFilters[ams]
 
 	% Math spacing
 	\abovedisplayshortskip=-\parskip
