@@ -40,6 +40,7 @@
 
 % Provide user-facing interface to the data
 \RenewDocumentCommand\title{ m }{ \tl_gset:Nn \g_pset_title_tl {#1} }
+\NewDocumentCommand\assignment{ m }{ \title{#1} }
 \RenewDocumentCommand\author{ m }{ \tl_gset:Nn \g_pset_author_tl {#1} }
 \NewDocumentCommand\name{ m }{ \author{#1} }
 \NewDocumentCommand\due{ m }{ \tl_gset:Nn \g_pset_duedate_tl {#1} }
