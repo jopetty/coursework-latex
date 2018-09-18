@@ -46,24 +46,20 @@
 \NewDocumentCommand\due{ m }{ \tl_gset:Nn \g_pset_duedate_tl {#1} }
 \RenewDocumentCommand\date{ m }{ \due{#1} }
 \NewDocumentCommand\course{ m }{ \tl_gset:Nn \g_pset_course_tl {#1} }
-\NewDocumentCommand\class{ m }{ \course{#1} }
 \NewDocumentCommand\blurb{ m }{ \tl_gset:Nn \g_pset_blurb_tl {#1} }
 
 % Class Options
 \bool_new:N \g_pset_coverpage_bool
 \tl_new:N \g_pset_loadcode_tl
 \tl_new:N \g_pset_loaddiag_tl
-\tl_new:N \g_pset_cmufont_tl
 
 \bool_gset_false:N \g_pset_coverpage_bool
 \tl_clear_new:N \g_pset_loadcode_tl
 \tl_clear_new:N \g_pset_loaddiag_tl
-\tl_clear_new:N \g_pset_cmufont_tl
 
 \DeclareOption{cover}{\bool_gset_true:N \g_pset_coverpage_bool}
 \DeclareOption{code}{\tl_gset:Nn \g_pset_loadcode_tl {code}}
 \DeclareOption{diagram}{\tl_gset:Nn \g_pset_loaddiag_tl {diagram}}
-\DeclareOption{cmu}{\tl_gset:Nn \g_pset_cmufont_tl {cmu}}
 
 \DeclareOption*{ \PassOptionsToClass{\CurrentOption}{\c__pset_class_parent_class_tl} }
 
@@ -75,8 +71,7 @@
 %% Load shared definitions
 \RequirePackage[
 	\g_pset_loadcode_tl ,
-	\g_pset_loaddiag_tl ,
-	\g_pset_cmufont_tl
+	\g_pset_loaddiag_tl
 ]{coursework}
 
 %% Customization for Pset Only

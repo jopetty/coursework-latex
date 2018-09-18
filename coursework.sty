@@ -23,12 +23,9 @@
 \bool_new:N \l__coursework_cmufont_bool
 \bool_gset_false:N \l__coursework_loadcode_bool
 \bool_gset_false:N \l__coursework_loaddiag_bool
-\bool_gset_true:N \l__coursework_cmufont_bool
 
 \DeclareOption{code}{ \bool_gset_true:N \l__coursework_loadcode_bool }
 \DeclareOption{diagram}{ \bool_gset_true:N \l__coursework_loaddiag_bool }
-\DeclareOption{cmu}{ \bool_gset_true:N \l__coursework_cmufont_bool }
-\DeclareOption{lib}{\bool_gset_false:N \l__coursework_cmufont_bool }
 
 \ProcessOptions\relax
 
@@ -113,11 +110,7 @@
 	\RequirePackage[utf8]{inputenc} % Unicode input
 	\RequirePackage[T1]{fontenc} % Unicode output
 	\RequirePackage[letterspace = 100]{microtype}
-	\bool_if:NTF \l__coursework_cmufont_bool {
-		\RequirePackage{lmodern}
-	} {
-		\RequirePackage{libertineRoman}
-	}
+	\RequirePackage{lmodern}
 	\NewDocumentCommand\ipafont{ } { \relax }
 	\NewDocumentCommand\setipafont{ m } { \relax }
 \else
@@ -132,48 +125,11 @@
 		\RequirePackage[letterspace = 100]{microtype}
 	\fi
 
-	\bool_if:NTF \l__coursework_cmufont_bool {
-		\setmainfont[
-			ItalicFont={CMUSerif-Italic},
-			BoldFont={CMUSerif-Bold},
-			BoldItalicFont={CMUSerif-BoldItalic},
-			SlantedFont={CMUSerif-RomanSlanted},
-			BoldSlantedFont={CMUSerif-BoldSlanted},
-			Ligatures={Common, Discretionary, Contextual}
-		]{CMUSerif-Roman}
-		\newfontfamily\ipafont{CMUSerif-Roman}[
-			ItalicFont={CMUSerif-Italic},
-			BoldFont={CMUSerif-Bold},
-			BoldItalicFont={CMUSerif-BoldItalic},
-			SlantedFont={CMUSerif-RomanSlanted},
-			BoldSlantedFont={CMUSerif-BoldSlanted},
-			Ligatures={Common, Discretionary, Contextual}
-		]
-	} {
-		\setmainfont[
-			ItalicFont={LibertinusSerif-Italic},
-			BoldFont={LibertinusSerif-Bold},
-			BoldItalicFont={LibertinusSerif-BoldItalic},
-			Ligatures={Common, Discretionary, Contextual},
-			Contextuals=Alternate
-		]{LibertinusSerif-Regular}
-		\newfontfamily\ipafont{LibertinusSerif-Regular}[
-			ItalicFont={LibertinusSerif-Italic},
-			BoldFont={LibertinusSerif-Bold},
-			BoldItalicFont={LibertinusSerif-BoldItalic},
-			Ligatures={Common, Discretionary, Contextual},
-			Contextuals=Alternate
-		]
+	\let\ipafont\relax
+
+	\NewDocumentCommand\setipafont{ m } { 
+		\renewfontfamily\ipafont{#1}
 	}
-
-	\setmonofont[
-		ItalicFont={CMUTypewriter-Italic},
-		BoldFont={CMUTypewriter-Bold},
-		BoldItalicFont={CMUTypewriter-BoldItalic},
-		SlantedFont={CMUTypewriter-Oblique}
-	]{CMUTypewriter-Regular}
-
-	\NewDocumentCommand\setipafont{ m } { \renewfontfamily\ipafont{#1} }
 \fi
 
 %% Document Format
@@ -186,7 +142,6 @@
 	outer = 2in,
 	marginparwidth=1.4in,
 	marginparsep=0.25in,
-	% nohead
 }
 
 % Line Spacing
@@ -199,13 +154,12 @@
 	\ActivateWarningFilters[parskip]
 	\usepackage{parskip}
 	\DeactivateWarningFilters[parskip]
-	
+
 	\WarningFilter[ams]{amsmath}{Foreign command}
 	\ActivateWarningFilters[ams]
 
 	% Math spacing
-	\abovedisplayshortskip=-\parskip
-	% \belowdisplayshortskip=-\parskip
+	\abovedisplayshortskip = -\parskip
 }
 
 % Colors

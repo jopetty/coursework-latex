@@ -59,18 +59,14 @@
 \bool_new:N \g_lnotes_coverpage_bool
 \tl_new:N \g_lnotes_loadcode_tl
 \tl_new:N \g_lnotes_loaddiag_tl
-\tl_new:N \g_lnotes_cmufont_tl
 
 \bool_gset_false:N \g_lnotes_coverpage_bool
 \tl_clear_new:N \g_lnotes_loadcode_tl
 \tl_clear_new:N \g_lnotes_loaddiag_tl
-\tl_clear_new:N \g_lnotes_cmufont_tl
 
 \DeclareOption{cover}{\bool_gset_true:N \g_lnotes_coverpage_bool}
 \DeclareOption{code}{\tl_gset:Nn \g_lnotes_loadcode_tl {code}}
 \DeclareOption{diagram}{\tl_gset:Nn \g_lnotes_loaddiag_tl {diagram}}
-\DeclareOption{cmu}{\tl_gset:Nn \g_lnotes_cmufont_tl {cmu}}
-\DeclareOption{lib}{\tl_gset:Nn \g_lnotes_cmufont_tl {lib}}
 
 \DeclareOption*{ \PassOptionsToClass{\CurrentOption}{\c__lnotes_class_parent_class_tl} }
 
@@ -79,19 +75,16 @@
 %% Process Options and Load Base Class
 \LoadClass[letterpaper]{\c__lnotes_class_parent_class_tl}
 
-
 %% Load shared definitions
 \RequirePackage[
 	\g_lnotes_loadcode_tl ,
-	\g_lnotes_loaddiag_tl ,
-	\g_lnotes_cmufont_tl
+	\g_lnotes_loaddiag_tl
 ]{coursework}
 
 % Wait to redefine \year until after we have loaded Tikz,
 % Since pgf uses the default \year command to generate a
 % seed for its random-number code.
 \RenewDocumentCommand\year{ m }{\tl_gset:Nn \g_lnotes_year_tl {#1}}
-
 
 %% Customization for Notes Only
 %% ============================
