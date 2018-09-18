@@ -31,17 +31,17 @@
 \tl_new:N \g_notes_spkemail_tl    % Speaker Email
 \tl_new:N \g_notes_scribe_tl      % Scribe (you, person taking notes)
 \tl_new:N \g_notes_scremail_tl    % Scribe Email
-\tl_new:N \g_notes_courseid_tl    % Course ID (e.g., MATH 230)
+\tl_new:N \g_notes_course_tl      % Course ID (e.g., MATH 230)
 \tl_new:N \g_notes_term_tl        % Course Term (Spring, Michaelmas, etc)
 \tl_new:N \g_notes_year_tl        % Year
 \tl_new:N \g_notes_place_tl       % Place
-\tl_new:N \g_notes_blurb_tl
+\tl_new:N \g_notes_blurb_tl       % A short paragraph at the beginning of the document
 
 % Set default values for data commands
 \tl_gset:Nn	\g_notes_title_tl       {Course~Title}
 \tl_gset:Nn	\g_notes_speaker_tl     {Lecturer}
 \tl_gset:Nn \g_notes_subtitle_tl {
-	\tl_if_empty:NF \g_notes_courseid_tl {\g_notes_courseid_tl{},~}
+	\tl_if_empty:NF \g_notes_course_tl {\g_notes_course_tl{},~}
 	\tl_if_empty:NF \g_notes_place_tl {\g_notes_place_tl{},~}
 	\tl_if_empty:NF \g_notes_term_tl {\g_notes_term_tl{}~}
 	\tl_if_empty:NF \g_notes_year_tl {\g_notes_year_tl{}}
@@ -50,7 +50,7 @@
 \tl_clear_new:N	\g_notes_spkemail_tl
 \tl_clear_new:N	\g_notes_scribe_tl
 \tl_clear_new:N	\g_notes_scremail_tl
-\tl_clear_new:N	\g_notes_courseid_tl
+\tl_clear_new:N	\g_notes_course_tl
 \tl_clear_new:N	\g_notes_term_tl
 \tl_clear_new:N	\g_notes_year_tl
 \tl_clear_new:N	\g_notes_place_tl
@@ -63,7 +63,7 @@
 \NewDocumentCommand\speakeremail{ m }{\tl_gset:Nn \g_notes_spkemail_tl {#1}}
 \NewDocumentCommand\scribe{ m }{\tl_gset:Nn \g_notes_scribe_tl {#1}}
 \NewDocumentCommand\scribeemail{ m }{\tl_gset:Nn \g_notes_scremail_tl {#1}}
-\NewDocumentCommand\courseid{ m }{\tl_gset:Nn \g_notes_courseid_tl {#1}}
+\NewDocumentCommand\course{ m }{\tl_gset:Nn \g_notes_course_tl {#1}}
 \NewDocumentCommand\term{ m }{\tl_gset:Nn \g_notes_term_tl {#1}}
 \NewDocumentCommand\place{ m }{\tl_gset:Nn \g_notes_place_tl {#1}}
 \NewDocumentCommand\blurb{ m }{\tl_gset:Nn \g_notes_blurb_tl {#1}}
