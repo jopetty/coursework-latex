@@ -10,7 +10,7 @@
 %% ---------------------
 %% Provides information to the LaTeX3 compiler
 %% about what our class does.
-\tl_const:Nn \c__notes_class_name_tl            {notes}
+\tl_const:Nn \c__notes_class_name_tl            {lnotes}
 \tl_const:Nn \c__notes_class_version_tl         {1.0.0}
 \tl_const:Nn \c__notes_class_date_tl            {2018/07/04}
 \tl_const:Nn \c__notes_class_description_tl     {A~LaTeX3~class~for~lecture~notes.}
