@@ -20,7 +20,6 @@
 %% Define Package Options
 \bool_new:N \l__coursework_loadcode_bool
 \bool_new:N \l__coursework_loaddiag_bool
-\bool_new:N \l__coursework_cmufont_bool
 \bool_gset_false:N \l__coursework_loadcode_bool
 \bool_gset_false:N \l__coursework_loaddiag_bool
 
@@ -195,6 +194,7 @@
 \NewDocumentCommand\Q{ } { \mathbb{Q} }
 \NewDocumentCommand\R{ } { \mathbb{R} }
 \NewDocumentCommand\Z{ } { \mathbb{Z} }
+\NewDocumentCommand\normal{ } { \trianglelefteq }
 \RenewDocumentCommand\qedsymbol{ } { 
 	\ifPDFTeX
 		$\blacksquare$
@@ -514,7 +514,7 @@
 }{
 	\end{enumerate}
 
-	% Restore problem
+	% Restore \problem
 	\let\problem\oldproblem
 	\let\endproblem\oldendproblem
 	\let\oldproblem\relax
