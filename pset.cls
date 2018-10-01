@@ -89,11 +89,11 @@
 	\fancyfoot[L]{\footnotesize
 		\thepage
 	}
-	\fancyhead[C]{\footnotesize
-		\MakeTextUppercase{\g_pset_course_tl{}~\g_pset_title_tl{}}
+	\fancyhead[C]{
+		\textsc{\MakeTextLowercase{\g_pset_course_tl{}~\g_pset_title_tl{}}}
 	}
-	\fancyfoot[R]{\footnotesize
-		\MakeTextUppercase{\g_pset_author_tl{},~\g_pset_duedate_tl{}}
+	\fancyfoot[R]{
+		\textsc{\MakeTextLowercase{\g_pset_author_tl{},~\g_pset_duedate_tl{}}}
 	}
 }
 
@@ -107,13 +107,13 @@
 			\g_pset_course_tl{}~\g_pset_title_tl{}
 		}}\par
 		\vskip 2ex
-		{\small
+		{\large
 			\tl_if_empty:NF \g_pset_author_tl {
-				\MakeTextUppercase{\g_pset_author_tl{}}
+				\textsc{\MakeTextLowercase{\g_pset_author_tl{}}}
 				\tl_if_empty:NF \g_pset_duedate_tl {,\quad}
 			}
 			\tl_if_empty:NF \g_pset_duedate_tl {
-				\MakeTextUppercase{\g_pset_duedate_tl{}}
+				\textsc{\MakeTextLowercase{\g_pset_duedate_tl{}}}
 			}
 			\par
 		}
@@ -126,6 +126,11 @@
 		\g_pset_blurb_tl{}\par
 		\vskip 4ex
 	}
+}
+
+% Prevent the coloring of links
+\hypersetup{
+	colorlinks = false
 }
 
 \AtBeginDocument{
