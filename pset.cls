@@ -86,7 +86,7 @@
 \fancypagestyle{normal}{
 	\renewcommand{\headrulewidth}{0pt}
 	\fancyfoot{}
-	\fancyfoot[L]{\footnotesize
+	\fancyfoot[L]{
 		\thepage
 	}
 	\fancyhead[C]{
