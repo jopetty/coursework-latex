@@ -140,18 +140,25 @@
 \titlespacing\subsubsection{0ex}{1ex plus 0.1ex minus 0.1ex}{0ex}
 
 % Header/Footer
+
+% Create var to store section names
+% since \rightmark is doing some really
+% weird things which prevent changing the case
+\tl_new:N \l_lnotes_secname_tl
+\tl_clear_new:N \l_lnotes_secname_tl
+
 \fancypagestyle{normal}{
 	\renewcommand{\headrulewidth}{0pt}
 	\fancyhead{}
 	\fancyfoot{}
-	\fancyfoot[L]{\footnotesize
+	\fancyfoot[L]{
 		\thepage
 	}
-	\fancyfoot[R]{\footnotesize
-		\MakeTextUppercase{\g_lnotes_title_tl{}}
+	\fancyfoot[R]{
+		\textsc{\MakeTextLowercase{\g_lnotes_title_tl{}}}
 	}
-	\fancyhead[C]{\footnotesize
-		\MakeTextUppercase{\rightmark}
+	\fancyhead[C]{
+		\textsc{\MakeTextLowercase{\l_lnotes_secname_tl{}}}
 	}
 }
 
@@ -221,6 +228,7 @@
 	% Starred sections which show up in TOC
 	\let\oldsection\section
 	\RenewDocumentCommand{\section}{som}{%
+		\tl_set:Nn \l_lnotes_secname_tl {#3}
 		\IfBooleanTF{#1}{%  Is it the starred command? Yes, then no \index
 			\phantomsection
 			\addcontentsline{toc}{section}{#3}
