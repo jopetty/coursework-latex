@@ -90,7 +90,7 @@
 	\renewcommand{\headrulewidth}{0pt}
 	\fancyfoot{}
 	\fancyfoot[L]{
-		\oldstylenums{\thepage}
+		\thepage
 	}
 	\fancyhead[C]{
 		\textsc{\MakeTextLowercase{\g_pset_course_tl{}~\g_pset_title_tl{}}}
