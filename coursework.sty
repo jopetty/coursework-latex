@@ -189,6 +189,7 @@
 
 % Mathematics
 \DeclareDocumentCommand\C{ } { \mathbb{C} }
+\NewDocumentCommand\E{ } { \mathbb{E} }
 \NewDocumentCommand\F{ } { \mathbb{F} }
 \NewDocumentCommand\N{ } { \mathbb{N} }
 \NewDocumentCommand\Q{ } { \mathbb{Q} }
@@ -206,6 +207,8 @@
 \def\slings {\atopwithdelims \{\}} % Sterling #s of the second kind
 \DeclareMathOperator{\Aut}{Aut}
 \DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Syl}{Syl}
+\DeclareMathOperator{\lcm}{lcm}
 
 % Notes and Footnotes
 \NewDocumentCommand\note{ om } {
@@ -238,7 +241,7 @@
   	labelwidth = 4.5em,
   	labelsep = 0.5em,
   	itemsep = 0ex,
-  	resume
+  	% resume
   ]}
   {\end{enumerate}}
 
@@ -306,16 +309,17 @@
 ]{definition}
 
 % Lemma Style Theorems
-\declaretheorem[style=lemma]{lemma}
-\declaretheorem[style=lemma]{theorem}
-\declaretheorem[style=lemma]{corollary}
-\declaretheorem[style=lemma]{conjecture}
-\declaretheorem[style=lemma]{proposition}
+\declaretheorem[style=lemma, numberwithin=section]{lemma}
+\declaretheorem[style=lemma, numberwithin=section]{theorem}
+\declaretheorem[style=lemma, numberwithin=section]{corollary}
+\declaretheorem[style=lemma, numberwithin=section]{conjecture}
+\declaretheorem[style=lemma, numberwithin=section]{proposition}
 
 % Definition Style Theorems
 \declaretheorem[
 	style=definition,
-	title={Definition}
+	title={Definition},
+	numbered=no
 ]{cdefinition}
 \declaretheorem[
 	style=definition,
@@ -410,20 +414,31 @@
 \declaretheorem[
 	style = definition,
 	postheadhook = \leavevmode,
-	title = {Problem}
+	title = {Problem},
+	numberwithin=section
 ]{cproblem}
 
 \declaretheorem[
 	style = definition,
 	postheadhook = \leavevmode,
-	title = {Exercise}
+	title = {Exercise},
+	numberwithin=section
 ]{cexercise}
 
 \declaretheorem[
 	style = definition,
 	postheadhook = \leavevmode,
-	title = {Example}
+	title = {Example},
+	numberwithin=section
 ]{cexample}
+
+% Unnumbered Variants
+\declaretheorem[
+	style = definition ,
+	postheadhook = \leavevmode ,
+	title = {Problem} ,
+	numbered = no
+]{cproblem*}
 
 % Create environment wrappers for each shaded theorem
 \NewDocumentEnvironment{problem}{ o } {

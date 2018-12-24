@@ -158,7 +158,7 @@
 		\textsc{\MakeTextLowercase{\g_lnotes_title_tl{}}}
 	}
 	\fancyhead[C]{
-		\textsc{\MakeTextLowercase{\l_lnotes_secname_tl{}}}
+		\textsc{\MakeTextLowercase{\thesection{}\hspace{0.5cm}\l_lnotes_secname_tl{}}}
 	}
 }
 

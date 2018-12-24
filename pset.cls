@@ -77,6 +77,9 @@
 %% Customization for Pset Only
 %% ============================
 
+%% Remove Section Numbering in Theorems
+\renewcommand*{\thecproblem}{\arabic{cproblem}}
+
 %% Load Packages
 \RequirePackage{fancyhdr}
 \RequirePackage{textcase}
@@ -87,11 +90,13 @@
 	\renewcommand{\headrulewidth}{0pt}
 	\fancyfoot{}
 	\fancyfoot[L]{
-		\thepage
+		\oldstylenums{\thepage}
 	}
 	\fancyhead[C]{
 		\textsc{\MakeTextLowercase{\g_pset_course_tl{}~\g_pset_title_tl{}}}
 	}
+	\fancyhead[R]{}
+	\fancyhead[L]{}
 	\fancyfoot[R]{
 		\textsc{\MakeTextLowercase{\g_pset_author_tl{},~\g_pset_duedate_tl{}}}
 	}
