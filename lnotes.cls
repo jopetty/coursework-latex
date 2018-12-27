@@ -123,7 +123,7 @@
             {}                                  % Before Code
 
 \titleformat{\subsection}                       % Level
-            {\bfseries\large}                   % Formatting
+            {\itshape\bfseries\large}           % Formatting
             {\thesubsection}                    % Label
             {1em}                               % Label Spacing
             {}                                  % Before Code
