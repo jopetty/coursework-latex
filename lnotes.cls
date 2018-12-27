@@ -146,6 +146,8 @@
 % weird things which prevent changing the case
 \tl_new:N \l_lnotes_secname_tl
 \tl_clear_new:N \l_lnotes_secname_tl
+\bool_new:N \l_lnotes_showsecnum_bool
+\bool_set_false:N \l_lnotes_showsecnum_bool
 
 \fancypagestyle{normal}{
 	\renewcommand{\headrulewidth}{0pt}
@@ -158,7 +160,12 @@
 		\textsc{\MakeTextLowercase{\g_lnotes_title_tl{}}}
 	}
 	\fancyhead[C]{
-		\textsc{\MakeTextLowercase{\thesection{}\hspace{0.5cm}\l_lnotes_secname_tl{}}}
+		\textsc{\MakeTextLowercase{
+			\IfBooleanTF{\l_lnotes_showsecnum_bool}{
+				\thesection{}\hspace{0.5cm}
+			}{}
+			\l_lnotes_secname_tl{}
+		}}
 	}
 }
 
@@ -234,7 +241,10 @@
 			\addcontentsline{toc}{section}{#3}
 			\oldsection*{#3}
 			\markboth{#3}{#3} % Set right and left marks
+			\bool_set_false:N \l_lnotes_showsecnum_bool
+
 		}{%
+			\bool_set_true:N \l_lnotes_showsecnum_bool
 			\IfValueTF{#2}{% Is it the optional argument version --> use #3
 				\oldsection[#2]{#3}
 			}{%
