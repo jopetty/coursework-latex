@@ -71,7 +71,8 @@
 %% Load shared definitions
 \RequirePackage[
 	\g_pset_loadcode_tl ,
-	\g_pset_loaddiag_tl
+	\g_pset_loaddiag_tl,
+	nothmnum
 ]{coursework}
 
 %% Customization for Pset Only

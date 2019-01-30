@@ -20,11 +20,14 @@
 %% Define Package Options
 \bool_new:N \l__coursework_loadcode_bool
 \bool_new:N \l__coursework_loaddiag_bool
+\bool_new:N \l__coursework_numbertheorems_bool
 \bool_gset_false:N \l__coursework_loadcode_bool
 \bool_gset_false:N \l__coursework_loaddiag_bool
+\bool_gset_true:N \l__coursework_numbertheorems_bool
 
 \DeclareOption{code}{ \bool_gset_true:N \l__coursework_loadcode_bool }
 \DeclareOption{diagram}{ \bool_gset_true:N \l__coursework_loaddiag_bool }
+\DeclareOption{nothmnum}{ \bool_gset_false:N \l__coursework_numbertheorems_bool }
 
 \ProcessOptions\relax
 
@@ -310,11 +313,19 @@
 ]{definition}
 
 % Lemma Style Theorems
-\declaretheorem[style=lemma, numberwithin=section]{lemma}
-\declaretheorem[style=lemma, numberwithin=section]{theorem}
-\declaretheorem[style=lemma, numberwithin=section]{corollary}
-\declaretheorem[style=lemma, numberwithin=section]{conjecture}
-\declaretheorem[style=lemma, numberwithin=section]{proposition}
+\bool_if:nTF {\l__coursework_numbertheorems_bool} {
+	\declaretheorem[style=lemma, numberwithin=section]{lemma}
+	\declaretheorem[style=lemma, numberwithin=section]{theorem}
+	\declaretheorem[style=lemma, numberwithin=section]{corollary}
+	\declaretheorem[style=lemma, numberwithin=section]{conjecture}
+	\declaretheorem[style=lemma, numberwithin=section]{proposition}
+}{
+	\declaretheorem[style=lemma, numbered=no]{lemma}
+	\declaretheorem[style=lemma, numbered=no]{theorem}
+	\declaretheorem[style=lemma, numbered=no]{corollary}
+	\declaretheorem[style=lemma, numbered=no]{conjecture}
+	\declaretheorem[style=lemma, numbered=no]{proposition}
+}
 
 % Definition Style Theorems
 \declaretheorem[
