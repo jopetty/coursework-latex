@@ -1,253 +1,65 @@
-\documentclass[cmu, diagram]{notes}
+\documentclass{notes}
 
-\title{How to Use the \texttt{notes} Class}
+% Bibliography
+\usepackage[
+	style = alphabetic ,
+]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{epigraph}
+\usepackage{wasysym}
+
+% Document Information
+\title{Introduction to Abstract~Algebra}
+\courseid{MATH 350}
 \place{Yale University}
-\speaker{Jackson Petty}
+\term{Fall}
 \year{2018}
-\term{Summer}
 
 \blurb{
-	This is an example of the \texttt{notes} class, a part of the \texttt{coursework} meta-package. In addition to serving as an example of how the document is formatted, it also contains explanations of the features of the document class.
+	These are lecture notes for MATH 350a, ``Introduction to Abstract Algebra,'' taught by Marketa Havlickova at Yale University during the fall of 2018.
+	These notes are not official, and have not been proofread by the instructor for the course.
+	These notes live in my lecture notes respository at 
+	\[\text{\url{https://github.com/jopetty/lecture-notes/tree/master/MATH-350}.}\] 
+	If you find any errors, please open a bug report describing the error, and label it with the course identifier, or open a pull request so I can correct it.
 }
-
-\setipafont{CharisSIL}
 
 \begin{document}
 
-\section{Introduction}
-The \texttt{notes} class is designed to be a simple, adaptable document class to aid in typesetting lecture notes. It can be used by students who wish to transcribe lectures, instructors who wish to create an outline of the material they wish to cover, or by speakers who want to create a handout to accompany their lecture. The development of the class arose out of my need to easily and consistently format a wide variety of my notes that I took as a student at Yale University. As such, the features best reflect the needs of a student who is enrolled \emph{primarily} in science and mathematics courses, but who also takes classes in the humanities and social sciences.
+\section*{Syllabus}
 
-This class is closely complimented by the \texttt{pset} class, which is designed to format problem sets in a very similar manner to the \texttt{notes} class, while providing a more customized interface designed for science and mathematics homework assignments.
+\begin{center}
+\begin{tabular}{@{}rp{10cm}@{}}
+\toprule 
+\textbf{Instructor} & Marketa Havlickova, \url{miki.havlickova@yale.edu} \\
+\textbf{Lecture} & MWF 10:30--11:20 \textsc{am}, LOM 205 \\
+\textbf{Recitation} & TBA \\
+\textbf{Textbook} & \fullcite{DF} \\
+\textbf{Midterms} & Wednesday, October 10, 2018 \\
+& Wednesday, November 14, 2018 \\
+\textbf{Final} & Monday, December 17, 2018, 2:00--5:30 \textsc{pm} \\
+\bottomrule 
+\end{tabular} \\[3ex]
+\end{center}
 
-\section{Formatting}
-\subsection{The Title Page}
-The \texttt{notes} class comes with an inline title page. On the first page of the document, there are four primary lines. The first line contains the title of the document, set by the \verb|\title{}| command in the document preamble. The second line is for the subtitle of the document, set by the \verb|\subtitle{}| command. By default, the subtitle of the document is set to be \verb|CourseID, Place, Term Year|, where the fields are set by the \verb|\courseid{}|, \verb|\place{}|, \verb|\term{}|, and \verb|\year{}| commands, respectively. The third line is the attribution line, where the instructor and scribe can be displayed. You can set thse values with the \verb|\speaker{}| and \verb|\scribe{}| commands. There are also commands which allow you to specify the email addresses of the speaker and scribe, which will appear in the footer of the title page if set. Use the \verb|\speakeremail{}| and \verb|\scribeemail{}| commands to do this.
+Abstract Algebra is the study of mathematical structures carrying notions of ``multiplication'' and/or ``addition''. Though the rules governing these structures seem familiar from our middle and high school training in algebra, they can manifest themselves in a beautiful variety of different ways. The notion of a group, a structure carrying only multiplication, has its classical origins in the study of roots of polynomial equations and in the study of symmetries of geometrical objects. Today, group theory plays a role in almost all aspects of higher mathematics and has important applications in chemistry, computer science, materials science, physics, and in the modern theory of communications security. The main topics covered will be (finite) group theory, homomorphisms and isomorphism theorems, subgroups and quotient groups, group actions, the Sylow theorems, ring theory, ideals and quotient rings, Euclidean domains, principal ideal domains, unique factorization domains, module theory, and vector space theory. Time permitting, we will investigate other topics. This will be a heavily proof-based course with homework requiring a significant investment of time and thought. The course is essential for all students interested in studying higher mathematics, and it would be helpful for those considering majors such as computer science and theoretical physics.
 
-\subsection{Fonts}
-All body text is set, by default, in the Libertine font family. If you want to use the more traditional Computer Modern fonts, simply pass the \verb|[cmu]| option to the class at the beginning of the document preamble. If you want to use a completely different font family altogether, either load the package you wish to use (if using \texttt{pdflatex}) or use the \verb|\setmainfont{}| command (if using \texttt{xelatex} or \texttt{lualatex}).
+Your final grade for the course will be determined by
+\[ \max\left\{
+	\begin{array}{cccc}
+		25\%\text{ homework} + 20\%\text{ exam 1} + 20\%\text{ exam 2} + 35\%\text{ final} \\
+		25\%\text{ homework} + 10\%\text{ exam 1} + 20\%\text{ exam 2} + 45\%\text{ final} \\
+		25\%\text{ homework} + 20\%\text{ exam 1} + 10\%\text{ exam 2} + 45\%\text{ final}
+	\end{array}
+\right\}. \]
 
-By default, the math fonts are left unchanged. This is entirely because of personal preference. I think that the Computer Modern fonts are much, much better than almost all other fonts when it comes to typesetting mathematics. I also like the visual distinction between ``math'' and ``text'' that this achieves when using a non-Computer Modern font for the body text. However, if you wish to change this, load any package you want in the document preamble to change the math font.
+\printbibliography
 
-\subsection{Notes}
-You'll probably have noticed by now that the pages are asymmetric; this is intentional, and the wider margin on the right hand side of the page is to allow notes to be placed there, next to the referring text. This makes it easier to see what a note is referencing rather than having to move your eyes to the bottom of the page and back up again. If you want to write a quick margin note, just use the \verb|\note{}| command. \note[-\baselineskip]{It's super easy to write yourself notes!} You can also use the \verb|\footnote{}| command, which will add a footnote marker to the referencing text and to the beginning of the footnote\footnote{This is a footnote!}.
-
-\section{Mathematics}
-
-\subsection{Theorem-like Environments}
-The cornerstone of mathematics is the \emph{theorem}. Along with proofs and definitions, these chunks of text often require special formatting to differentiate them from the surrounding text. \texttt{notes} groups these environments into several different \emph{styles}, which reflect both the semantic meaning of each environment and the degree to which the text should be distinct from regular body text.
-
-\subsubsection{Proofs and Solutions}
-The simplest kind of special environment is the proof. It represents a succinct answer to a specific problem, and often is very closely related to the body text of the document. As such, the styling of the \texttt{proof} environment is very similar to regular text; it contains an italic head, and is ended with a \textsc{qed} marker which is by default a black square.
-
-\begin{proof}
-I think, therefore I am.
-\end{proof}
-
-By default, the head of the \texttt{proof} environment is the word \emph{Proof} in italics, but you can specify an optional argument which allows you to rename to proof to add specificity.
-
-\begin{proof}[Proof of Problem 1]
-This follows trivially from Lemma 2.3.
-\end{proof}
-
-\texttt{notes} also provides the \texttt{solution} environment, which is identical to the \texttt{proof} environment but has the word \emph{Solution} in italics in the head. You could of course recreate this with the optional argument to the \texttt{proof} environment (that in fact is how it is defined), but this saves time and keystrokes.
-
-\begin{solution}
-Simply integrate the expression.
-\end{solution}
-
-\subsubsection{Theorems, Lemmas, Corollaries, and Conjectures}
-
-The \emph{theorem} style is similar to the \emph{proof} style, but a bit more visually distinct. The head is bold, and the body of the theorem is italic. This helps to differentiate a theorem from a preceding proof, or from surrounding text. \emph{Theorem} style environments are also uniquely numbered, so you can reference the theorem later on.
-
-\begin{theorem}[Banach Fixed-Point]\label{thm:banach}
-Let $(X,d)$ be a non-empty complete metric space and let $f \colon X \to X$ be a contraction. Then there exists a unique fixed point $x_0 \in X$ such that $f(x_0) = x_0$.
-\end{theorem}
-
-\begin{proof}
-Let's consider the following scenario, without a loss of generality.
-\end{proof}
-
-In addition to the \texttt{theorem} environment, the \texttt{lemma}, \texttt{corollary}, and \texttt{conjecture} environments use \emph{theorem} style formatting, and each are separately numbered.
-
-\begin{corollary}
-Now that we've proven~\autoref{thm:banach} we can make the following note.
-\end{corollary}
-\begin{lemma}
-This is a lemma; it's useful to break up your arguments into lemmas to make them easier to manage.
-\end{lemma}
-\begin{conjecture}
-I'll bet the moon is made of cheese.
-\end{conjecture}
-
-\subsubsection{Definition and Notation}
-One step up from the \emph{theorem} style environments is the \emph{definition} style. These environments need to be visually distinct enough to stand out on a page as it is scrolling by or being flipped though so that you can quickly refer to them at a glance. \emph{Definition} style environments are indented by $\SI{1}{\centi\meter}$ to preserve the visual distinction from surrounding text.
-
-\begin{definition}[Group]
-A \emph{group} is an ordered pair $(S, \star)$, where $S$ is a set and $\star$ is a binary operation on $S$.
-\end{definition}
-
-The \texttt{notes} class also provides the \texttt{notation} and \texttt{abuse} environments to represent \emph{Notation} and \emph{Abuse of Notation}, respectively, and which follow the \emph{definition} style.
-
-\begin{notation}[$\hookrightarrow$]
-Given a map $f$, writing $f \colon A ↪ B$ means that $f$ is \emph{injective} from $A$ into $B$.
-\end{notation}
-
-\begin{abuse}
-Consider that $\sin^2(x) = \qty(\sin x)^2$ while $\sin^{-1}(x) = \arcsin x$. What does $\sin^{-2}(x)$ mean? Who knows.
-\end{abuse}
-
-\subsubsection{Problems and Exercises}
-Although more useful in the \texttt{pset} class, the \texttt{problem} and \texttt{exercise} environments provide an easy way to call attention to problems which should be completed. These are very distinct from the surrounding text, and so are boxed with a light grey background. It is often useful for them to contain the \texttt{parts} environment, to specify multi-step problems. This introduces the \verb|\part[]| command, which takes an optional parameter which acts as a reference label so you can cite the part later in the document. In essence, \verb|\part[pt:4:a] ...| is short for \verb|\part\label{pt:4:a} ...|
-
-\begin{problem}
-Find the square root of 144.
-\end{problem}
-\begin{solution}
-The square root of 144 is 12.
-\end{solution}
-
-\begin{problem}[Taylor]
-\begin{parts}
-\part This is the first part.
-\part This is the second part.
-\end{parts}
-\end{problem}
-
-\begin{exercise}
-Find some fossils, because fossils are cool.
-\end{exercise}
-
-We also provide a wrapper environment for problems, which is useful for displaying many problems compactly, without any solutions or proofs; this has been designed for teachers or lecturers who are creating handouts.
-
-\begin{problems}
-	\begin{problem}
-	Find the square root of 144.
-	\end{problem}
-
-	\begin{problem}
-	(Taylor)
-	\begin{parts}
-	\part This is the first part.
-	\part This is the second part.
-	\end{parts}
-	\end{problem}
-\end{problems}
-
-Simply wrap your problem environments in the \verb|\begin{problems}| and \verb|\end{problems}| tags (notice the \verb|s| in the name), and your problems will be displayed in the compact format.
-
-\subsubsection{Examples}
-The most visually distinct environment is the \texttt{example} environment. This is almost identical to the \texttt{problem} environment except that the background is gold instead of grey.
-
-\begin{example}
-Puffins are a type of bird.
-\end{example}
-
-\subsection{Math Commands}
-
-The \texttt{notes} class also provides several commands for commonly used mathematical expressions, such as blackboard bold fonts for sets and fields.
-\begin{align*}  
-	\R \hspace*{1cm} & \texttt{\string\R} && \text{Real Numbers} \\
-	\C \hspace*{1cm} & \texttt{\string\C} && \text{Complex Numbers} \\
-	\Z \hspace*{1cm} & \texttt{\string\Z} && \text{Integers} \\
-	\Q \hspace*{1cm} & \texttt{\string\Q} && \text{Rational Numbers} \\
-	\N \hspace*{1cm} & \texttt{\string\N} && \text{Natural Numbers} \\
-	\F \hspace*{1cm} & \texttt{\string\F} && \text{Generic Fields}
-\end{align*} 
-
-\section{Chemistry}
-The \texttt{notes} class loads the \verb|mhcem| package to aid in the typesetting of chemical formulae.
-\[ \ce{CO2 + C -> 2 CO} \]
-It also loads the \verb|chemfig| package to aid in the creation of chemical structure diagrams. To enable this feature, you must pass the \verb|[diagram]| option to the class at the beginning of your document preamble.
-
-\begin{figure}[h]
-	\centering
-	\setcrambond{2pt}{}{}
-	\chemfig{
-	  HO-[2,.5,2]?<[7,.7](-[2,.5]OH)-[,,,,line width=2.4pt](-[6,.5]OH)>[1,.7]
-	    (-[:-65,.7]O-[:65,.7]?[b](-[2,.7]CH_2OH)<[:-60,.707](-[6,.5]OH)
-	      -[,,,,line width=2.4pt](-[2,.5,,2]HO)>[:60,.707](-[6,.5]CH_2OH)-[:162,.9]O?[b])
-	  -[3,.7]O-[4]?(-[2,.3]-[3,.5]HO)}
-	  \caption{A chemical structure diagram.}
-\end{figure}
-
-\section{Physics}
-The \texttt{notes} class loads the \texttt{physics} class, which provides many useful document commands for formatting physics notation. Supplementing this is the \verb|\vu{}| command, which formats a given symbol as a unit vector by setting the symbol in a bold font and adding a hat above it.
-\[ \texttt{\string\vu\{v\}} \to \vu{v},  \]
-
-\subsection{Units}
-The \texttt{notes} class also loads the \verb|siunitx| package to aid in the automatic formatting of units. It also defines the following custom non-SI units which still prove useful in physics and engineering. 
-% \begin{align*}
-% 	\si{\mile} &\hspace*{1cm} \texttt{\string\mile} \\
-% 	\si{\gallon} &\hspace*{1cm} \texttt{\string\gallon} \\
-% 	\si{\pound} &\hspace*{1cm} \texttt{\string\pound} \\
-% 	\si{\atmosphere} &\hspace*{1cm} \texttt{\string\atmosphere} \\
-% 	\si{\fahrenheit} &\hspace*{1cm} \texttt{\string\fahrenheit} \\
-% 	\si{\atom} &\hspace*{1cm} \texttt{\string\atom} \\
-% 	\si{\molecule} &\hspace*{1cm} \texttt{\string\molecule} \\
-% 	\si{\calorie} &\hspace*{1cm} \texttt{\string\calorie} \\
-% 	\si{\Calorie} &\hspace*{1cm} \texttt{\string\Calorie} \\
-% 	\si{\inch} &\hspace*{1cm} \texttt{\string\inch}
-% \end{align*}
-\subsection{Feynman Diagrams}
-The \texttt{notes} class loads the \texttt{tikz-feynman} package to aid in the typesetting of Feynman diagrams. In order to load this package, you must pass the \texttt{[diagram]} option to the class at the beginning of your document preamble.
-
-\begin{figure}[h]
-	\centering
-	\feynmandiagram [horizontal=a to b] {
-	  i1 -- [fermion] a -- [fermion] i2,
-	  a -- [photon] b,
-	  f1 -- [fermion] b -- [fermion] f2,
-	};
-	\caption{A Feynman diagram showing a photon exchange between two fermions.}
-\end{figure}
-
-Note that in order to get almost any use of this package, you must compile your document with \texttt{lualatex}.
-
-\subsection{Circuits}
-The \texttt{notes} class also loads the \texttt{circuitikz} package to aid in the typesetting of circuits. In order to load this package, you must pass the \texttt{[diagram]} option to the class at the beginning of your document preamble.
-
-\begin{figure}[h]
-	\centering
-	\begin{circuitikz}
-      \draw (0,0)
-      to[V] (0,2)
-      to[short] (2,2)
-      to[R=$R$] (2,0)
-      to[short] (0,0);
-    \end{circuitikz}
-	\caption{A simple circuit.}
-\end{figure}
-
-Unlike with Feynman diagrams, the \texttt{circuitikz} package is fully compatible with all \LaTeX~engines, so there are no restrictions on how you compile your document. The \texttt{notes} class loads \texttt{circuitikz} with the \verb|[american]| and \verb|[siunitx]| options. It also makes the line width of all bipole components equal to the width of the `wires', so there is no visual disparity between the two.
-
-\section{Linguistics}
-The \texttt{notes} class provides several commands to help you typeset linguistics notation. However, it is \emph{highly} recommended that you compile any such documents with \texttt{xelatex} or \texttt{lualatex}, which will provide native support for all \textsc{ipa} characters, as well as allow you to specify separate fonts for \textsc{ipa} characters.
-
-\subsection{\textsc{ipa} Fonts}
-If you compile your documents with \texttt{xelatex} or \texttt{lualatex}, the \texttt{notes} class will define a font switch named \verb|\ipafont|, which is by default the same as the body text --- in this document, the \verb|\ipafont| has been set to Charis SIL. If you wish to change this to a different font\note{Charis SIL and Doulos SIL are both fully \textsc{ipa} compatible choices}, simply use the \verb|\setipafont{}| command. In order to typeset a block of text in the \verb|\ipafont|, simply use one of the following methods.
-\begin{align*}
-	\texttt{\{\string\ipafont~ˈlɑːtɛx\}} & \to \text{{\ipafont ˈlɑːtɛx}} \\
-	\texttt{\string\ipa\{ˈlɑːtɛx\}} & \to \text{\ipa{ˈlɑːtɛx}}
-\end{align*}
-Notice that, with \texttt{xelatex} or \texttt{lualatex}, you can input the \textsc{ipa} symbol directly as a character. This makes documents filled with such symbols much easier to read and write.
-
-\subsection{Phonemes, Allophones, and Orthography}
-In many cases, linguists must distinguist between a particular character representing a phoneme, an allophone, or whether the character is an orhtographic symbol. The \verb|\phon{}|, \verb|\allo{}|, and \verb|\orth{}| commands make this easy.
-\begin{align*}
-	\texttt{\string\phon\{a\}} &\to \text{\phon{a}} \\
-	\texttt{\string\allo\{a\}} &\to \text{\allo{a}} \\
-	\texttt{\string\orth\{a\}} &\to \text{\orth{a}}
-\end{align*}
-These commands automatically typeset any argument text in the \verb|\ipafont|.
-
-\subsection{Linguistic Rules}
-It is often useful to document sound changes. When these changes are conditional, it is common to separate the sound change from the condition with a large slash. The \texttt{notes} class defines the \verb|\where| command to fill such a need. Consider the change where a reconstructed \phon{*m} becomes a \phon{ɱ} when it is word-initial and prevocalic. This would be written succinctly as \phon{*m} \to ~\phon{ɱ} \where~$\#$\_V, which is produced by typing \verb|\phon{*m} \to| \verb|~\phon{ɱ} \where~$\#$\_V|.
-
-\section{Computer Science}
-\subsection{Source Code}
-The \texttt{notes} class uses the \texttt{minted} package to allow for the typesetting of source code. This package requires that the \texttt{pygments} Python package be installed on your system. It also requries you to compile your document using the \verb|-shell-escape| flag, which allows the \TeX~engine to run arbitrary code. In order to use this feature, you must pass the \verb|[code]| option to the class at the beginning of the document preamble. If you are compiling your document with \texttt{xelatex}, it is also recommended that you use the \verb|-8bit| flag when compiling, as there is an open bug which causes tab literals to be misprinted; if you use tabs for indentation in your source code, this can cause very visible problems unless the \verb|-8bit| flag is used.
-
-\subsection{Algorithms}
-The \texttt{notes} class also supports typesetting algorithms by loading the \verb|algorithm| and \verb|algpseudocode| packages. In order to use these features, you must pass the \verb|[code]| option to the class at the beginning of the document preamble.
+% \include{Lectures/2}
+% \include{Lectures/3}
+% \include{Lectures/4}
+% \include{Lectures/5}
+% \include{Lectures/6}
+% \include{Lectures/7}
 
 \end{document}

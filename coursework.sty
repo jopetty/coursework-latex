@@ -41,7 +41,7 @@
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{changepage} % adjustwidth env., for definitions et al.
-\RequirePackage[breakable,skins]{tcolorbox}
+\RequirePackage[breakable,skins,xparse]{tcolorbox}
 \RequirePackage[noadjust]{marginnote}
 \RequirePackage[all]{nowidow} % Prevent widow/orphan lines
 \RequirePackage{calc}
@@ -171,35 +171,87 @@
 
 \definecolor{covergrey}{HTML}{2e303c}
 
-\definecolor{backgroundgold}{rgb}{1.00, 0.93, 0.80}
-\definecolor{backgroundgrey}{rgb}{0.95, 0.95, 0.95}
-\definecolor{bordergold}{HTML}{B58515}
-\definecolor{bordergrey}{HTML}{444444}
-
 \hypersetup{
-	colorlinks = true ,
-	linkcolor  = linkred ,
-	citecolor = linkred ,
-	urlcolor   = linkblue
+	colorlinks = true,
+	linkcolor = linkred,
+	citecolor = linkred,
+	urlcolor = linkblue
 }
 
 %% Define Custom Macros
 % Linguistics
-\NewDocumentCommand\ipa{ m } { {\ipafont #1} }
-\NewDocumentCommand\phon{ m } { \ensuremath{/\text{\ipafont #1}/} }
-\NewDocumentCommand\allo{ m } { \ensuremath{[\text{\ipafont #1}]} }
-\NewDocumentCommand\orth{ m } { \ensuremath{\langle\text{\ipafont #1}\rangle} }
-\NewDocumentCommand\where{ } { \ensuremath{\big/} }
+\NewDocumentCommand{\ipa}{ m }{{\ipafont #1}}
+\NewDocumentCommand{\phon}{ m }{\ensuremath{/\text{\ipa{#1}}/}} % /phoneme/
+\NewDocumentCommand{\allo}{ m }{\ensuremath{[\text{\ipa{#1}}]}} % [allophone]
+\NewDocumentCommand{\orth}{ m }{\ensuremath{\langle\text{\ipa{#1}}\rangle}} %〈orthography〉
+\NewDocumentCommand{\where}{ }{\ensuremath{\big/}}
 
-% Mathematics
-\DeclareDocumentCommand\C{ } { \mathbb{C} }
-\NewDocumentCommand\E{ } { \mathbb{E} }
-\NewDocumentCommand\F{ } { \mathbb{F} }
-\NewDocumentCommand\N{ } { \mathbb{N} }
-\NewDocumentCommand\Q{ } { \mathbb{Q} }
-\NewDocumentCommand\R{ } { \mathbb{R} }
-\NewDocumentCommand\Z{ } { \mathbb{Z} }
-\NewDocumentCommand\normal{ } { \trianglelefteq }
+%%% Mathematics
+%% Single Character Commands
+\let\oldO\O
+\DeclareDocumentCommand\O{ } {
+	\ifmmode \mathcal{O} \else \oldO \fi }  % Asymptotic upper bound in math mode, Ø otherwise
+
+% 'Blackboard bold characters'
+\NewDocumentCommand{\field}{ m }{\mathbf{#1}} % Styling for fields, etc
+\DeclareDocumentCommand{\C}{ }{\field{C}} % Complex numbers; In XeLaTeX this is already defined
+\NewDocumentCommand{\E}{ }{\field{E}}  % Expected value
+\NewDocumentCommand{\F}{ }{\field{F}}  % Finite field
+\NewDocumentCommand{\N}{ }{\field{N}}  % Natural numbers
+\NewDocumentCommand{\Q}{ }{\field{Q}}  % Rational numbers
+\NewDocumentCommand{\R}{ }{\field{R}}  % Real Numbers
+\NewDocumentCommand{\Z}{ }{\field{Z}}  % Integers
+
+% Operators and named objects
+\NewDocumentCommand{\collection}{ m }{\mathrm{#1}} % Styling for collections
+\DeclareMathOperator{\Hom}{\collection{Hom}} % Homomorphism group
+\DeclareMathOperator{\Aut}{\collection{Aut}} % Automorphism group
+\DeclareMathOperator{\Inn}{\collection{Inn}} % Inner Automorphism group
+\DeclareMathOperator{\Syl}{\collection{Syl}} % Syllow group
+\DeclareMathOperator{\Gal}{\collection{Gal}} % Galois group
+\DeclareMathOperator{\Mat}{\collection{Mat}} % Matrix group
+\DeclareMathOperator{\GL}{\collection{GL}}   % General Linear group
+\DeclareMathOperator{\SL}{\collection{SL}}   % Special Linear group
+
+% Morphisms, functions, etc
+\NewDocumentCommand{\map}{ m }{\mathrm{#1}} % Styling for mappings
+\DeclareMathOperator{\lcm}{\map{lcm}}   % Least Common Multiple
+\DeclareMathOperator{\cis}{\map{cis}}   % cos + i sin
+\DeclareMathOperator{\id}{\map{id}}     % Identity morphism
+\DeclareMathOperator{\Char}{\map{char}} % Characteristic of a field, or set of characteristic subgroups
+
+% Categories
+\NewDocumentCommand{\category}{ m }{\mathsf{#1}} % Styling for categories
+\DeclareMathOperator{\Set}{\category{Set}} % Category of sets
+\DeclareMathOperator{\Group}{\category{Group}} % Category of groups
+\DeclareMathOperator{\Grp}{\category{Grp}} % Category of grps
+\DeclareMathOperator{\Vect}{\category{Vect}} % Category of vector spaces
+\DeclareMathOperator{\Ab}{\category{Ab}} % Category of abelian groups
+\let\Top\relax
+\DeclareMathOperator{\Top}{\category{Top}} % Category of topological spaces
+
+% Arrows and Mappings
+\NewDocumentCommand{\bijects}{ }{\lhook\joinrel\twoheadrightarrow} % Bijective arrow
+\NewDocumentCommand{\surjects}{ }{\twoheadrightarrow} % Surjective arrow
+\NewDocumentCommand{\injects}{ }{\lhook\joinrel\rightarrow} % Injective arrow
+\NewDocumentCommand{\onto}{ }{\surjects} % Mirrors the 'A \to B' syntax
+\NewDocumentCommand{\into}{ }{\injects}  % Mirrors the 'A \to B' syntax
+\NewDocumentCommand{\isomap}{ }{\stackrel{\sim}{\to}} % Isometric arrow
+\NewDocumentCommand{\parto}{ } {\nrightarrow} % Partial-to, a partial function
+\NewDocumentCommand{\semicolon}{ }
+    {\nobreak\mskip2mu\mathpunct{}\nonscript\mkern-\thinmuskip{;}\mskip6muplus1mu\relax} % Matches the spacing of \colon
+
+% Relations
+\let\isom\simeq  % Create \isom (≃) for reading purposes and to mirror \isomap
+\let\gcong\cong  % Define \gcong (≅) for geometric congruence
+\let\cong\equiv  % Define \cong (≡) so that a ≡ b (m) is typed like it's read
+\let\asymp\simeq % Define \asymp (≃) for asymptotics
+\NewDocumentCommand\normal{ } { \mathbin{\lhd} }   % Normal subgroups
+\NewDocumentCommand\charsg{ } { \mathbin{\lhd !} } % Chaaracteristic subgroups
+
+% Delimited Expressions
+\NewDocumentCommand{\floor}{ m }{\left\lfloor #1 \right\rfloor} % Floor
+
 \RenewDocumentCommand\qedsymbol{ } { 
 	\ifPDFTeX
 		$\blacksquare$
@@ -207,12 +259,6 @@
 		$∎$ % Use the correct Unicode QED symbol
 	\fi
 }
-\def\sling {\atopwithdelims []} % Sterling #s of the first kind
-\def\slings {\atopwithdelims \{\}} % Sterling #s of the second kind
-\DeclareMathOperator{\Aut}{Aut}
-\DeclareMathOperator{\Inn}{Inn}
-\DeclareMathOperator{\Syl}{Syl}
-\DeclareMathOperator{\lcm}{lcm}
 
 % Notes and Footnotes
 \NewDocumentCommand\note{ om } {
@@ -245,7 +291,6 @@
   	labelwidth = 4.5em,
   	labelsep = 0.5em,
   	itemsep = 0ex,
-  	% resume
   ]}
   {\end{enumerate}}
 
@@ -257,92 +302,135 @@
 	}
 }
 
-%% Theorem-like Environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%                           %%%
+%%% Theorem-like Environments %%%
+%%%                           %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Redefine proof environment to remove extra vertical space
-\makeatletter
-\renewenvironment{proof}[1][\proofname]{\par
-  \vspace{-\parskip} % remove the space after the theorem
-  \pushQED{\qed}%
-  \normalfont
-  \topsep0.5\baselineskip \partopsep0pt
-  \trivlist
-  \item[\hskip\labelsep
-        \itshape
-    #1\@addpunct{.}]\ignorespaces
-}{%
-  \popQED\endtrivlist\@endpefalse
-  \vspace{-0.5\baselineskip}
-}
-\makeatother
+% Theorems et al. are important parts of any
+% mathematical document and must have a 
+% cohesive visual identity. As such, we define
+% several realated "theorem" styles to make this
+% visual identity and distinction clear.
+%
+% (1) Lemma style
+%     This is how theorems are typeset. Theorems are
+%     meant to be very closely related to the expository
+%     text which surrounds them, and so their style is
+%     almost identical, featureing only a bold head.
+%
+%     Includes: theorem, corollary, lemma, proposition
+%
+% (2) Remark style
+%     Unlike theorems, remarks are meant to be clearly
+%     separated from the rest of the text. They are set 
+%     in colored boxes with a thick left edge. The lack
+%     of a top or bottom border indicates that remarks
+%     cannot stand on their own; they must be connected
+%     to an earlier statement.
+%
+%     Includes: remark, warning, claim, question
+%
+% (3) Problem style
+%     Like remarks, problems are meant to stand apart from
+%     the rest of the text. However, they are often stand-
+%     alone items, and so have a border on all edges.
+%
+%     Includes: problem, example, exercise
+%
+% (4) Proof style
+%     Basically the same as the AMS proof style. This is
+%     actual body text, nothing more, but it is clearly
+%     demarcated by italic head.
+%
+%     Includes: proof, solution
 
-% Subproof
-\newlength{\spleftmar}
-\NewDocumentEnvironment{subproof} { o } {
-	\begingroup\par
-	\RenewDocumentCommand\qedsymbol{ }{$\square$}
-	\setlength{\spleftmar}{\widthof{\textit{Proof.~}}}
-	\parshape=1~\spleftmar~\dimexpr\linewidth-2\spleftmar\relax
-	\IfNoValueTF{#1}{
-		\begin{proof}
-	}{
-		\begin{proof}[#1]
-	}
-}{
-	\end{proof}
-	\par
-	\endgroup
-}
-
-% Solution
-\NewDocumentEnvironment{solution} { o }
-                       {\IfNoValueTF{#1}{\begin{proof}[Solution]}{\begin{proof}[#1]}}
-                       {\end{proof}}
-
-% Theorem Styles
+% Declaration of theorem styles
 \declaretheoremstyle[
 	spaceabove=0.5\baselineskip, spacebelow=0em,
 	headfont=\normalfont\bfseries,
-	bodyfont=\normalfont\itshape,
-	% headpunct={\hspace{1em}}
+	bodyfont=\normalfont\itshape
 ]{lemma}
+\declaretheoremstyle[
+	spaceabove=0.5\baselineskip, spacebelow=0em,
+	headfont=\normalfont\small\sffamily,
+	bodyfont=\normalfont\small,
+	headpunct = {\hspace{5pt}---},
+	postheadspace= 5pt
+]{remark}
 \declaretheoremstyle[
 	headfont=\normalfont\bfseries,
 	bodyfont=\normalfont,
 	spaceabove=0em, spacebelow=0em,
-]{definition}
+]{definition} 
 
-% Lemma Style Theorems
-\bool_if:nTF {\l__coursework_numbertheorems_bool} {
-	\declaretheorem[style=lemma, numberwithin=section]{lemma}
-	\declaretheorem[style=lemma, numberwithin=section]{theorem}
-	\declaretheorem[style=lemma, numberwithin=section]{corollary}
-	\declaretheorem[style=lemma, numberwithin=section]{conjecture}
-	\declaretheorem[style=lemma, numberwithin=section]{proposition}
-}{
-	\declaretheorem[style=lemma, numbered=no]{lemma}
-	\declaretheorem[style=lemma, numbered=no]{theorem}
-	\declaretheorem[style=lemma, numbered=no]{corollary}
-	\declaretheorem[style=lemma, numbered=no]{conjecture}
-	\declaretheorem[style=lemma, numbered=no]{proposition}
+
+% Declaration of various theorems 
+% Lemma-style
+\declaretheorem[style=lemma, numberwithin=section]{lemma}
+\declaretheorem[style=lemma, numbered=no, name={Lemma}]{lemma*}
+\declaretheorem[style=lemma, sibling=lemma]{theorem}
+\declaretheorem[style=lemma, numbered=no, name={Theorem}]{theorem*}
+\declaretheorem[style=lemma, sibling=lemma]{corollary}
+\declaretheorem[style=lemma, numbered=no, name={Corollary}]{corollary*}
+\declaretheorem[style=lemma, sibling=lemma]{conjecture}
+\declaretheorem[style=lemma, numbered=no, name={Conjecture}]{conjecture*}
+\declaretheorem[style=lemma, sibling=lemma]{proposition}
+\declaretheorem[style=lemma, numbered=no, name={Proposition}]{proposition*}
+
+% Definition-style
+\declaretheorem[style=definition,title={Definition},numbered=no]{cdefinition}
+\declaretheorem[style=definition,title={Notation},numbered=no]{cnotation}
+\declaretheorem[style=definition,title={Abuse~of~Notation},numbered=no]{cabuse}
+\declaretheorem[style=definition,postheadhook=\leavevmode,title={Problem},numberwithin=section]{cproblem}
+\declaretheorem[style=definition,postheadhook=\leavevmode,title={Exercise},numberwithin=section]{cexercise}
+\declaretheorem[style=definition,postheadhook=\leavevmode,title={Example},numberwithin=section]{cexample}
+
+% Remark-style
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Remark},numbered=no]{cremarkun}
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Remark},numberwithin=section]{cremark}
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Warning},numbered=no]{cwarningun}
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Warning},numberwithin=section]{cwarning}
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Claim},numbered=no]{cclaimun}
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Claim},numberwithin=section]{cclaim}
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Question},numbered=no]{cquestionun}
+\declaretheorem[style=remark,postheadhook=\leavevmode,title={Question},numberwithin=section]{cquestion}
+
+% Boxes
+% Box colors
+\definecolor{backgroundgold} {RGB}{255, 237, 204}
+\definecolor{bordergold}     {RGB}{181, 133, 21 }
+\definecolor{backgroundgrey} {RGB}{242, 242, 242}
+\definecolor{bordergrey}     {RGB}{68 , 68 , 68 }
+\definecolor{backgroundred}  {RGB}{252, 239, 237}
+\definecolor{borderred}      {RGB}{244, 92 , 66 }
+\definecolor{backgroundgreen}{RGB}{244, 255, 234}
+\definecolor{bordergreen}    {RGB}{67,  117, 21 }
+
+\DeclareTColorBox{edgebox}{ m }{ % Problem, exercise, example
+	noparskip,
+	boxrule = 0.3pt,
+	boxsep = 0.4cm,
+	breakable,
+	sharp~corners,
+	before = { \par \vskip 0pt \vskip \parskip },
+	after  = { \par \vskip 0pt },
+	colframe = border#1,
+	colback = background#1
 }
 
-% Definition Style Theorems
-\declaretheorem[
-	style=definition,
-	title={Definition},
-	numbered=no
-]{cdefinition}
-\declaretheorem[
-	style=definition,
-	title={Notation},
-	numbered=no
-]{cnotation}
-\declaretheorem[
-	style=definition,
-	title={Abuse~of~Notation},
-	numbered=no
-]{cabuse}
+\DeclareTColorBox{flagbox}{ m }{ % Remark, claim, warning
+	noparskip,
+	boxrule = 0pt,
+	leftrule = 4pt,
+	breakable,
+	sharp~corners,
+	before = { \par \vskip 0pt \vskip \parskip },
+	after  = { \par \vskip 0pt },
+	colframe = border#1,
+	colback = background#1
+}
 
 % Create environment wrappers for each theorem
 \NewDocumentEnvironment{definition}{o}{
@@ -395,66 +483,8 @@
 	\end{adjustwidth}
 }
 
-% Shaded Theorems
-% Create boxes
-\newtcolorbox{greybox}{
-	noparskip ,
-	boxrule = 0.3pt ,
-	boxsep = 0.4cm , % internal padding
-	breakable ,
-	sharp~corners ,
-	colback  = backgroundgrey ,
-	colframe = bordergrey ,
-	before = { \par \vskip 0pt \vskip \parskip } ,
-	after  = { \par \vskip 0pt }
-
-}
-
-\newtcolorbox{goldbox}{
-	noparskip ,
-	boxrule = 0.3pt ,
-	boxsep = 0.4cm , % internal padding
-	breakable ,
-	sharp~corners ,
-	colback = backgroundgold ,
-	colframe = bordergold ,
-	before = { \par \vskip 0pt \vskip \parskip } ,
-	after  = { \par \vskip 0pt }
-}
-
-% Shaded Style Theorems
-\declaretheorem[
-	style = definition,
-	postheadhook = \leavevmode,
-	title = {Problem},
-	numberwithin=section
-]{cproblem}
-
-\declaretheorem[
-	style = definition,
-	postheadhook = \leavevmode,
-	title = {Exercise},
-	numberwithin=section
-]{cexercise}
-
-\declaretheorem[
-	style = definition,
-	postheadhook = \leavevmode,
-	title = {Example},
-	numberwithin=section
-]{cexample}
-
-% Unnumbered Variants
-\declaretheorem[
-	style = definition ,
-	postheadhook = \leavevmode ,
-	title = {Problem} ,
-	numbered = no
-]{cproblem*}
-
-% Create environment wrappers for each shaded theorem
 \NewDocumentEnvironment{problem}{ o } {
-	\begin{greybox}
+	\begin{edgebox}{grey}
 		\ifXeTeX % Correct margin note spacing
 			\edef\marginnotetextwidth{11.8966390917cm}
 		\fi
@@ -466,11 +496,11 @@
 		}
 }{
 			\end{cproblem}
-	\end{greybox}
+	\end{edgebox}
 }
 
 \NewDocumentEnvironment{exercise}{ o } {
-	\begin{greybox}
+	\begin{edgebox}{grey}
 		\ifXeTeX % Correct margin note spacing
 			\edef\marginnotetextwidth{11.8966390917cm}
 		\fi
@@ -482,11 +512,11 @@
 		}
 }{
 			\end{cexercise}
-	\end{greybox}
+	\end{edgebox}
 }
 
 \NewDocumentEnvironment{example}{ o } {
-	\begin{goldbox}
+	\begin{edgebox}{gold}
 		\ifXeTeX % Correct margin note spacing
 			\edef\marginnotetextwidth{11.8966390917cm}
 		\fi
@@ -498,8 +528,112 @@
 		}
 }{
 			\end{cexample}
-	\end{goldbox}
+	\end{edgebox}
 }
+
+\NewDocumentEnvironment{remark}{ } {
+	\begin{flagbox}{grey}
+		\begin{cremark}
+}{
+		\end{cremark}
+	\end{flagbox}
+}
+
+\NewDocumentEnvironment{remark*}{ } {
+	\begin{flagbox}{grey}
+		\begin{cremarkun}
+}{
+		\end{cremarkun}
+	\end{flagbox}
+}
+
+\NewDocumentEnvironment{warning}{ } {
+	\begin{flagbox}{red}
+		\begin{cwarning}
+}{
+		\end{cwarning}
+	\end{flagbox}
+}
+
+\NewDocumentEnvironment{warning*}{ } {
+	\begin{flagbox}{red}
+		\begin{cwarningun}
+}{
+		\end{cwarningun}
+	\end{flagbox}
+}
+
+\NewDocumentEnvironment{claim}{ }{
+	\begin{flagbox}{green}
+		\begin{cclaim}
+}{
+		\end{cclaim}
+	\end{flagbox}
+}
+
+\NewDocumentEnvironment{claim*}{ }{
+	\begin{flagbox}{green}
+		\begin{cclaimun}
+}{
+		\end{cclaimun}
+	\end{flagbox}
+}
+
+\NewDocumentEnvironment{question}{ }{
+	\begin{flagbox}{grey}
+		\begin{cquestion}
+}{
+		\end{cquestion}
+	\end{flagbox}
+}
+
+\NewDocumentEnvironment{question*}{ }{
+	\begin{flagbox}{grey}
+		\begin{cquestionun}
+}{
+		\end{cquestionun}
+	\end{flagbox}
+}
+
+% Redefine proof environment to remove extra vertical space
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+  \vspace{-\parskip} % remove the space after the theorem
+  \pushQED{\qed}%
+  \normalfont
+  \topsep0.5\baselineskip \partopsep0pt
+  \trivlist
+  \item[\hskip\labelsep
+        \itshape
+    #1\@addpunct{.}]\ignorespaces
+}{%
+  \popQED\endtrivlist\@endpefalse
+  \vspace{-0.5\baselineskip}
+}
+\makeatother
+
+% Subproof
+\newlength{\spleftmar}
+\NewDocumentEnvironment{subproof} { o } {
+	\begingroup\par
+	\RenewDocumentCommand\qedsymbol{ }{$\square$}
+	\setlength{\spleftmar}{\widthof{\textit{Proof.~}}}
+	\parshape=1~\spleftmar~\dimexpr\linewidth-2\spleftmar\relax
+	\IfNoValueTF{#1}{
+		\begin{proof}
+	}{
+		\begin{proof}[#1]
+	}
+}{
+	\end{proof}
+	\par
+	\endgroup
+}
+
+% Solution
+\NewDocumentEnvironment{solution} { o }
+                       {\IfNoValueTF{#1}{\begin{proof}[Solution]}{\begin{proof}[#1]}}
+                       {\end{proof}}
 
 %% Problems Environment
 % Intended mostly for handouts, this is simply a fancy

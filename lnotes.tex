@@ -1,0 +1,84 @@
+\documentclass{lnotes}
+
+\title{The \texttt{lnotes} Document Class}
+\subtitle{\texttt{VERSION 2018-09}}
+
+\blurb{
+	The \texttt{lnotes} document class is a part of the \texttt{coursework} bundle, and is intented to be used to keep a record of lecture notes.
+	Although it can be used for notes in any subject, it offers features which make it especially well-suited to courses in mathematics, computer science, and the natural sciences.
+	The class is \emph{opinionated}, and draws inspiration from the document classes of the American Mathematical Society and Tufte-\LaTeX.
+}
+
+\begin{document}
+
+\section{The \texttt{coursework} bundle}
+
+The \texttt{coursework} bundle is a collection of document classes which share common functionality relating to university courses. These classes were developed while I was a student at Yale University, and are intended to be useful to students, lecturers, and professors. Althogugh they may be used in any field, all \texttt{coursework} document classes contain features which make them especially well suited to courses in mathematics, computer science, and the natural sciences. The goal of these classes is to create visual and functional parity between the various types of documents used in university courses, and to make it easy for students and professors to document and share work relating to their courses.
+
+There are several different document classes included in the \texttt{coursework} bundle:
+\begin{itemize}
+\item \texttt{pset} --- This class is intended to faciliate the creation of problems sets and handouts by students and teachers. It provides compact front matter (title, name, course, etc.), and it useful for teachers who are creating homework assignments for their students and for students who want to type up their homework.
+\item \texttt{lnotes} --- This class is intended to facilitate the creation of lecture notes and long-form content. It provides a full table of contents, expanded front matter, and section-based headings throughout the document. It can be used by professors to compile their lectures notes into a monograph, or by students who wish to keep a digital record of their classes for reference later in the semester.
+\end{itemize}
+Both classes draw upon the shared functionality of the \texttt{coursework} bundle to provide similar formatting, macro commands, and document environments to make it easy to copy work between notes and assignments.
+
+\section{The \texttt{lnotes} class}
+
+\subsection{Front matter and document commands}
+
+The \texttt{lnotes} class provides an information-dense title page at the beginning of every document. This page contains information in four distinct blocks: the \emph{title}, the \emph{subtitle}, the \emph{blurb}, and the \emph{table of contents}. The title and subtitle are fairly self-explanatory; titles are set in large point small capitals, while subtitles are set in smaller point small capitals. The blurb is intented to be a short, optional paragraph providing information about the document, rather like an abstract in a scientific paper. The table of contents includes both numbered and unnumbered sections, and includes all numbered subsections.
+
+Below are the commands which correspond to the main sections of the front matter of the document.
+\begin{itemize}
+\item \verb|\title{}| \hfill \emph{Course Name} \\
+This sets the title of the document. This is a required command; if you do not specify a value, the \texttt{lnotes} class will substitute ``Course Name''.
+\item \verb|\subtitle{}| \hfill \texttt{course}, \texttt{place}, \texttt{term year} \\
+This sets the subtitle of the document. This is an optional command; by default, the subtitle is set to be ``\texttt{course}, \texttt{place}, \texttt{term year}'' where the values in monospace are set by those respective commands. If you set these values, you do not need to specify a subtitle directly. If you want the format of the subtitle to be something other than the default, you must use the \verb|\subtitle{}| command. If you set neither the subtitle directly nor any of the constituent default values, the subtitle will simply be omitted from the document.
+\item \verb|\blurb{}| \\
+This inserts a paragraph of text below the subtitle and above the table of contents. This is an optional command with no default value. If you choose not to set the blurb, it will simply be omitted from the document.
+\end{itemize}
+If you use the default formatting for the subtitle, you'll need to set values for the constituent commands.
+\begin{itemize}
+\item \verb|\course{}| \\
+This sets the course for the document. Usually, it is the course identification code or number, while the name of the course is typically used for the \verb|\title{}|. It has no default value, so if you choose not to set it the subtitle will not have a value for it.
+\item \verb|\place{}| \\
+This sets the place for the document. If you are at a university, this would typically be the name of the university. It has no default value, so if you choose not to set it the subtitle will not have a value for it.
+\item \verb|\term{}| \\
+This sets the academic term for the document. If you are at a university, this would typically be something like ``Spring'' or ``Michælmas.'' It has no default value, so if you choose not to set it the subtitle will not have a value for it.
+\item \verb|\year{}| \\
+This sets the year for the document. It has no default value, so if you choose not to set it the subtitle will not have a value for it.
+\end{itemize}
+
+If you are creating notes for a typical academic course it will probably be easiest for you to use the default subtitle and set each constituent part as needed. For example, my notes for \href{https://github.com/jopetty/lecture-notes/tree/master/MATH-350}{abstract algebra} have the following document preamble.
+
+\begin{quote}
+\begin{verbatim}
+\title{Introduction to Abstract~Algebra}
+\course{MATH 350}
+\place{Yale University}
+\term{Fall}
+\year{2018}
+\end{verbatim}
+\end{quote}
+
+On the other hand, if you wan't more control over the document you can set the subtitle directly. For example, the preamble for this document is made with the following.
+
+\begin{quote}
+\begin{verbatim}
+\title{The \texttt{lnotes} Document Class}
+\subtitle{\texttt{VERSION 2018-09}}
+
+\blurb{
+	The \texttt{lnotes} document class is a part of the \texttt{coursework}
+	bundle, and is intented to be used to keep a record of lecture notes.
+	Although it can be used for notes in any subject, it offers
+	features which make it especially well-suited to courses in
+	mathematics, computer science, and the natural sciences.
+	The class is \emph{opinionated}, and draws inspiration from the
+	document classes of the American Mathematical Society and Tufte-\LaTeX.
+}
+\end{verbatim}
+\end{quote}
+
+Keep in mind that these values are all set in the document preamble, \emph{before} the \verb|\begin{document}| command.
+\end{document}

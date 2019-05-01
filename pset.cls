@@ -35,7 +35,7 @@
 \tl_clear_new:N \g_pset_title_tl
 \tl_clear_new:N \g_pset_author_tl
 \tl_clear_new:N \g_pset_course_tl
-\tl_gset:Nn \g_pset_duedate_tl {\today}
+\tl_clear_new:N \g_pset_duedate_tl 
 \tl_clear_new:N \g_pset_blurb_tl
 
 % Provide user-facing interface to the data
@@ -78,8 +78,19 @@
 %% Customization for Pset Only
 %% ============================
 
-%% Remove Section Numbering in Theorems
+%% Remove section numbering in all numbered theorem-like environments
 \renewcommand*{\thecproblem}{\arabic{cproblem}}
+\renewcommand*{\thecexercise}{\arabic{cexercise}}
+\renewcommand*{\thecexample}{\arabic{cexample}}
+\renewcommand*{\thelemma}{\arabic{lemma}}
+\renewcommand*{\thetheorem}{\arabic{theorem}}
+\renewcommand*{\thecorollary}{\arabic{corollary}}
+\renewcommand*{\theconjecture}{\arabic{conjecture}}
+\renewcommand*{\theproposition}{\arabic{proposition}}
+\renewcommand*{\thecremark}{\arabic{cremark}}
+\renewcommand*{\thecwarning}{\arabic{cwarning}}
+\renewcommand*{\thecclaim}{\arabic{cclaim}}
+\renewcommand*{\thecquestion}{\arabic{cquestion}}
 
 %% Load Packages
 \RequirePackage{fancyhdr}
@@ -91,15 +102,21 @@
 	\renewcommand{\headrulewidth}{0pt}
 	\fancyfoot{}
 	\fancyfoot[L]{
-		\thepage
+		\ifPDFTeX \lsstyle \fi
+		\small \thepage
 	}
 	\fancyhead[C]{
-		\textsc{\MakeTextLowercase{\g_pset_course_tl{}~\g_pset_title_tl{}}}
+		\ifPDFTeX \lsstyle \fi
+		\normalsize \scshape\MakeTextLowercase{\g_pset_course_tl{}}
 	}
 	\fancyhead[R]{}
 	\fancyhead[L]{}
 	\fancyfoot[R]{
-		\textsc{\MakeTextLowercase{\g_pset_author_tl{},~\g_pset_duedate_tl{}}}
+		\ifPDFTeX \lsstyle \fi
+		\normalsize \scshape
+		\tl_if_empty:NF \g_pset_author_tl {
+			\MakeTextLowercase{\g_pset_author_tl{}}
+		}
 	}
 }
 
@@ -110,16 +127,17 @@
 	\null
 	\begin{center}
 		{\large\bfseries\MakeTextUppercase{
+			\ifPDFTeX \lsstyle \fi
 			\g_pset_course_tl{}~\g_pset_title_tl{}
 		}}\par
 		\vskip 2ex
-		{\large
+		{\normalsize \ifPDFTeX \lsstyle \fi
 			\tl_if_empty:NF \g_pset_author_tl {
-				\textsc{\MakeTextLowercase{\g_pset_author_tl{}}}
+				\MakeTextUppercase{\g_pset_author_tl{}}
 				\tl_if_empty:NF \g_pset_duedate_tl {,\quad}
 			}
 			\tl_if_empty:NF \g_pset_duedate_tl {
-				\textsc{\MakeTextLowercase{\g_pset_duedate_tl{}}}
+				\MakeTextUppercase{\g_pset_duedate_tl{}}
 			}
 			\par
 		}
@@ -138,6 +156,18 @@
 \hypersetup{
 	colorlinks = false
 }
+
+% Make Page Symmetric
+\geometry{
+	letterpaper,
+	top = 1.45in,
+	bottom = 1.35in,
+	inner = 1.9in,
+	outer = 1.9in,
+	marginparwidth=1.4in,
+	marginparsep=0.25in,
+}
+
 
 \AtBeginDocument{
 	\maketitle
