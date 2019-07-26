@@ -96,6 +96,7 @@
 \RequirePackage{fancyhdr}
 \RequirePackage{textcase}
 \RequirePackage{afterpage}
+\RequirePackage{geometry}
 
 %% Create Page Formats
 \fancypagestyle{normal}{
@@ -153,9 +154,7 @@
 }
 
 % Prevent the coloring of links
-\hypersetup{
-	colorlinks = false
-}
+\hypersetup{ colorlinks = false }
 
 % Make Page Symmetric
 \geometry{

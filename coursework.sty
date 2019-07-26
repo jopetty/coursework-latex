@@ -2,20 +2,20 @@
 %%
 %% Provides common functionality for the various coursework document classes.
 
-\RequirePackage{expl3, xparse, l3keys2e, pdftexcmds, silence}
+\RequirePackage{expl3, xparse, l3keys2e, pdftexcmds, silence, iftex}
 
 \ExplSyntaxOn
 
 %% Define Package Metadata
 \tl_const:Nn \c__coursework_packagename_tl {coursework}
-\tl_const:Nn \c__coursework_packagedate_tl {2018/08/10}
-\tl_const:Nn \c__coursework_packageversion_tl {0.0.1}
+\tl_const:Nn \c__coursework_packagedate_tl {2019/07/21}
+\tl_const:Nn \c__coursework_packageversion_tl {2019.3}
 \tl_const:Nn \c__coursework_packagedescription_tl {A~ LaTeX3~ package~ to~ provide~ common~ functionality~ for~ the~ various~ coursework~ document~ classes.}
 
-\ProvidesExplPackage{\c__coursework_packagename_tl} % Name
-                    {\c__coursework_packagedate_tl} % Date
-                    {\c__coursework_packageversion_tl} % Version
-                    {\c__coursework_packagedescription_tl} % Description
+\ProvidesExplPackage{\c__coursework_packagename_tl}         % Name
+                    {\c__coursework_packagedate_tl}         % Date
+                    {\c__coursework_packageversion_tl}      % Version
+                    {\c__coursework_packagedescription_tl}  % Description
 
 %% Define Package Options
 \bool_new:N \l__coursework_loadcode_bool
@@ -36,7 +36,6 @@
 
 %% Load Required Packages
 % Page Layout
-\RequirePackage{geometry}
 \RequirePackage{hyperref}
 \RequirePackage{xcolor}
 \RequirePackage{graphicx}
@@ -111,7 +110,7 @@
 \ifPDFTeX
 	\RequirePackage[utf8]{inputenc} % Unicode input
 	\RequirePackage[T1]{fontenc} % Unicode output
-	\RequirePackage[letterspace = 100]{microtype}
+	\RequirePackage[letterspace = 80]{microtype}
 	\RequirePackage{lmodern}
 	\NewDocumentCommand\ipafont{ } { \relax }
 	\NewDocumentCommand\setipafont{ m } { \relax }
@@ -134,34 +133,14 @@
 	}
 \fi
 
-%% Document Format
-% Page Size
-\geometry{
-	letterpaper,
-	top = 1.45in,
-	bottom = 1.35in,
-	inner = 1.5in,
-	outer = 2in,
-	marginparwidth=1.4in,
-	marginparsep=0.25in,
-}
-
 % Line Spacing
-\NewDocumentCommand\normalspacing{ } {\renewcommand{\baselinestretch}{1.2}}
+\NewDocumentCommand\normalspacing{ } {\renewcommand{\baselinestretch}{1.1}}
 \NewDocumentCommand\tightspacing{ }  {\renewcommand{\baselinestretch}{0.8}}
 \normalspacing
 
 \AtBeginDocument{
-	\WarningFilter[parskip]{latex}{Command}
-	\ActivateWarningFilters[parskip]
-	\usepackage{parskip}
-	\DeactivateWarningFilters[parskip]
-
 	\WarningFilter[ams]{amsmath}{Foreign command}
-	\ActivateWarningFilters[ams]
-
-	% Math spacing
-	\abovedisplayshortskip = -\parskip
+	\ActivateWarningFilters[ams] % Allow \over, etc.
 }
 
 % Colors
@@ -409,25 +388,25 @@
 \definecolor{bordergreen}    {RGB}{67,  117, 21 }
 
 \DeclareTColorBox{edgebox}{ m }{ % Problem, exercise, example
-	noparskip,
+	% noparskip,
 	boxrule = 0.3pt,
 	boxsep = 0.4cm,
 	breakable,
 	sharp~corners,
-	before = { \par \vskip 0pt \vskip \parskip },
-	after  = { \par \vskip 0pt },
+	% before = { \par \vskip 0pt \vskip \parskip },
+	% after  = { \par \vskip 0pt },
 	colframe = border#1,
 	colback = background#1
 }
 
 \DeclareTColorBox{flagbox}{ m }{ % Remark, claim, warning
-	noparskip,
+	% noparskip,
 	boxrule = 0pt,
 	leftrule = 4pt,
 	breakable,
 	sharp~corners,
-	before = { \par \vskip 0pt \vskip \parskip },
-	after  = { \par \vskip 0pt },
+	% before = { \par \vskip 0pt \vskip \parskip },
+	% after  = { \par \vskip 0pt },
 	colframe = border#1,
 	colback = background#1
 }
@@ -651,7 +630,7 @@
 	\let\oldproblem\problem
 	\let\oldendproblem\endproblem
 	\let\problem\relax
-	\let\endproblem\relax
+	\let\endproblem\par\relax
 
 	\IfValueTF{#1}{
 		\tl_gset:Nn \l_coursework_prlabel_tl {#1}
