@@ -25,11 +25,12 @@
 %% -----------------
 %% Data set by the user about the assignment.
 %% Used to create headers, title page, etc.
-\tl_new:N \g_pset_title_tl    % Title of the assignment
-\tl_new:N \g_pset_author_tl   % Your name
-\tl_new:N \g_pset_duedate_tl  % When the assignment is due
-\tl_new:N \g_pset_course_tl   % What course the assignment is for
-\tl_new:N \g_pset_blurb_tl    % A short blurb on the first page
+\tl_new:N \g_pset_title_tl     % Title of the assignment
+\tl_new:N \g_pset_author_tl    % Your name
+\tl_new:N \g_pset_duedate_tl   % When the assignment is due
+\tl_new:N \g_pset_course_tl    % What course the assignment is for
+\tl_new:N \g_pset_blurb_tl     % A short blurb on the first page
+\tl_new:N \g_pset_professor_tl % The professor of the course
 
 % Clear and set default values
 \tl_clear_new:N \g_pset_title_tl
@@ -37,6 +38,7 @@
 \tl_clear_new:N \g_pset_course_tl
 \tl_clear_new:N \g_pset_duedate_tl 
 \tl_clear_new:N \g_pset_blurb_tl
+\tl_clear_new:N \g_pset_professor_tl
 
 % Provide user-facing interface to the data
 \RenewDocumentCommand\title{ m }{ \tl_gset:Nn \g_pset_title_tl {#1} }
@@ -47,6 +49,7 @@
 \RenewDocumentCommand\date{ m }{ \due{#1} }
 \NewDocumentCommand\course{ m }{ \tl_gset:Nn \g_pset_course_tl {#1} }
 \NewDocumentCommand\blurb{ m }{ \tl_gset:Nn \g_pset_blurb_tl {#1} }
+\NewDocumentCommand\professor{ m }{ \tl_gset:Nn \g_pset_professor_tl {#1} }
 
 % Class Options
 \bool_new:N \g_pset_coverpage_bool
@@ -103,20 +106,22 @@
 	\renewcommand{\headrulewidth}{0pt}
 	\fancyfoot{}
 	\fancyfoot[L]{
-		\ifPDFTeX \lsstyle \fi
-		\small \thepage
+		\footnotesize \thepage
 	}
 	\fancyhead[C]{
-		\ifPDFTeX \lsstyle \fi
-		\normalsize \scshape\MakeTextLowercase{\g_pset_course_tl{}}
+		\ifXeTeX \else \lsstyle \fi
+		\footnotesize \scshape\MakeTextLowercase{\g_pset_course_tl{}}
 	}
 	\fancyhead[R]{}
 	\fancyhead[L]{}
 	\fancyfoot[R]{
-		\ifPDFTeX \lsstyle \fi
-		\normalsize \scshape
+		\ifXeTeX \else \lsstyle \fi
+		\footnotesize
 		\tl_if_empty:NF \g_pset_author_tl {
-			\MakeTextLowercase{\g_pset_author_tl{}}
+			\g_pset_author_tl{}
+		}
+		\tl_if_empty:NF \g_pset_duedate_tl {
+			,~\g_pset_duedate_tl{}	
 		}
 	}
 }
@@ -127,18 +132,18 @@
 	\thispagestyle{empty}
 	\null
 	\begin{center}
-		{\large\bfseries\MakeTextUppercase{
+		{\normalsize\bfseries\MakeTextUppercase{
 			\ifPDFTeX \lsstyle \fi
-			\g_pset_course_tl{}~\g_pset_title_tl{}
+			\g_pset_course_tl{}\quad\g_pset_title_tl{}
 		}}\par
 		\vskip 2ex
-		{\normalsize \ifPDFTeX \lsstyle \fi
+		{\small \ifPDFTeX \lsstyle \fi
 			\tl_if_empty:NF \g_pset_author_tl {
-				\MakeTextUppercase{\g_pset_author_tl{}}
+				\g_pset_author_tl{}
 				\tl_if_empty:NF \g_pset_duedate_tl {,\quad}
 			}
 			\tl_if_empty:NF \g_pset_duedate_tl {
-				\MakeTextUppercase{\g_pset_duedate_tl{}}
+				\g_pset_duedate_tl{}
 			}
 			\par
 		}
