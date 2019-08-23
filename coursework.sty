@@ -44,6 +44,7 @@
 \RequirePackage[noadjust]{marginnote}
 \RequirePackage[all]{nowidow} % Prevent widow/orphan lines
 \RequirePackage{calc}
+\RequirePackage{setspace}
 
 % Text Formatting (excluding fonts)
 \RequirePackage{enumitem} % customize lists
@@ -57,6 +58,7 @@
 \RequirePackage{amsthm}
 \RequirePackage{thmtools}
 \RequirePackage{mathtools}
+\RequirePackage{stmaryrd}
 
 % Physics
 \RequirePackage{physics}
@@ -130,9 +132,7 @@
 \fi
 
 % Line Spacing
-\NewDocumentCommand\normalspacing{ } {\renewcommand{\baselinestretch}{1.1}}
 \NewDocumentCommand\tightspacing{ }  {\renewcommand{\baselinestretch}{0.8}}
-\normalspacing
 
 \AtBeginDocument{
 	\WarningFilter[ams]{amsmath}{Foreign command}
@@ -160,6 +160,8 @@
 \NewDocumentCommand{\allo}{ m }{\ensuremath{[\text{\ipa{#1}}]}} % [allophone]
 \NewDocumentCommand{\orth}{ m }{\ensuremath{\langle\text{\ipa{#1}}\rangle}} %〈orthography〉
 \NewDocumentCommand{\where}{ }{\ensuremath{\big/}}
+\NewDocumentCommand{\den}{ O{}m }{\ensuremath{\left\llbracket\text{#2}\right\rrbracket^{#1}}}
+
 
 %%% Mathematics
 %% Single Character Commands
@@ -384,25 +386,21 @@
 \definecolor{bordergreen}    {RGB}{67,  117, 21 }
 
 \DeclareTColorBox{edgebox}{ m }{ % Problem, exercise, example
-	% noparskip,
 	boxrule = 0.3pt,
 	boxsep = 0.4cm,
 	breakable,
 	sharp~corners,
-	% before = { \par \vskip 0pt \vskip \parskip },
-	% after  = { \par \vskip 0pt },
+	before = { \par \vskip 7pt },
 	colframe = border#1,
 	colback = background#1
 }
 
 \DeclareTColorBox{flagbox}{ m }{ % Remark, claim, warning
-	% noparskip,
 	boxrule = 0pt,
 	leftrule = 4pt,
 	breakable,
 	sharp~corners,
-	% before = { \par \vskip 0pt \vskip \parskip },
-	% after  = { \par \vskip 0pt },
+	before = { \par \vskip 7pt },
 	colframe = border#1,
 	colback = background#1
 }
