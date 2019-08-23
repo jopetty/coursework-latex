@@ -110,7 +110,7 @@
 	}
 	\fancyhead[C]{
 		\ifXeTeX \else \lsstyle \fi
-		\footnotesize \scshape\MakeTextLowercase{\g_pset_course_tl{}}
+		\footnotesize \MakeTextUppercase{\g_pset_course_tl{}}
 	}
 	\fancyhead[R]{}
 	\fancyhead[L]{}
