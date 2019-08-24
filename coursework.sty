@@ -65,6 +65,8 @@
 \RequirePackage{siunitx}
 \RequirePackage{tensor}
 
+% Linguistics
+
 % Code
 \bool_if:NT \l__coursework_loadcode_bool {
 	\makeatletter
@@ -155,12 +157,24 @@
 
 %% Define Custom Macros
 % Linguistics
-\NewDocumentCommand{\ipa}{ m }{{\ipafont #1}}
-\NewDocumentCommand{\phon}{ m }{\ensuremath{/\text{\ipa{#1}}/}} % /phoneme/
-\NewDocumentCommand{\allo}{ m }{\ensuremath{[\text{\ipa{#1}}]}} % [allophone]
-\NewDocumentCommand{\orth}{ m }{\ensuremath{\langle\text{\ipa{#1}}\rangle}} %〈orthography〉
-\NewDocumentCommand{\where}{ }{\ensuremath{\big/}}
-\NewDocumentCommand{\den}{ O{}m }{\ensuremath{\left\llbracket\text{#2}\right\rrbracket^{#1}}}
+\let\orthfont\relax
+\makeatletter
+\def\ipa{\@ifstar\@ipa\@@ipa}
+\def\@ipa#1{\text{*{\ipafont #1}}}
+\def\@@ipa#1{\text{\ipafont #1}}
+\def\phon{\@ifstar\@phon\@@phon}
+\def\@phon/#1/{\ensuremath{\left/\text{\ipa*{#1}}\right/}}
+\def\@@phon/#1/{\ensuremath{\left/\text{\ipa{#1}}\right/}}
+\def\allo{\@ifstar\@allo\@@allo}
+\def\@allo[#1]{\ensuremath{\left[\text{\ipa*{#1}}\right]}}
+\def\@@allo[#1]{\ensuremath{\left[\text{\ipa{#1}}\right]}}
+\def\orth{\@ifstar\@orth\@@orth}
+\def\@orth#1{\ensuremath{\left\langle\text{*{\orthfont #1}}\right\rangle}}
+\def\@@orth#1{\ensuremath{\left\langle\text{{\orthfont #1}}\right\rangle}}
+\makeatother
+
+\let\denfont\relax
+\NewDocumentCommand{\den}{ O{}m }{\ensuremath{\left\llbracket\,\text{\denfont #2}\,\right\rrbracket^{#1}}}
 
 
 %%% Mathematics
