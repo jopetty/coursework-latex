@@ -54,18 +54,17 @@
 
 % Mathematics
 \RequirePackage{amsmath}
-\RequirePackage{amssymb}
 \RequirePackage{amsthm}
+\RequirePackage{amssymb}
 \RequirePackage{thmtools}
 \RequirePackage{mathtools}
 \RequirePackage{stmaryrd}
+
 
 % Physics
 \RequirePackage{physics}
 \RequirePackage{siunitx}
 \RequirePackage{tensor}
-
-% Linguistics
 
 % Code
 \bool_if:NT \l__coursework_loadcode_bool {
@@ -117,7 +116,9 @@
 \else
 	\RequirePackage[no-math]{fontspec}
 	\let\mathbbrm\mathbb
+	\let\oldvarnothing\varnothing
 	\RequirePackage{unicode-math}
+	\AtBeginDocument{\let\varnothing\oldvarnothing}
 	\let\mathbbsf\mathbb % Recover roman bb, sans serif bb fonts
 	\let\mathbb\mathbbrm % Make roman bb default again
 	\ifXeTeX
@@ -174,7 +175,7 @@
 \makeatother
 
 \let\denfont\relax
-\NewDocumentCommand{\den}{ O{}m }{\ensuremath{\left\llbracket\,\text{\denfont #2}\,\right\rrbracket^{#1}}}
+\NewDocumentCommand{\den}{ O{}m }{\ensuremath{\left\llbracket\text{\denfont #2}\right\rrbracket^{#1}}}
 
 
 %%% Mathematics
@@ -585,7 +586,7 @@
 % Redefine proof environment to remove extra vertical space
 \makeatletter
 \renewenvironment{proof}[1][\proofname]{\par
-  \vspace{-\parskip} % remove the space after the theorem
+	\vspace{-0.25\baselineskip}
   \pushQED{\qed}%
   \normalfont
   \topsep0.5\baselineskip \partopsep0pt
@@ -595,7 +596,6 @@
     #1\@addpunct{.}]\ignorespaces
 }{%
   \popQED\endtrivlist\@endpefalse
-  \vspace{-0.5\baselineskip}
 }
 \makeatother
 
