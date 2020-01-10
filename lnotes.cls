@@ -135,8 +135,8 @@
             {}
 
 % Section spacing
-\titlespacing\section{0ex}{4ex plus 0.2ex minus 0.2ex}{0ex}
-\titlespacing\subsection{0ex}{2ex plus 0.2ex minus 0.2ex}{0ex}
+\titlespacing\section{0ex}{4ex plus 0.2ex minus 0.2ex}{2ex}
+\titlespacing\subsection{0ex}{2ex plus 0.2ex minus 0.2ex}{1ex}
 \titlespacing\subsubsection{0ex}{1ex plus 0.1ex minus 0.1ex}{0ex}
 
 % Header/Footer

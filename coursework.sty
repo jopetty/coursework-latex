@@ -37,7 +37,7 @@
 %% Load Required Packages
 % Page Layout
 \RequirePackage{hyperref}
-\RequirePackage{xcolor}
+\RequirePackage[table, dvipsnames]{xcolor}
 \RequirePackage{graphicx}
 \RequirePackage{changepage} % adjustwidth env., for definitions et al.
 \RequirePackage[breakable,skins,xparse]{tcolorbox}
@@ -47,7 +47,7 @@
 \RequirePackage{setspace}
 
 % Text Formatting (excluding fonts)
-\RequirePackage{enumitem} % customize lists
+\RequirePackage[inline]{enumitem} % customize lists
 \RequirePackage{booktabs} % style tables
 \RequirePackage{tabularx} % full-width tables
 \RequirePackage[labelfont=bf]{caption}
@@ -60,11 +60,13 @@
 \RequirePackage{mathtools}
 \RequirePackage{stmaryrd}
 
-
 % Physics
 \RequirePackage{physics}
 \RequirePackage{siunitx}
 \RequirePackage{tensor}
+
+% Linguistics
+
 
 % Code
 \bool_if:NT \l__coursework_loadcode_bool {
@@ -172,6 +174,7 @@
 \def\orth{\@ifstar\@orth\@@orth}
 \def\@orth#1{\ensuremath{\left\langle\text{*{\orthfont #1}}\right\rangle}}
 \def\@@orth#1{\ensuremath{\left\langle\text{{\orthfont #1}}\right\rangle}}
+\def\lex#1{`#1'}
 \makeatother
 
 \let\denfont\relax
@@ -240,6 +243,9 @@
 \let\asymp\simeq % Define \asymp (≃) for asymptotics
 \NewDocumentCommand\normal{ } { \mathbin{\lhd} }   % Normal subgroups
 \NewDocumentCommand\charsg{ } { \mathbin{\lhd !} } % Chaaracteristic subgroups
+\let\union\cup
+\let\intersection\cap
+\let\intersects\cap
 
 % Delimited Expressions
 \NewDocumentCommand{\floor}{ m }{\left\lfloor #1 \right\rfloor} % Floor
@@ -596,6 +602,7 @@
     #1\@addpunct{.}]\ignorespaces
 }{%
   \popQED\endtrivlist\@endpefalse
+  \vspace{-0.25\baselineskip}
 }
 \makeatother
 
