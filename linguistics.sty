@@ -1,0 +1,48 @@
+%% Packages
+\usepackage{iftex}
+\usepackage{expex}
+\usepackage{tikz-qtree}
+\usepackage{tikz-qtree-compat}
+
+%% Formatting
+
+% expex / unicode-math fix
+% unicode-math redefines \gla at document start, we redefine it back
+\ifXeTeX
+	\let\oldgla\gla
+	\AtBeginDocument{\let\gla\oldgla}
+\fi
+
+% expex lingset
+\lingset{interpartskip=0pt, 
+         aboveexskip=0.4\baselineskip, 
+         belowexskip=0.5\baselineskip,
+         aboveglftskip=-1pt}
+
+% lexical entry '\lex' should be set in coursework.sty
+
+% Itemize
+\setitemize{itemsep=0pt}
+
+% TiKZ
+\usetikzlibrary{bbox, calc, bending, arrows}
+\tikzset{%
+	every tree node/.style={align=center,anchor=north},
+	level distance=20pt,
+	sibling distance=1.5\baselineskip,
+	>=stealth'}
+
+% Use this macro to vertically align trees when using expex
+\def\upp{\leavevmode\vadjust{\vspace{-\baselineskip}}\newline}
+
+% Fonts
+\ifXeTeX
+	\usepackage{fontspec}
+	\setmainfont{Libertinus Serif}[
+		BoldFont = {Libertinus Serif Bold},
+		Ligatures = {Discretionary},
+		SmallCapsFeatures = {Numbers = {OldStyle}}
+	]
+	\setsansfont{Libertinus Sans}
+	\let\ipafont\sffamily
+\fi
