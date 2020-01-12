@@ -176,6 +176,13 @@
 \def\@@orth#1{\ensuremath{\left\langle\text{{\orthfont #1}}\right\rangle}}
 \def\lex#1{`#1'}
 \makeatother
+\NewDocumentCommand\lem{ mo }{
+	\IfValueTF{#2}{
+		\emph{#1}~\lex{#2}
+	}{
+		\emph{#1}
+	}
+}
 
 \let\denfont\relax
 \NewDocumentCommand{\den}{ O{}m }{\ensuremath{\left\llbracket\text{\denfont #2}\right\rrbracket^{#1}}}
