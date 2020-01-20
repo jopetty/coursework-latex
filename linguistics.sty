@@ -27,7 +27,12 @@
 \setlist[enumerate]{itemsep=0pt}
 
 % TiKZ
-\usetikzlibrary{bbox, calc, bending, arrows}
+\usetikzlibrary{%
+%	bbox,% most people won't have this fix 
+	calc,% 
+	bending,% 
+	arrows%
+}
 \tikzset{%
 	every tree node/.style={align=center,anchor=north},
 	level distance=20pt,
