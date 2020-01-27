@@ -142,17 +142,19 @@
 	outer = 1.9in,
 	marginparwidth=1.4in,
 	marginparsep=0.25in,
+	footnotesep = 1cm
 }
 
 % Footnotes
 \let\footnote\oldfootnote
-\addtolength{\footnotesep}{10mm}
+%\addtolength{\footnotesep}{10mm}
 
 
 
 \AtBeginDocument{
 	\maketitle
 	\pagestyle{normal}
+	\noindent
 }
 
 \ExplSyntaxOff
