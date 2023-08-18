@@ -1,27 +1,109 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{linguistics}[2022-10-18 Linguistics Meta-Package]
+
+\newif\iflinglm
+\newif\iflingtimes
+\linglmfalse
+\lingtimesfalse
+\DeclareOption{cochineal}{\linglmfalse\lingtimesfalse}
+\DeclareOption{lm}{\linglmtrue\lingtimesfalse}
+\DeclareOption{times}{\linglmfalse\lingtimestrue}
+\DeclareOption*{\PackageWarning{linguistics}{Unknown ‘\CurrentOption’}}
+\ProcessOptions\relax
+
 %% Packages
-\usepackage{iftex}
-\usepackage{expex}
-%\usepackage{tikz-qtree}
-%\usepackage{tikz-qtree-compat}
-\usepackage[linguistics]{forest}
-\usepackage{enumitem}
-
-%% Formatting
-
-% expex / unicode-math fix
-% unicode-math redefines \gla at document start, we redefine it back
+\RequirePackage{iftex}
 \ifXeTeX
-	\let\oldgla\gla
-	\AtBeginDocument{\let\gla\oldgla}
+	\newcount\pdftexversion 
+	\pdftexversion140 \def\pgfsysdriver{pgfsys-dvipdfm.def}
 \fi
+\RequirePackage{enumitem}
 
-% expex lingset
-\lingset{interpartskip=0pt, 
-         aboveexskip=0.4\baselineskip, 
-         belowexskip=0.5\baselineskip,
-         aboveglftskip=-1pt}
 
-% lexical entry '\lex' should be set in coursework.sty
+%%%%%
+\RequirePackage{expex}
+\lingset{%
+    aboveexskip=1.25ex,
+    belowexskip=1.5ex,
+    glstyle=wrap,
+    everyglpreamble={\itshape},
+    belowglpreambleskip=-0.2ex,
+    everygla={\itshape},
+    aboveglftskip=-0.2ex,
+    textoffset=\tabcolsep,
+    interpartskip=0.5ex,
+    glspace=!2pt plus .2em,
+    glrightskip=0pt plus .5\hsize
+}
+\gathertags % Allow forward references with expex
+\RequirePackage{epltxfn}
+
+\RequirePackage{forest}
+\useforestlibrary{linguistics}
+\forestapplylibrarydefaults{linguistics}
+\forestset{
+	nice trees/.style={
+		for tree={
+			parent anchor=south,
+			child anchor=north,
+			align=center,
+			base=top,
+			inner sep=1pt,
+			l-=4ex,
+			before typesetting nodes={% based on nice empty nodes - page 52 of the manual, used in Jason Zentz's answer: http://tex.stackexchange.com/a/216103/
+				if content={}{
+					for parent={
+						for children={anchor=north},
+						calign=fixed edge angles,
+						calign angle=60,              
+					},
+					shape=coordinate,
+					calign=fixed edge angles,
+					calign angle=60,       
+				}{},
+			},
+		},
+	},
+	somewhat nice trees/.style={% needed to avoide divide by 0 errors: http://tex.stackexchange.com/q/204094/42880
+		for tree={
+			parent anchor=south,
+			child anchor=north,
+			align=center,
+			base=top,
+			inner sep=1pt,
+			l-=4ex,
+			before typesetting nodes={% based on nice empty nodes - page 52 of the manual, used in Jason Zentz's answer: http://tex.stackexchange.com/a/216103/
+				if content={}{
+					for parent={
+						for children={anchor=north},
+						calign=fixed edge angles,
+						calign angle=60,              
+					},
+					inner sep=0pt,
+					edge path={\noexpand\path [\forestoption{edge}] (!u.parent anchor) -- (.south)\forestoption{edge label};}, %from http://tex.stackexchange.com/a/281546
+					calign=fixed edge angles,
+					calign angle=60,       
+				}{},
+			},
+		},
+	}
+}
+\usetikzlibrary{positioning,arrows.meta}
+
+\DeclareDocumentCommand \tikzexsetup {} {%
+\tikzstyle{every picture}+=[remember picture, inner sep=0pt,
+baseline, anchor=base]}
+% arg 1: optional strut; arg 2: node name; arg 3: node content
+\DeclareDocumentCommand \ND {s m m} {%
+\tikzifinpicture{}{\tikz}\node(#2){\IfBooleanTF{#1}{\strut}{}#3};}
+
+%fatter arrow for poster
+\tikzset{exarrows/.style={semithick,
+arrows={-{Stealth[width=0.2em,length=0.2em]}}}}
+
+
+%%%%%%%
+
 
 % Itemize
 \setitemize{itemsep=0pt}
@@ -29,7 +111,7 @@
 
 % TiKZ
 \usetikzlibrary{%
-%	bbox,% most people won't have this fix 
+	bbox,% most people won't have this fix 
 	calc,% 
 	bending,% 
 	arrows%
@@ -44,13 +126,173 @@
 \def\upp{\leavevmode\vadjust{\vspace{-\baselineskip}}\newline}
 
 % Fonts
-\ifXeTeX
-	\usepackage{fontspec}
-	\setmainfont{Libertinus Serif}[
-		BoldFont = {Libertinus Serif Bold},
-		Ligatures = {Discretionary},
-		Numbers = {OldStyle}
-	]
-	\setsansfont{Libertinus Sans}
-	\let\ipafont\sffamily
+\ifPDFTeX
+    \iflinglm
+        \usepackage{lmodern}
+    \else\iflingtimes
+        \usepackage{mathptmx}
+    \else 
+        \usepackage[p,osf]{cochineal}
+        \usepackage[varqu,varl,var0]{inconsolata}
+        \usepackage[scale=.95,type1]{cabin}
+        \usepackage[cochineal,vvarbb]{newtxmath}
+        \usepackage[cal=boondoxo]{mathalfa}
+        \usepackage{AlegreyaSans}
+    \fi\fi
+\else
+    \iflinglm
+        \usepackage[default]{fontsetup}
+        \let\ipafont\textipa
+    \else
+        \usepackage[no-math]{fontspec}
+        \usepackage{unicode-math}
+    \iflingtimes
+        \setmainfont{TeX Gyre Termes}
+        \setmathfont[math-style=ISO,bold-style=ISO]{XITS Math}
+        \newfontfamily{\doulos}{Doulos SIL}
+        \let\ipafont\doulos
+    \else
+        \def\basemathfont{STIX Two Math}
+        \def\myfont{Cochineal}
+        \def\mymathfont{\myfont}
+        \def\myboldfont{ Bold}
+        \def\myitalicfont{ Italic}
+        
+        \setmainfont{\myfont}
+        \newfontfamily{\libsan}{Libertinus Sans}[Scale=MatchLowercase]
+        \let\ipafont\libsan
+        \setsansfont{Alegreya Sans}
+
+
+        \def\basemathfont{XITS Math}
+        \setmathfont[math-style=ISO,bold-style=ISO]{\basemathfont}
+        \setmathfont[
+            range={
+                \mathup/{latin,Latin,greek,Greek,num},
+                \mathpunct,\mathpercent,
+                \mathampersand,\mathdollar,\mathquestion
+            },
+            CharacterVariant={5,11},
+            Numbers=Lining
+        ]{\mymathfont}
+        \setmathfont[
+            range={\mathit/{latin,Latin,greek,Greek,num}},
+            CharacterVariant={5,11},
+            Numbers=Lining
+        ]{\mymathfont \myitalicfont}
+        \setmathfont[
+            range=\mathbfup/{latin,Latin,greek,Greek,num},
+            CharacterVariant={5,11},
+            Numbers=Lining
+        ]{\mymathfont \myboldfont}
+        \setmathfont[
+            range=\mathbfit/{latin,Latin,greek,Greek,num},
+            CharacterVariant={5,11},
+            Numbers=Lining
+        ]{\mymathfont \myboldfont \myitalicfont}
+        \setmathfont[
+            range={
+                \otimes,\oplus,\boxtimes,\boxminus,\boxplus,
+                \cdot,\nabla,\ll,\gg,\lll,\ggg,\mathcolon,
+                \Rightarrow,\Longrightarrow,\Leftrightarrow,
+                \Longleftrightarrow,\partial
+            }
+        ]{\basemathfont}
+        \setmathfont[
+            range={
+                \sum,\int,\iint,\iiint,\prod
+            }
+        ]{Latin Modern Math}
+    \fi\fi
 \fi
+
+
+% expex / unicode-math fix
+% unicode-math redefines \gla at document start, we redefine it back
+\ifPDFTeX\else
+    \let\oldgla\gla
+    \AtBeginDocument{\let\gla\oldgla}
+\fi
+
+%% Bibliography
+
+\usepackage[
+    bibstyle=bibliography/biblatex-sp-unified,
+    citestyle=bibliography/sp-authoryear-comp,
+    maxcitenames=3,
+    maxbibnames=99,
+    backend=biber,
+]{biblatex}
+% \addbibresource{bibliography/references.bib}
+% \AtBeginBibliography{\normalsize}
+
+\DeclareSourcemap{
+  \maps[datatype=bibtex]{
+    \map{
+       \step[fieldsource=url,
+             notmatch=\regexp{wiki},
+             final=1]
+       \step[fieldset=urldate, null]
+    }
+  }
+}
+
+\AtEveryBibitem{%
+  \clearfield{note}%
+}
+
+\renewbibmacro*{doi+eprint+url}{%
+    \printfield{doi}%
+    \newunit\newblock%
+    \iftoggle{bbx:eprint}{%
+        \usebibmacro{eprint}%
+    }{}%
+    \newunit\newblock%
+    \iffieldundef{doi}{%
+        \usebibmacro{url+urldate}}%
+        {}%
+    }
+
+%% https://tex.stackexchange.com/a/22337/109799
+% \DeclareNameFormat{labelname:poss}{% Based on labelname from biblatex.def
+%   \ifcase\value{uniquename}%
+%     \usebibmacro{name:last}{#1}{#3}{#5}{#7}%
+%   \or
+%     \ifuseprefix
+%       {\usebibmacro{name:first-last}{#1}{#4}{#5}{#8}}
+%       {\usebibmacro{name:first-last}{#1}{#4}{#6}{#8}}%
+%   \or
+%     \usebibmacro{name:first-last}{#1}{#3}{#5}{#7}%
+%   \fi
+%   \usebibmacro{name:andothers}%
+%   \ifnumequal{\value{listcount}}{\value{liststop}}{'s}{}}
+
+% \DeclareFieldFormat{shorthand:poss}{%
+%   \ifnameundef{labelname}{#1's}{#1}}
+
+% \DeclareFieldFormat{citetitle:poss}{\mkbibemph{#1}'s}
+
+% \DeclareFieldFormat{label:poss}{#1's}
+
+% \newrobustcmd*{\posscitealias}{%
+%   \AtNextCite{%
+%     \DeclareNameAlias{labelname}{labelname:poss}%
+%     \DeclareFieldAlias{shorthand}{shorthand:poss}%
+%     \DeclareFieldAlias{citetitle}{citetitle:poss}%
+%     \DeclareFieldAlias{label}{label:poss}}}
+
+% \newrobustcmd*{\posscite}{%
+%   \posscitealias%
+%   \textcite}
+
+% \newrobustcmd*{\Posscite}{\bibsentence\posscite}
+
+% \newrobustcmd*{\posscites}{%
+%   \posscitealias%
+%   \textcites}
+
+
+
+\usepackage{cleveref}
+
+\let\qedsymbol\relax

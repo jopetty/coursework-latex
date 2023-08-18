@@ -117,12 +117,12 @@
 	\NewDocumentCommand\setipafont{ m } { \relax }
 \else
 	\RequirePackage[no-math]{fontspec}
-	\let\mathbbrm\mathbb
-	\let\oldvarnothing\varnothing
-	\RequirePackage{unicode-math}
-	\AtBeginDocument{\let\varnothing\oldvarnothing}
-	\let\mathbbsf\mathbb % Recover roman bb, sans serif bb fonts
-	\let\mathbb\mathbbrm % Make roman bb default again
+	% \let\mathbbrm\mathbb
+	% \let\oldvarnothing\varnothing
+	% \RequirePackage{unicode-math}
+	% \AtBeginDocument{\let\varnothing\oldvarnothing}
+	% \let\mathbbsf\mathbb % Recover roman bb, sans serif bb fonts
+	% \let\mathbb\mathbbrm % Make roman bb default again
 	\ifXeTeX
 		\RequirePackage{microtype}
 	\else
@@ -162,28 +162,28 @@
 % Linguistics
 \let\orthfont\relax
 \makeatletter
-\def\ipa{\@ifstar\@ipa\@@ipa}
-\def\@ipa#1{\text{*{\ipafont #1}}}
-\def\@@ipa#1{\text{\ipafont #1}}
-\def\phon{\@ifstar\@phon\@@phon}
-\def\@phon/#1/{\ensuremath{\left/\text{\ipa*{#1}}\right/}}
-\def\@@phon/#1/{\ensuremath{\left/\text{\ipa{#1}}\right/}}
-\def\allo{\@ifstar\@allo\@@allo}
-\def\@allo[#1]{\ensuremath{\left[\text{\ipa*{#1}}\right]}}
-\def\@@allo[#1]{\ensuremath{\left[\text{\ipa{#1}}\right]}}
-\def\orth{\@ifstar\@orth\@@orth}
-\def\@orth#1{\ensuremath{\left\langle\text{*{\orthfont #1}}\right\rangle}}
-\def\@@orth#1{\ensuremath{\left\langle\text{{\orthfont #1}}\right\rangle}}
-\def\lex#1{`#1'}
+% \def\ipa{\@ifstar\@ipa\@@ipa}
+% \def\ipa#1{{\textup{\normalfont *{\ipafont #1}}}}
+\def\ipa#1{{\textup{\normalfont\ipafont #1}}}
+% \def\phon{\@ifstar\@phon\@@phon}
+% \def\@phon/#1/{\ensuremath{/\text{\ipa*{#1}}/}}
+\def\phon/#1/{\ensuremath{/\text{\ipa{#1}}/}}
+% \def\allo{\@ifstar\@allo\@@allo}
+% \def\@allo[#1]{\ensuremath{[\text{\ipa*{#1}}]}}
+\def\allo[#1]{\ensuremath{[\text{\ipa{#1}}]}}
+% \def\orth{\@ifstar\@orth\@@orth}
+% \def\@orth#1{\ensuremath{\left\langle\text{*{\orthfont #1}}\right\rangle}}
+\def\orth#1{\ensuremath{\left\langle\text{{\orthfont #1}}\right\rangle}}
+\def\lex#1{\emph{#1}}
 \makeatother
 \NewDocumentCommand\lem{ mo }{
 	\IfValueTF{#2}{
-		\emph{#1}~\lex{#2}
+		{#1}~`#2'
 	}{
-		\emph{#1}
+		\lex{#1}
 	}
 }
-
+\def\exref#1{\textup{(\getfullref{#1})}}
 \let\denfont\relax
 \NewDocumentCommand{\den}{ O{}m }{\ensuremath{\left\llbracket\text{\denfont #2}\right\rrbracket^{#1}}}
 
